@@ -171,6 +171,8 @@ const Services: React.FC = () => {
             <div className="flex flex-wrap gap-4">
               <Link
                 to="/qualify"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={cn(
                   "inline-flex items-center px-6 py-3 rounded-full",
                   "bg-white text-[#030303]",

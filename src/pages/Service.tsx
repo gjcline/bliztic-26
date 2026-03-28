@@ -327,6 +327,8 @@ const Service: React.FC = () => {
                 <div className="space-y-4">
                   <Link
                     to="/qualify"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={cn(
                       "inline-flex items-center justify-center w-full",
                       "px-8 py-4 rounded-full",

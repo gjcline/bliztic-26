@@ -68,6 +68,8 @@ const Expertise: React.FC = () => {
         <div className="mt-16 flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link
             to="/qualify"
+            target="_blank"
+            rel="noopener noreferrer"
             className={cn(
               "inline-flex items-center justify-center",
               "px-8 py-3 rounded-full",

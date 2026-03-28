@@ -83,6 +83,8 @@ const Home: React.FC = () => {
         >
           <Link
             to="/qualify"
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-8 py-3.5 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold text-sm tracking-wide shadow-[0_4px_24px_rgba(37,99,235,0.3)] hover:opacity-90 transition-opacity"
           >
             Get Your Sales Engine
@@ -293,6 +295,8 @@ const Home: React.FC = () => {
         >
           <Link
             to="/qualify"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 px-10 py-4 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold text-base tracking-wide shadow-[0_4px_24px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_32px_rgba(37,99,235,0.4)] hover:scale-105 transition-all duration-200"
           >
             See If You Qualify
@@ -560,6 +564,8 @@ const Home: React.FC = () => {
           </Link>
           <Link
             to="/qualify"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 px-10 py-4 rounded-lg border border-white/10 text-white/80 font-semibold text-base tracking-wide hover:border-blue-500 hover:text-white hover:bg-blue-500/5 transition-all duration-200"
           >
             Try Risk-Free
@@ -648,6 +654,8 @@ const Home: React.FC = () => {
         >
           <Link
             to="/qualify"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 px-10 py-4 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold text-base tracking-wide shadow-[0_4px_24px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_32px_rgba(37,99,235,0.4)] hover:scale-105 transition-all duration-200"
           >
             Launch My Engine
@@ -731,6 +739,8 @@ const Home: React.FC = () => {
         >
           <Link
             to="/qualify"
+            target="_blank"
+            rel="noopener noreferrer"
             className="group inline-flex items-center gap-2 px-10 py-4 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold text-base tracking-wide shadow-[0_4px_24px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_32px_rgba(37,99,235,0.4)] hover:scale-105 transition-all duration-200"
           >
             See If You Qualify
@@ -774,6 +784,8 @@ const Home: React.FC = () => {
 
           <Link
             to="/qualify"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold text-base tracking-wide shadow-[0_4px_32px_rgba(37,99,235,0.4)] hover:shadow-[0_4px_48px_rgba(37,99,235,0.5)] hover:scale-105 transition-all duration-200"
           >
             Get Your Sales Engine

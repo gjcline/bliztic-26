@@ -120,6 +120,8 @@ const SystemsAudit: React.FC = () => {
             >
               <Link
                 to="/qualify"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={cn(
                   "inline-flex items-center justify-center",
                   "px-8 py-4 rounded-full",

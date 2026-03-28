@@ -170,6 +170,8 @@ const Contact: React.FC = () => {
 
                 <Link
                   to="/qualify"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-start group"
                 >
                   <div className={cn(

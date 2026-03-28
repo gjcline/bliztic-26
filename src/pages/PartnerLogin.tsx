@@ -63,6 +63,8 @@ const PartnerLogin: React.FC = () => {
                       Sorry, we couldn't find your account. Please{' '}
                       <Link
                         to="/qualify"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-white underline hover:text-white/80"
                       >
                         book a call
@@ -177,6 +179,8 @@ const PartnerLogin: React.FC = () => {
               </ul>
               <Link
                 to="/qualify"
+                target="_blank"
+                rel="noopener noreferrer"
                 className={cn(
                   "inline-flex items-center",
                   "px-6 py-3 rounded-lg mr-4",

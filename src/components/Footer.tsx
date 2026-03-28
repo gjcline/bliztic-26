@@ -49,7 +49,7 @@ const Footer: React.FC = () => {
                 <Link to="/" onClick={() => window.scrollTo(0, 0)} className="text-white/40 hover:text-white transition-colors">Home</Link>
               </li>
               <li>
-                <Link to="/qualify" onClick={() => window.scrollTo(0, 0)} className="text-white/40 hover:text-white transition-colors">Pricing</Link>
+                <Link to="/qualify" target="_blank" rel="noopener noreferrer" onClick={() => window.scrollTo(0, 0)} className="text-white/40 hover:text-white transition-colors">Pricing</Link>
               </li>
               <li>
                 <Link to="/about" onClick={() => window.scrollTo(0, 0)} className="text-white/40 hover:text-white transition-colors">About</Link>

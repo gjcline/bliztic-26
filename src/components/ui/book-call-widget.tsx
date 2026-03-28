@@ -17,6 +17,8 @@ const BookCallWidget: React.FC = () => {
     >
       <Link
         to="/qualify"
+        target="_blank"
+        rel="noopener noreferrer"
         className={cn(
           "flex items-center gap-2",
           "px-6 py-4 rounded-full",
