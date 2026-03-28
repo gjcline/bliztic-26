@@ -83,13 +83,6 @@ const Navbar: React.FC = () => {
             >
               Home
             </Link>
-            <Link
-              to="/qualify"
-              className="bg-white text-[#030303] px-4 py-2 rounded-full text-sm font-medium transition-all hover:shadow-glow hover:scale-105"
-              onClick={() => window.scrollTo(0, 0)}
-            >
-              Pricing
-            </Link>
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsOtherOpen(!isOtherOpen)}
@@ -133,6 +126,20 @@ const Navbar: React.FC = () => {
                 </motion.div>
               )}
             </div>
+            <Link
+              to="/qualify"
+              className="bg-white text-[#030303] px-4 py-2 rounded-full text-sm font-medium transition-all hover:shadow-glow hover:scale-105"
+              onClick={() => window.scrollTo(0, 0)}
+            >
+              Pricing
+            </Link>
+            <Link
+              to="/partner/login"
+              className="bg-white text-[#030303] px-4 py-2 rounded-full text-sm font-medium transition-all hover:shadow-glow hover:scale-105"
+              onClick={() => window.scrollTo(0, 0)}
+            >
+              Partner Log In
+            </Link>
           </div>
           
           <div className="md:hidden flex items-center">
@@ -173,16 +180,6 @@ const Navbar: React.FC = () => {
             >
               Home
             </Link>
-            <Link
-              to="/qualify"
-              className="block bg-white text-[#030303] mt-2 px-4 py-2 rounded-md font-medium text-center"
-              onClick={() => {
-                toggleMenu();
-                window.scrollTo(0, 0);
-              }}
-            >
-              Pricing
-            </Link>
             <div className="pt-2 mt-2 border-t border-white/5">
               <p className="px-3 py-1 text-xs font-medium text-white/40 uppercase tracking-wider">Other</p>
               {otherItems.map((item) => (
@@ -201,6 +198,26 @@ const Navbar: React.FC = () => {
                 </Link>
               ))}
             </div>
+            <Link
+              to="/qualify"
+              className="block bg-white text-[#030303] mt-3 px-4 py-2 rounded-md font-medium text-center"
+              onClick={() => {
+                toggleMenu();
+                window.scrollTo(0, 0);
+              }}
+            >
+              Pricing
+            </Link>
+            <Link
+              to="/partner/login"
+              className="block bg-white text-[#030303] mt-2 px-4 py-2 rounded-md font-medium text-center"
+              onClick={() => {
+                toggleMenu();
+                window.scrollTo(0, 0);
+              }}
+            >
+              Partner Log In
+            </Link>
           </div>
         </motion.div>
       )}

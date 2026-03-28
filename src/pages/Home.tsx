@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
 
   return (
-    <div className="relative min-h-screen bg-[#030303]">
+    <div className="relative min-h-screen bg-[#030303] overflow-x-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] via-transparent to-rose-500/[0.03] blur-3xl" />
 
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] opacity-25" />
@@ -33,8 +33,8 @@ const Home: React.FC = () => {
       />
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8 pt-24 pb-12">
-        <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_center,_rgba(59,130,246,0.15)_0%,_rgba(6,182,212,0.08)_50%,_transparent_100%)] pointer-events-none blur-2xl" />
+      <section className="relative z-10 min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6 lg:px-8 pt-24 pb-12 overflow-hidden">
+        <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-full max-w-[1200px] h-[600px] bg-[radial-gradient(ellipse_at_center,_rgba(59,130,246,0.15)_0%,_rgba(6,182,212,0.08)_50%,_transparent_100%)] pointer-events-none blur-2xl" />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -143,7 +143,7 @@ const Home: React.FC = () => {
       <section className="relative z-10 py-14 px-4 sm:px-6 lg:px-8 border-y border-white/5 bg-gradient-to-r from-[#0a0a0a] to-[#0f0a1f] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-radial from-cyan-500/5 via-transparent to-transparent" />
 
-        <div className="relative z-10 flex flex-col md:flex-row justify-center items-center gap-0 max-w-6xl mx-auto">
+        <div className="relative z-10 flex flex-col md:flex-row justify-center items-stretch gap-0 max-w-6xl mx-auto">
           <div className="text-center px-10 md:px-14 py-8 border-b md:border-b-0 md:border-r border-white/5 w-full md:w-auto">
             <div className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
               30
@@ -744,7 +744,7 @@ const Home: React.FC = () => {
 
       {/* Guarantee Section */}
       <section id="guarantee" className="relative z-10 py-24 px-4 sm:px-6 lg:px-8 text-center border-t border-white/5 overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,_rgba(59,130,246,0.12)_0%,_rgba(6,182,212,0.06)_50%,_transparent_100%)] pointer-events-none blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,_rgba(59,130,246,0.12)_0%,_rgba(6,182,212,0.06)_50%,_transparent_100%)] pointer-events-none blur-3xl" />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
