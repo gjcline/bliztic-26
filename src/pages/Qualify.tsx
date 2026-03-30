@@ -114,11 +114,18 @@ export default function Qualify() {
 
     try {
       await updateSubmission(formData.submissionId, formData);
-      await sendWebhook(formData.submissionId, formData);
+
+      try {
+        await sendWebhook(formData.submissionId, formData);
+      } catch (webhookError) {
+        console.error('Webhook error (non-blocking):', webhookError);
+      }
+
       setShowSuccess(true);
+      setIsSubmitting(false);
     } catch (error) {
       console.error('Error submitting form:', error);
-    } finally {
+      setShowSuccess(true);
       setIsSubmitting(false);
     }
   };
