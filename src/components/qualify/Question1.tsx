@@ -48,7 +48,13 @@ export function Question1({
   return (
     <div className="space-y-8">
       <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-white">What type of business do you run?</h2>
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-8 h-[2px] bg-gradient-to-r from-blue-400 to-cyan-400" />
+          <span className="text-xs font-semibold tracking-wider uppercase text-blue-400">Step 1</span>
+        </div>
+        <h2 className="text-2xl font-bold text-white mb-1">
+          What type of business do you run?
+        </h2>
         <RadioGroup value={businessType || ''} onValueChange={handleBusinessTypeChange}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {businessTypes.map((type) => {
@@ -56,14 +62,16 @@ export function Question1({
               return (
                 <label
                   key={type.value}
-                  className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                  className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                     businessType === type.value
-                      ? 'border-white bg-white/10'
-                      : 'border-white/10 bg-white/5 hover:border-white/20'
+                      ? 'border-blue-500/50 bg-gradient-to-r from-blue-500/20 to-cyan-500/20'
+                      : 'border-white/10 bg-white/5 hover:border-blue-500/30'
                   }`}
                 >
                   <RadioGroupItem value={type.value} />
-                  <Icon className="w-5 h-5 text-white/60" />
+                  <Icon className={`w-5 h-5 transition-colors duration-300 ${
+                    businessType === type.value ? 'text-blue-400' : 'text-white/60'
+                  }`} />
                   <span className="text-white font-medium">{type.label}</span>
                 </label>
               );

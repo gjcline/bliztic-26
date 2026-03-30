@@ -17,7 +17,11 @@ const teamSizes = [
 export function Question2({ teamSize, onUpdate }: Question2Props) {
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold text-white">How many people are on your team?</h2>
+      <div className="flex items-center gap-3 mb-2">
+        <div className="w-8 h-[2px] bg-gradient-to-r from-blue-400 to-cyan-400" />
+        <span className="text-xs font-semibold tracking-wider uppercase text-blue-400">Step 2</span>
+      </div>
+      <h2 className="text-2xl font-bold text-white mb-1">How many people are on your team?</h2>
       <RadioGroup
         value={teamSize || ''}
         onValueChange={(value) => onUpdate({ teamSize: value as TeamSize })}
@@ -26,10 +30,10 @@ export function Question2({ teamSize, onUpdate }: Question2Props) {
           {teamSizes.map((size) => (
             <label
               key={size.value}
-              className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all ${
+              className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
                 teamSize === size.value
-                  ? 'border-white bg-white/10'
-                  : 'border-white/10 bg-white/5 hover:border-white/20'
+                  ? 'border-blue-500/50 bg-gradient-to-r from-blue-500/20 to-cyan-500/20'
+                  : 'border-white/10 bg-white/5 hover:border-blue-500/30'
               }`}
             >
               <RadioGroupItem value={size.value} />

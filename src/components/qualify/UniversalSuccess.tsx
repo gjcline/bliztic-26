@@ -9,8 +9,24 @@ export function UniversalSuccess() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-6 relative overflow-hidden">
-      <DotsPattern />
+    <div className="relative min-h-screen bg-[#030303] flex items-center justify-center p-6 overflow-hidden">
+      {/* Gradient Background Layer */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] via-transparent to-rose-500/[0.03] blur-3xl" />
+
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] opacity-25" />
+
+      {/* Noise Texture */}
+      <div
+        className="fixed inset-0 pointer-events-none z-50 opacity-[0.018]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat'
+        }}
+      />
+
+      {/* Radial Spotlight */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[600px] h-[600px] bg-[radial-gradient(ellipse_at_center,_rgba(59,130,246,0.12)_0%,_rgba(6,182,212,0.06)_50%,_transparent_100%)] pointer-events-none blur-3xl" />
 
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
@@ -59,7 +75,7 @@ export function UniversalSuccess() {
           <Button
             onClick={handleScheduleCall}
             size="lg"
-            className="bg-white text-black hover:bg-white/90 text-lg px-8 py-6 h-auto"
+            className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold shadow-[0_4px_24px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_32px_rgba(37,99,235,0.4)] hover:scale-105 transition-all duration-200 text-lg px-8 py-6 h-auto"
           >
             Schedule Your Consultation Call
           </Button>

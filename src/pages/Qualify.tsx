@@ -125,8 +125,24 @@ export default function Qualify() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] relative overflow-hidden">
-      <DotsPattern />
+    <div className="relative min-h-screen bg-[#030303] overflow-hidden">
+      {/* Gradient Background Layer */}
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] via-transparent to-rose-500/[0.03] blur-3xl" />
+
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] opacity-25" />
+
+      {/* Noise Texture */}
+      <div
+        className="fixed inset-0 pointer-events-none z-50 opacity-[0.018]"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat'
+        }}
+      />
+
+      {/* Radial Spotlight */}
+      <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-[radial-gradient(ellipse_at_center,_rgba(59,130,246,0.15)_0%,_rgba(6,182,212,0.08)_50%,_transparent_100%)] pointer-events-none blur-2xl" />
 
       <div className="max-w-3xl mx-auto px-6 py-12 relative z-10">
         {currentQuestion > 1 && (
@@ -146,7 +162,7 @@ export default function Qualify() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/10"
+            className="relative bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-white/5 group hover:border-blue-500/20 transition-all duration-500 overflow-hidden"
           >
             {currentQuestion === 1 && (
               <Question1
@@ -208,7 +224,7 @@ export default function Qualify() {
             onClick={handleNext}
             disabled={!validateQuestion(currentQuestion) || isSubmitting}
             size="lg"
-            className={`flex-1 bg-white text-black hover:bg-white/90 ${
+            className={`flex-1 bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold shadow-[0_4px_24px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_32px_rgba(37,99,235,0.4)] hover:scale-105 transition-all duration-200 ${
               currentQuestion === 1 ? 'w-full' : ''
             }`}
           >

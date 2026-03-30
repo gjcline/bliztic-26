@@ -17,8 +17,11 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
         {...props}
       >
         <div
-          className="h-full bg-white transition-all duration-300 ease-in-out"
-          style={{ width: `${value}%` }}
+          className="h-full bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-400 transition-all duration-500 ease-in-out animate-gradient"
+          style={{
+            width: `${value}%`,
+            backgroundSize: '200% 100%',
+          }}
         />
       </div>
     );
