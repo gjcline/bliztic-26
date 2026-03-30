@@ -8,12 +8,14 @@ import type { BusinessType } from '@/types/qualification';
 
 interface Question1Props {
   businessType: BusinessType | null;
+  customBusinessType: string;
   companyName: string;
   fullName: string;
   email: string;
   phoneNumber: string;
   onUpdate: (data: {
     businessType?: BusinessType;
+    customBusinessType?: string;
     companyName?: string;
     fullName?: string;
     email?: string;
@@ -32,6 +34,7 @@ const businessTypes = [
 
 export function Question1({
   businessType,
+  customBusinessType,
   companyName,
   fullName,
   email,
@@ -78,6 +81,27 @@ export function Question1({
             })}
           </div>
         </RadioGroup>
+
+        {businessType === 'other' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-2 pt-2"
+          >
+            <Label htmlFor="customBusinessType" className="text-white/80">
+              Please specify your business type
+            </Label>
+            <Input
+              id="customBusinessType"
+              type="text"
+              placeholder="e.g., Healthcare, Education, Real Estate..."
+              value={customBusinessType}
+              onChange={(e) => onUpdate({ customBusinessType: e.target.value })}
+              className="bg-white/5 border-white/10 focus:border-blue-500/50"
+            />
+          </motion.div>
+        )}
       </div>
 
       {showContactFields && (

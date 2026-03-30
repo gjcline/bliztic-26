@@ -22,6 +22,7 @@ export default function Qualify() {
   const [formData, setFormData] = useState<QualificationFormData>({
     submissionId: undefined,
     businessType: null,
+    customBusinessType: '',
     companyName: '',
     fullName: '',
     email: '',
@@ -41,8 +42,11 @@ export default function Qualify() {
   const validateQuestion = (questionNum: number): boolean => {
     switch (questionNum) {
       case 1:
+        const hasBusinessType = formData.businessType;
+        const hasCustomType = formData.businessType !== 'other' || formData.customBusinessType.trim() !== '';
         return !!(
-          formData.businessType &&
+          hasBusinessType &&
+          hasCustomType &&
           formData.fullName &&
           formData.email &&
           formData.phoneNumber &&
@@ -75,6 +79,7 @@ export default function Qualify() {
     if (currentQuestion === 1 && !formData.submissionId) {
       const submissionId = await saveInitialSubmission({
         businessType: formData.businessType!,
+        customBusinessType: formData.customBusinessType,
         companyName: formData.companyName,
         fullName: formData.fullName,
         email: formData.email,
@@ -167,6 +172,7 @@ export default function Qualify() {
             {currentQuestion === 1 && (
               <Question1
                 businessType={formData.businessType}
+                customBusinessType={formData.customBusinessType}
                 companyName={formData.companyName}
                 fullName={formData.fullName}
                 email={formData.email}

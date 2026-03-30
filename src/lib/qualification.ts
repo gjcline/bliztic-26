@@ -75,6 +75,7 @@ export const primaryGoalLabels: Record<PrimaryGoal, string> = {
 
 export async function saveInitialSubmission(data: {
   businessType: BusinessType;
+  customBusinessType?: string;
   companyName: string;
   fullName: string;
   email: string;
@@ -85,6 +86,7 @@ export async function saveInitialSubmission(data: {
       .from('qualification_submissions')
       .insert({
         business_type: data.businessType,
+        custom_business_type: data.customBusinessType,
         company_name: data.companyName,
         full_name: data.fullName,
         email: data.email,
@@ -114,6 +116,7 @@ export async function updateSubmission(
     const { error } = await supabase
       .from('qualification_submissions')
       .update({
+        custom_business_type: data.customBusinessType,
         team_size: data.teamSize,
         funding_stage: data.fundingStage,
         outreach_channels: data.outreachChannels,
@@ -160,6 +163,7 @@ export async function sendWebhook(
       },
       answers: {
         businessType: formData.businessType ? businessTypeLabels[formData.businessType] : null,
+        customBusinessType: formData.customBusinessType || null,
         teamSize: formData.teamSize ? teamSizeLabels[formData.teamSize] : null,
         fundingStage: formData.fundingStage ? fundingStageLabels[formData.fundingStage] : null,
         outreachChannels: formData.outreachChannels.map((ch: ChannelWithLevel) => ({

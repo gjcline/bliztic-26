@@ -62,6 +62,7 @@ export type PrimaryGoal =
 export interface QualificationFormData {
   submissionId?: string;
   businessType: BusinessType | null;
+  customBusinessType: string;
   companyName: string;
   fullName: string;
   email: string;
