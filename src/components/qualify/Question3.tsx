@@ -13,8 +13,9 @@ const channels: { value: OutreachChannel; label: string }[] = [
   { value: 'cold_email', label: 'Cold Email' },
   { value: 'cold_calling', label: 'Cold Calling' },
   { value: 'linkedin', label: 'LinkedIn' },
-  { value: 'facebook', label: 'Facebook Ads' },
-  { value: 'instagram', label: 'Instagram Ads' },
+  { value: 'facebook', label: 'Facebook / Instagram (Meta) Ads' },
+  { value: 'x', label: 'X Ads' },
+  { value: 'organic_content', label: 'Organic Content' },
   { value: 'google_ads', label: 'Google Ads' },
   { value: 'other', label: 'Other' },
 ];

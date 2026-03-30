@@ -35,7 +35,7 @@ const fundingStages = [
 ];
 
 export function Question4({ monthlySpend, monthlyRevenue, fundingStage, onUpdate }: Question4Props) {
-  const showRevenueQuestion = monthlySpend === '0' || monthlySpend === '1-500';
+  const showRevenueQuestion = monthlySpend === '0';
 
   return (
     <div className="space-y-10">

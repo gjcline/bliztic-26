@@ -55,7 +55,7 @@ export default function Qualify() {
         const allChannelsTouched = formData.outreachChannels.every((c) => c.touched);
         return hasChannels && allChannelsTouched;
       case 4:
-        const needsRevenue = formData.monthlySpend === '0' || formData.monthlySpend === '1-500';
+        const needsRevenue = formData.monthlySpend === '0';
         if (needsRevenue) {
           return !!(formData.monthlySpend && formData.fundingStage && formData.monthlyRevenue);
         }
@@ -231,7 +231,10 @@ export default function Qualify() {
             {isSubmitting ? (
               'Submitting...'
             ) : currentQuestion === TOTAL_QUESTIONS ? (
-              'Get Qualified'
+              <>
+                Continue
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </>
             ) : (
               <>
                 Next

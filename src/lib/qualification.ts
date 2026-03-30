@@ -15,7 +15,7 @@ export const businessTypeLabels: Record<BusinessType, string> = {
   agency: 'Agency',
   saas: 'SaaS',
   ecommerce: 'E-commerce',
-  coaching: 'Coaching',
+  startup: 'Startup',
   consulting: 'Consulting',
   other: 'Other',
 };
@@ -29,28 +29,31 @@ export const teamSizeLabels: Record<TeamSize, string> = {
 };
 
 export const fundingStageLabels: Record<FundingStage, string> = {
+  seed: 'Seed',
   series_a: 'Series A',
-  series_b: 'Series B',
-  not_funded: 'Not yet funded',
-  not_looking: 'Not looking for funding',
+  series_b_plus: 'Series B+',
+  bootstrapped: 'Bootstrapped/Profitable',
+  pre_revenue: 'Pre-revenue',
+  not_seeking: 'Not seeking funding',
 };
 
 export const outreachChannelLabels: Record<OutreachChannel, string> = {
   cold_email: 'Cold Email',
   cold_calling: 'Cold Calling',
   linkedin: 'LinkedIn',
-  facebook: 'Facebook Ads',
-  instagram: 'Instagram Ads',
+  facebook: 'Facebook / Instagram (Meta) Ads',
+  x: 'X Ads',
+  organic_content: 'Organic Content',
   google_ads: 'Google Ads',
   other: 'Other',
 };
 
 export const monthlySpendLabels: Record<MonthlySpend, string> = {
   '0': '$0',
-  '1-500': '$1 - $500',
-  '500-2k': '$500 - $2K',
-  '2k-10k': '$2K - $10K',
-  '10k+': '$10K+',
+  '1-500': '$1K - $50K',
+  '500-2k': '$50K - $200K',
+  '2k-10k': '$200K - $1M',
+  '10k+': '$1M+',
 };
 
 export const monthlyRevenueLabels: Record<MonthlyRevenue, string> = {

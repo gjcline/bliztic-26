@@ -26,7 +26,8 @@ export type OutreachChannel =
   | 'cold_calling'
   | 'linkedin'
   | 'facebook'
-  | 'instagram'
+  | 'x'
+  | 'organic_content'
   | 'google_ads'
   | 'other';
 
