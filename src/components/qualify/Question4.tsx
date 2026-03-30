@@ -11,10 +11,10 @@ interface Question4Props {
 
 const monthlySpends = [
   { value: '0' as MonthlySpend, label: '$0' },
-  { value: '1-500' as MonthlySpend, label: '$1 - $500' },
-  { value: '500-2k' as MonthlySpend, label: '$500 - $2K' },
-  { value: '2k-10k' as MonthlySpend, label: '$2K - $10K' },
-  { value: '10k+' as MonthlySpend, label: '$10K+' },
+  { value: '1-500' as MonthlySpend, label: '$1K - $50K' },
+  { value: '500-2k' as MonthlySpend, label: '$50K - $200K' },
+  { value: '2k-10k' as MonthlySpend, label: '$200K - $1M' },
+  { value: '10k+' as MonthlySpend, label: '$1M+' },
 ];
 
 const monthlyRevenues = [
