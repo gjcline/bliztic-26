@@ -113,18 +113,18 @@ const Home: React.FC = () => {
           </div>
           <div className="px-8 sm:px-10 py-6 border-b sm:border-b-0 sm:border-r border-white/5 text-center">
             <div className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
-              Day 1
+              $0
             </div>
             <div className="text-[0.65rem] tracking-[0.15em] uppercase text-white/40 mt-1">
-              Running at full capacity
+              Owed if we miss the 30-day mark
             </div>
           </div>
           <div className="px-8 sm:px-10 py-6 border-b sm:border-b-0 sm:border-r border-white/5 text-center">
             <div className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
-              4 Pillars
+              100%
             </div>
             <div className="text-[0.65rem] tracking-[0.15em] uppercase text-white/40 mt-1">
-              No one else owns all four
+              Hands-free. you manage nothing
             </div>
           </div>
           <div className="px-8 sm:px-10 py-6 text-center">
@@ -164,18 +164,18 @@ const Home: React.FC = () => {
           </div>
           <div className="text-center px-10 md:px-14 py-8 border-b md:border-b-0 md:border-r border-white/5 w-full md:w-auto">
             <div className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
-              $0
+              Day 1
             </div>
             <div className="text-[0.65rem] tracking-[0.18em] uppercase text-white/40 mt-2 max-w-[140px] mx-auto">
-              Owed if we miss the 30-day mark
+              Running at full capacity
             </div>
           </div>
           <div className="text-center px-10 md:px-14 py-8 w-full md:w-auto">
             <div className="text-4xl md:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
-              100%
+              4 Pillars
             </div>
             <div className="text-[0.65rem] tracking-[0.18em] uppercase text-white/40 mt-2 max-w-[140px] mx-auto">
-              Hands-free. you manage nothing
+              No one else owns all four
             </div>
           </div>
         </div>
