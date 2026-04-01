@@ -161,40 +161,12 @@ const PartnerLogin: React.FC = () => {
                 Become a Partner
               </h3>
               <p className="text-white/60 mb-6">
-                Join our partner network and unlock exclusive benefits:
+                Join our partner network and unlock exclusive benefits.
               </p>
-              <ul className="space-y-3 mb-6">
-                <li className="flex items-center text-white/60">
-                  <div className="h-2 w-2 rounded-full bg-indigo-500 mr-3" />
-                  White-label Our Innovative Solutions
-                </li>
-                <li className="flex items-center text-white/60">
-                  <div className="h-2 w-2 rounded-full bg-rose-500 mr-3" />
-                  Expand Your Client Offering
-                </li>
-                <li className="flex items-center text-white/60">
-                  <div className="h-2 w-2 rounded-full bg-violet-500 mr-3" />
-                  Streamline and Automate Operations
-                </li>
-              </ul>
               <Link
                 to="/qualify"
                 target="_blank"
                 rel="noopener noreferrer"
-                className={cn(
-                  "inline-flex items-center",
-                  "px-6 py-3 rounded-lg mr-4",
-                  "bg-white/5 hover:bg-white/10",
-                  "border border-white/10",
-                  "text-white font-medium",
-                  "transform transition-all duration-300",
-                  "hover:border-white/20 group"
-                )}
-              >
-                Book a Call <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-              <Link
-                to="/partner"
                 className={cn(
                   "inline-flex items-center",
                   "px-6 py-3 rounded-lg",
@@ -205,7 +177,7 @@ const PartnerLogin: React.FC = () => {
                   "hover:border-white/20 group"
                 )}
               >
-                Learn More <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                Book a Call <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </motion.div>
           </div>
