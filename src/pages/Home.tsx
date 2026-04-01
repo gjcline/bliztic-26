@@ -44,7 +44,7 @@ const Home: React.FC = () => {
         >
           <div className="w-12 h-[1px] bg-gradient-to-r from-transparent to-blue-400" />
           <span className="text-[0.72rem] font-bold tracking-[0.3em] uppercase bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-            Revenue Division as a Service™
+            Revenue Division as a Service
           </span>
           <div className="w-12 h-[1px] bg-gradient-to-l from-transparent to-blue-400" />
         </motion.div>
