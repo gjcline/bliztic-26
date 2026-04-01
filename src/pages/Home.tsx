@@ -353,43 +353,43 @@ const Home: React.FC = () => {
             transition={{ duration: 0.3 }}
             className="overflow-x-auto"
           >
-            <table className="w-full border border-white/5 rounded-lg overflow-hidden">
+            <table className="w-full border border-white/20 rounded-lg overflow-hidden">
               <thead>
                 <tr className="bg-ink2">
-                  <th className="text-left p-4 text-sm font-bold text-white/80 border-b border-white/5">Service</th>
-                  <th className="text-center p-4 text-sm font-bold text-white/80 border-b border-r border-white/5">Lead Gen</th>
-                  <th className="text-center p-4 text-sm font-bold text-white/80 border-b border-r border-white/5">Fractional CRO</th>
-                  <th className="text-center p-4 text-sm font-bold text-white/80 border-b border-r border-white/5">SDR Firm</th>
-                  <th className="text-center p-4 text-sm font-bold text-blue-400 border-b border-white/5 bg-blue-500/5">Revenue Division as a Service</th>
+                  <th className="text-left p-4 text-sm font-bold text-white/80 border-b border-white/20">Service</th>
+                  <th className="text-center p-4 text-sm font-bold text-red-400 border-b border-r border-white/20">Lead Gen</th>
+                  <th className="text-center p-4 text-sm font-bold text-red-400 border-b border-r border-white/20">Fractional CRO</th>
+                  <th className="text-center p-4 text-sm font-bold text-red-400 border-b border-r border-white/20">SDR Firm</th>
+                  <th className="text-center p-4 text-sm font-bold text-blue-400 border-b border-white/20 bg-blue-500/5">Revenue Division as a Service</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-white/5 hover:bg-ink2 transition-colors">
+                <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                   <td className="p-4 text-sm font-medium text-white">Strategy</td>
-                  <td className="p-4 text-center border-r border-white/5"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
-                  <td className="p-4 text-center border-r border-white/5"><Check className="w-5 h-5 text-green-400/60 mx-auto" /></td>
-                  <td className="p-4 text-center border-r border-white/5"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><Check className="w-5 h-5 text-green-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
                   <td className="p-4 text-center bg-blue-500/5"><Check className="w-5 h-5 text-green-400 mx-auto" /></td>
                 </tr>
-                <tr className="border-b border-white/5 hover:bg-ink2 transition-colors">
+                <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                   <td className="p-4 text-sm font-medium text-white">Systems</td>
-                  <td className="p-4 text-center border-r border-white/5"><Circle className="w-5 h-5 text-yellow-400/60 mx-auto" /></td>
-                  <td className="p-4 text-center border-r border-white/5"><Circle className="w-5 h-5 text-yellow-400/60 mx-auto" /></td>
-                  <td className="p-4 text-center border-r border-white/5"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><Circle className="w-5 h-5 text-yellow-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><Circle className="w-5 h-5 text-yellow-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
                   <td className="p-4 text-center bg-blue-500/5"><Check className="w-5 h-5 text-green-400 mx-auto" /></td>
                 </tr>
-                <tr className="border-b border-white/5 hover:bg-ink2 transition-colors">
+                <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                   <td className="p-4 text-sm font-medium text-white">Staff</td>
-                  <td className="p-4 text-center border-r border-white/5"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
-                  <td className="p-4 text-center border-r border-white/5"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
-                  <td className="p-4 text-center border-r border-white/5"><Circle className="w-5 h-5 text-yellow-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><Circle className="w-5 h-5 text-yellow-400/60 mx-auto" /></td>
                   <td className="p-4 text-center bg-blue-500/5"><Check className="w-5 h-5 text-green-400 mx-auto" /></td>
                 </tr>
                 <tr className="hover:bg-ink2 transition-colors">
                   <td className="p-4 text-sm font-medium text-white">Execution</td>
-                  <td className="p-4 text-center border-r border-white/5"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
-                  <td className="p-4 text-center border-r border-white/5"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
-                  <td className="p-4 text-center border-r border-white/5"><Circle className="w-5 h-5 text-yellow-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
+                  <td className="p-4 text-center border-r border-white/20"><Circle className="w-5 h-5 text-yellow-400/60 mx-auto" /></td>
                   <td className="p-4 text-center bg-blue-500/5"><Check className="w-5 h-5 text-green-400 mx-auto" /></td>
                 </tr>
               </tbody>
@@ -686,43 +686,43 @@ const Home: React.FC = () => {
         </p>
 
         <div className="overflow-x-auto">
-          <table className="w-full border border-white/5 rounded-lg overflow-hidden">
+          <table className="w-full border border-white/20 rounded-lg overflow-hidden">
             <thead>
               <tr className="bg-ink2">
-                <th className="text-left p-5 text-sm font-bold text-white/80 border-b border-white/5">Metric</th>
-                <th className="text-left p-5 text-sm font-bold text-white/80 border-b border-r border-white/5">Build Internally</th>
-                <th className="text-left p-5 text-sm font-bold text-blue-400 border-b border-white/5 bg-blue-500/5">Revenue Division as a Service</th>
+                <th className="text-left p-5 text-sm font-bold text-white/80 border-b border-white/20">Metric</th>
+                <th className="text-left p-5 text-sm font-bold text-white/80 border-b border-r border-white/20">Build Internally</th>
+                <th className="text-left p-5 text-sm font-bold text-blue-400 border-b border-white/20 bg-blue-500/5">Revenue Division as a Service</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-white/5 hover:bg-ink2 transition-colors">
+              <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white">Time to First Outreach</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/5">8–12 months (hiring + ramp + systems)</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20">8–12 months (hiring + ramp + systems)</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">30 days (guaranteed or you don't pay)</td>
               </tr>
-              <tr className="border-b border-white/5 hover:bg-ink2 transition-colors">
+              <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white">R&D Required</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/5">Months of testing, iteration, failure</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20">Months of testing, iteration, failure</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">Zero. It's already built and proven.</td>
               </tr>
-              <tr className="border-b border-white/5 hover:bg-ink2 transition-colors">
+              <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white">Commitment Structure</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/5">Full-time hires, long-term overhead</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20">Full-time hires, long-term overhead</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">Month-to-month. Scale up or down.</td>
               </tr>
-              <tr className="border-b border-white/5 hover:bg-ink2 transition-colors">
+              <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white">Performance Guarantee</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/5">None. You own all the risk.</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20">None. You own all the risk.</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">30-day launch or you pay nothing.</td>
               </tr>
-              <tr className="border-b border-white/5 hover:bg-ink2 transition-colors">
+              <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white">Management Overhead</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/5">You hire, train, manage, and optimize</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20">You hire, train, manage, and optimize</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">Zero. We build it, run it, and report results.</td>
               </tr>
               <tr className="hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white">Scalability</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/5">Slow. Requires new hiring cycles.</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20">Slow. Requires new hiring cycles.</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">Instant. Add capacity on demand.</td>
               </tr>
             </tbody>
