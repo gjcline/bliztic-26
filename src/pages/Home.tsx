@@ -689,39 +689,39 @@ const Home: React.FC = () => {
           <table className="w-full border border-white/20 rounded-lg overflow-hidden">
             <thead>
               <tr className="bg-ink2">
-                <th className="text-left p-5 text-sm font-bold text-white/80 border-b border-white/20">Metric</th>
+                <th className="text-left p-5 text-sm font-bold text-white/80 border-b border-r border-white/20">Metric</th>
                 <th className="text-left p-5 text-sm font-bold text-white/80 border-b border-r border-white/20">Build Internally</th>
                 <th className="text-left p-5 text-sm font-bold text-blue-400 border-b border-white/20 bg-blue-500/5">Revenue Division as a Service</th>
               </tr>
             </thead>
             <tbody>
               <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
-                <td className="p-5 text-sm font-medium text-white">Time to First Outreach</td>
+                <td className="p-5 text-sm font-medium text-white border-r border-white/20">Time to First Outreach</td>
                 <td className="p-5 text-sm text-white/70 border-r border-white/20">8–12 months (hiring + ramp + systems)</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">30 days (guaranteed or you don't pay)</td>
               </tr>
               <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
-                <td className="p-5 text-sm font-medium text-white">R&D Required</td>
+                <td className="p-5 text-sm font-medium text-white border-r border-white/20">R&D Required</td>
                 <td className="p-5 text-sm text-white/70 border-r border-white/20">Months of testing, iteration, failure</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">Zero. It's already built and proven.</td>
               </tr>
               <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
-                <td className="p-5 text-sm font-medium text-white">Commitment Structure</td>
+                <td className="p-5 text-sm font-medium text-white border-r border-white/20">Commitment Structure</td>
                 <td className="p-5 text-sm text-white/70 border-r border-white/20">Full-time hires, long-term overhead</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">Month-to-month. Scale up or down.</td>
               </tr>
               <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
-                <td className="p-5 text-sm font-medium text-white">Performance Guarantee</td>
+                <td className="p-5 text-sm font-medium text-white border-r border-white/20">Performance Guarantee</td>
                 <td className="p-5 text-sm text-white/70 border-r border-white/20">None. You own all the risk.</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">30-day launch or you pay nothing.</td>
               </tr>
               <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
-                <td className="p-5 text-sm font-medium text-white">Management Overhead</td>
+                <td className="p-5 text-sm font-medium text-white border-r border-white/20">Management Overhead</td>
                 <td className="p-5 text-sm text-white/70 border-r border-white/20">You hire, train, manage, and optimize</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">Zero. We build it, run it, and report results.</td>
               </tr>
               <tr className="hover:bg-ink2 transition-colors">
-                <td className="p-5 text-sm font-medium text-white">Scalability</td>
+                <td className="p-5 text-sm font-medium text-white border-r border-white/20">Scalability</td>
                 <td className="p-5 text-sm text-white/70 border-r border-white/20">Slow. Requires new hiring cycles.</td>
                 <td className="p-5 text-sm text-white/80 bg-blue-500/5">Instant. Add capacity on demand.</td>
               </tr>
