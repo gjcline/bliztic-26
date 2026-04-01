@@ -691,39 +691,39 @@ const Home: React.FC = () => {
               <tr className="bg-ink2">
                 <th className="text-left p-5 text-sm font-bold text-white/80 border-b border-r border-white/20">Metric</th>
                 <th className="text-left p-5 text-sm font-bold text-white/80 border-b border-r border-white/20">Build Internally</th>
-                <th className="text-left p-5 text-sm font-bold text-blue-400 border-b border-white/20 bg-blue-500/5">Revenue Division as a Service</th>
+                <th className="text-left p-5 text-sm font-bold text-blue-400 border-b border-white/20 bg-blue-500/5">BLIZTIC</th>
               </tr>
             </thead>
             <tbody>
               <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white border-r border-white/20">Time to First Outreach</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/20">8–12 months (hiring + ramp + systems)</td>
-                <td className="p-5 text-sm text-white/80 bg-blue-500/5">30 days (guaranteed or you don't pay)</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20"><span className="font-bold text-red-500">8–12</span> months (hiring + ramp + systems)</td>
+                <td className="p-5 text-sm text-white/80 bg-blue-500/5"><span className="font-bold text-blue-400">30</span> days (guaranteed or you don't pay)</td>
               </tr>
               <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white border-r border-white/20">R&D Required</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/20">Months of testing, iteration, failure</td>
-                <td className="p-5 text-sm text-white/80 bg-blue-500/5">Zero. It's already built and proven.</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20"><span className="font-bold text-red-500">Months</span> of testing, iteration, failure</td>
+                <td className="p-5 text-sm text-white/80 bg-blue-500/5"><span className="font-bold text-blue-400">Zero.</span> It's already built and proven.</td>
               </tr>
               <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white border-r border-white/20">Commitment Structure</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/20">Full-time hires, long-term overhead</td>
-                <td className="p-5 text-sm text-white/80 bg-blue-500/5">Month-to-month. Scale up or down.</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20"><span className="font-bold text-red-500">Full-time</span> hires, long-term overhead</td>
+                <td className="p-5 text-sm text-white/80 bg-blue-500/5"><span className="font-bold text-blue-400">Month-to-month.</span> Scale up or down.</td>
               </tr>
               <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white border-r border-white/20">Performance Guarantee</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/20">None. You own all the risk.</td>
-                <td className="p-5 text-sm text-white/80 bg-blue-500/5">30-day launch or you pay nothing.</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20"><span className="font-bold text-red-500">None.</span> You own all the risk.</td>
+                <td className="p-5 text-sm text-white/80 bg-blue-500/5"><span className="font-bold text-blue-400">30-day</span> launch or you pay nothing.</td>
               </tr>
               <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white border-r border-white/20">Management Overhead</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/20">You hire, train, manage, and optimize</td>
-                <td className="p-5 text-sm text-white/80 bg-blue-500/5">Zero. We build it, run it, and report results.</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20"><span className="font-bold text-red-500">You</span> hire, train, manage, and optimize</td>
+                <td className="p-5 text-sm text-white/80 bg-blue-500/5"><span className="font-bold text-blue-400">Zero.</span> We build it, run it, and report results.</td>
               </tr>
               <tr className="hover:bg-ink2 transition-colors">
                 <td className="p-5 text-sm font-medium text-white border-r border-white/20">Scalability</td>
-                <td className="p-5 text-sm text-white/70 border-r border-white/20">Slow. Requires new hiring cycles.</td>
-                <td className="p-5 text-sm text-white/80 bg-blue-500/5">Instant. Add capacity on demand.</td>
+                <td className="p-5 text-sm text-white/70 border-r border-white/20"><span className="font-bold text-red-500">Slow.</span> Requires new hiring cycles.</td>
+                <td className="p-5 text-sm text-white/80 bg-blue-500/5"><span className="font-bold text-blue-400">Instant.</span> Add capacity on demand.</td>
               </tr>
             </tbody>
           </table>
