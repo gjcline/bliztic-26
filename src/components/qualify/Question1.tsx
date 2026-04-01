@@ -124,6 +124,7 @@ export function Question1({
                   placeholder="John Doe"
                   value={fullName}
                   onChange={(e) => onUpdate({ fullName: e.target.value })}
+                  autoComplete="name"
                   required
                 />
               </div>
@@ -138,6 +139,8 @@ export function Question1({
                   placeholder="john@company.com"
                   value={email}
                   onChange={(e) => onUpdate({ email: e.target.value })}
+                  autoComplete="email"
+                  inputMode="email"
                   required
                 />
               </div>
@@ -152,6 +155,8 @@ export function Question1({
                   placeholder="+1 (555) 000-0000"
                   value={phoneNumber}
                   onChange={(e) => onUpdate({ phoneNumber: e.target.value })}
+                  autoComplete="tel"
+                  inputMode="tel"
                   required
                 />
               </div>
@@ -166,6 +171,7 @@ export function Question1({
                   placeholder="Acme Inc."
                   value={companyName}
                   onChange={(e) => onUpdate({ companyName: e.target.value })}
+                  autoComplete="organization"
                   required
                 />
               </div>
