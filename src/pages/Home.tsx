@@ -320,7 +320,7 @@ const Home: React.FC = () => {
         </h2>
 
         <p className="text-white/60 max-w-lg mb-14 leading-relaxed">
-          Every alternative covers a piece. Revenue Division as a Service owns the full stack.
+          Every alternative covers a piece. Our Revenue Division owns the full stack.
         </p>
 
         {/* Tab Navigation */}
