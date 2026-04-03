@@ -8,8 +8,7 @@ import {
   Workflow,
   Brain,
   CheckCircle,
-  ArrowRight,
-  ArrowDown
+  ArrowRight
 } from 'lucide-react';
 import { HeroGeometric } from '../components/ui/hero-geometric';
 import { ElegantShape } from '../components/ui/elegant-shape';
@@ -17,20 +16,6 @@ import { Button } from '../components/ui/button';
 import { cn } from '@/lib/utils';
 
 const Dev: React.FC = () => {
-  const scrollToBooking = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const element = document.getElementById('booking-cta');
-    if (element) {
-      const navbarHeight = 80;
-      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - navbarHeight;
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
-  };
-
   return (
     <div className="bg-[#030303]">
       {/* Hero Section */}
@@ -42,8 +27,6 @@ const Dev: React.FC = () => {
         primaryActionHref="https://cal.com/bliztic/dev"
         secondaryActionText="Continue"
         secondaryActionHref="#why-partner"
-        tertiaryActionText="Dev Fund"
-        tertiaryActionHref="#development-funding"
         hideAdditionalButtons={true}
       />
 
@@ -330,130 +313,6 @@ const Dev: React.FC = () => {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Partnership Opportunities Section */}
-      <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.05] via-transparent to-cyan-500/[0.05] blur-3xl" />
-
-        <div className="absolute inset-0 overflow-hidden">
-          <ElegantShape
-            delay={0.1}
-            width={400}
-            height={100}
-            rotate={-10}
-            gradient="from-blue-500/[0.12]"
-            className="left-[-5%] top-[20%]"
-          />
-          <ElegantShape
-            delay={0.2}
-            width={300}
-            height={80}
-            rotate={15}
-            gradient="from-cyan-500/[0.12]"
-            className="right-[-5%] bottom-[20%]"
-          />
-        </div>
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-center"
-          >
-            <div className="relative bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border-2 border-white/20 rounded-3xl p-8 md:p-12">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.05] to-cyan-500/[0.05] rounded-3xl" />
-
-              <div className="relative">
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                  Looking to Partner on a Project?
-                </h2>
-                <p className="text-white/70 text-lg leading-relaxed mb-6">
-                  We occasionally take on equity partnerships or revenue-share deals for the right projects. If you have a compelling idea and are looking for a technical co-founder or development partner, let's talk.
-                </p>
-
-                <div className="bg-white/5 rounded-2xl p-6 mb-8 text-left">
-                  <h3 className="text-white font-semibold text-lg mb-4">We're interested if you have:</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-blue-400 mt-1 flex-shrink-0" />
-                      <p className="text-white/70">A validated idea with early traction or clear market demand</p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-cyan-400 mt-1 flex-shrink-0" />
-                      <p className="text-white/70">A compelling business model with revenue potential</p>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <CheckCircle className="w-5 h-5 text-amber-400 mt-1 flex-shrink-0" />
-                      <p className="text-white/70">The right team and domain expertise to execute</p>
-                    </div>
-                  </div>
-                </div>
-
-                <a
-                  href="#booking-cta"
-                  onClick={scrollToBooking}
-                  className={cn(
-                    "inline-flex items-center justify-center",
-                    "px-8 py-3 rounded-full",
-                    "bg-white text-[#030303]",
-                    "font-medium",
-                    "transform transition duration-300",
-                    "hover:scale-105 hover:shadow-glow"
-                  )}
-                >
-                  Discuss Partnership Opportunities
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Development Funding Section */}
-      <section id="development-funding" className="py-16 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/[0.02] via-transparent to-blue-500/[0.02] blur-3xl" />
-
-        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="relative bg-gradient-to-br from-emerald-500/[0.08] to-blue-500/[0.08] backdrop-blur-sm border border-emerald-500/20 rounded-2xl p-8 md:p-10 text-center"
-          >
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/20 mb-6">
-              <Rocket className="w-8 h-8 text-emerald-400" />
-            </div>
-
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Looking for Development Funding?
-            </h2>
-
-            <p className="text-white/70 text-lg leading-relaxed mb-6 max-w-2xl mx-auto">
-              The Bliztic Development Fund provides up to $20,000 in development credits to ambitious founders ready to build something meaningful. If you have a clear vision that needs technical execution, we're here to support you. <br />(Seperate from GTM Fund)
-            </p>
-
-            <a
-              href="/fund"
-              className={cn(
-                "inline-flex items-center justify-center",
-                "px-8 py-3 rounded-full",
-                "bg-white text-[#030303]",
-                "font-medium",
-                "transform transition duration-300",
-                "hover:scale-105 hover:shadow-glow"
-              )}
-              onClick={() => window.scrollTo(0, 0)}
-            >
-              Learn About Development Funding
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </a>
-          </motion.div>
         </div>
       </section>
 
