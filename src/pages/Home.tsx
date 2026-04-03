@@ -510,7 +510,7 @@ const Home: React.FC = () => {
 
           {/* Blur Toggle - Desktop Only */}
           <div className="hidden lg:flex items-center gap-3">
-            <span className="text-sm text-white/60 font-medium">Toggle Blur</span>
+            <span className="text-sm text-white/60 font-medium">Blur</span>
             <button
               onClick={() => setBlurEnabled(!blurEnabled)}
               className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-300 ${
