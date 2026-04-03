@@ -321,7 +321,8 @@ const Home: React.FC = () => {
                   {(pillarsExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => {
                     const totalItems = pillarsExpanded ? pillar.itemsFull.length : pillar.itemsShort.length;
                     const isFaded = !pillarsExpanded && i >= totalItems - 2;
-                    const fadeOpacity = !pillarsExpanded && i === totalItems - 2 ? 0.4 : (!pillarsExpanded && i === totalItems - 1 ? 0.2 : 1);
+                    const fadeOpacity = !pillarsExpanded && i === totalItems - 2 ? 0.3 : (!pillarsExpanded && i === totalItems - 1 ? 0.15 : 1);
+                    const blurAmount = !pillarsExpanded && i === totalItems - 2 ? 'blur-[2px]' : (!pillarsExpanded && i === totalItems - 1 ? 'blur-[3px]' : '');
 
                     return (
                       <div
@@ -330,13 +331,32 @@ const Home: React.FC = () => {
                         style={{ opacity: fadeOpacity }}
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0 group-hover/item:scale-150 transition-transform duration-300" />
-                        <div className={`text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300 ${isFaded ? 'blur-[0.5px]' : ''}`}>
+                        <div className={`text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300 ${blurAmount}`}>
                           {item}
                         </div>
                       </div>
                     );
                   })}
                 </div>
+
+                {!pillarsExpanded && (
+                  <div className="flex justify-center mt-6 pt-4 border-t border-white/5">
+                    <motion.div
+                      className="flex flex-col items-center gap-1 text-blue-400/60"
+                      animate={{
+                        y: [0, 3, 0]
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      <ChevronDown className="w-4 h-4" />
+                      <ChevronDown className="w-4 h-4 -mt-2" />
+                    </motion.div>
+                  </div>
+                )}
               </div>
             </motion.div>
           ))}
