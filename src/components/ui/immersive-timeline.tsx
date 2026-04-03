@@ -52,28 +52,31 @@ function TimelineItem({ week, index, totalWeeks }: TimelineItemProps) {
   const circleOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0.3]);
 
   const isLeft = index % 2 === 0;
+  const isLast = index === totalWeeks - 1;
+  const nextIsLeft = !isLeft;
 
   return (
-    <div ref={itemRef} className="relative min-h-[30vh] flex items-center justify-center">
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <motion.div
-          style={{ scale: circleScale, opacity: circleOpacity }}
-          className="w-[800px] h-[800px] rounded-full bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-transparent blur-3xl"
-        />
-      </div>
+    <>
+      <div ref={itemRef} className="relative min-h-[30vh] flex items-center justify-center">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <motion.div
+            style={{ scale: circleScale, opacity: circleOpacity }}
+            className="w-[800px] h-[800px] rounded-full bg-gradient-to-br from-blue-500/10 via-cyan-500/5 to-transparent blur-3xl"
+          />
+        </div>
 
-      <motion.div
-        style={{
-          scale,
-          opacity,
-          rotateX,
-          y,
-          transformPerspective: 1200
-        }}
-        className={`relative max-w-3xl w-full px-4 ${
-          isLeft ? 'mr-auto lg:ml-0' : 'ml-auto lg:mr-0'
-        }`}
-      >
+        <motion.div
+          style={{
+            scale,
+            opacity,
+            rotateX,
+            y,
+            transformPerspective: 1200
+          }}
+          className={`relative max-w-3xl w-full px-4 ${
+            isLeft ? 'mr-auto lg:ml-0' : 'ml-auto lg:mr-0'
+          }`}
+        >
         <div className="relative border border-white/10 rounded-3xl p-10 md:p-12 bg-gradient-to-br from-ink1 via-ink2 to-ink3 overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
@@ -161,6 +164,40 @@ function TimelineItem({ week, index, totalWeeks }: TimelineItemProps) {
           </div>
         </div>
       </motion.div>
-    </div>
+      </div>
+
+      {!isLast && (
+        <div className="relative h-16 lg:h-20 pointer-events-none">
+          <svg
+            className="absolute inset-0 w-full h-full"
+            preserveAspectRatio="none"
+            viewBox="0 0 100 100"
+          >
+            <motion.path
+              d={
+                isLeft
+                  ? "M 25 0 Q 50 50, 75 100"
+                  : "M 75 0 Q 50 50, 25 100"
+              }
+              stroke="url(#gradient)"
+              strokeWidth="0.5"
+              fill="none"
+              strokeDasharray="4 4"
+              initial={{ pathLength: 0, opacity: 0 }}
+              whileInView={{ pathLength: 1, opacity: 0.3 }}
+              transition={{ duration: 1, delay: 0.2 }}
+              viewport={{ once: true }}
+            />
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.4" />
+                <stop offset="50%" stopColor="#22d3ee" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#60a5fa" stopOpacity="0.4" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+      )}
+    </>
   );
 }
