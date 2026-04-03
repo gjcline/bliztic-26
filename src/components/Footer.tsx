@@ -83,9 +83,6 @@ const Footer: React.FC = () => {
               <li>
                 <Link to="/gtm-fund" onClick={() => window.scrollTo(0, 0)} className="text-white/40 hover:text-white transition-colors">Fund</Link>
               </li>
-              <li>
-                <a href="https://cdr.bliztic.com" target="_blank" rel="noopener noreferrer" className="text-white/40 hover:text-white transition-colors">CDR</a>
-              </li>
             </ul>
           </motion.div>
 
@@ -99,9 +96,6 @@ const Footer: React.FC = () => {
             <ul className="space-y-2">
               <li>
                 <Link to="/partner/login" onClick={() => window.scrollTo(0, 0)} className="text-white/40 hover:text-white transition-colors">Log in</Link>
-              </li>
-              <li>
-                <Link to="/partner" onClick={() => window.scrollTo(0, 0)} className="text-white/40 hover:text-white transition-colors">Learn more</Link>
               </li>
               <li>
                 <Link to="/qualify" onClick={() => window.scrollTo(0, 0)} className="text-white/40 hover:text-white transition-colors">Book a call</Link>
