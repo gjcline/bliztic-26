@@ -375,39 +375,6 @@ const Home: React.FC = () => {
             See If You Qualify
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
-
-          {expandedPillars.length < 4 && (
-            <button
-              onClick={() => setExpandedPillars([0, 1, 2, 3])}
-              className="group inline-flex items-center gap-2 px-10 py-4 rounded-lg border-2 border-cyan-400/40 text-white font-semibold text-base tracking-wide hover:border-cyan-400 hover:bg-cyan-500/10 transition-all duration-200 relative overflow-hidden"
-            >
-              <motion.div
-                className="absolute inset-0 rounded-lg border-2 border-cyan-400"
-                animate={{
-                  scale: [1, 1.1, 1],
-                  opacity: [0.3, 0.7, 0.3]
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20"
-                animate={{
-                  opacity: [0.2, 0.4, 0.2]
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-              <span className="relative z-10">Expand Details</span>
-              <ChevronDown className="w-5 h-5 group-hover:translate-y-0.5 transition-transform relative z-10" />
-            </button>
-          )}
         </motion.div>
       </section>
 
