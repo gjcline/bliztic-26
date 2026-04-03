@@ -315,25 +315,30 @@ const Home: React.FC = () => {
                 </p>
 
                 <div className="space-y-3 relative">
-                  {(isExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex items-start gap-3 group/item"
-                    >
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0 group-hover/item:scale-150 transition-transform duration-300" />
-                      <div className="text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300">
-                        {item}
+                  {(isExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => {
+                    const isLastItem = i === (isExpanded ? pillar.itemsFull : pillar.itemsShort).length - 1;
+                    const shouldFade = !isExpanded && isLastItem;
+
+                    return (
+                      <div
+                        key={i}
+                        className={`flex items-start gap-3 group/item ${shouldFade ? 'opacity-40' : ''}`}
+                      >
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0 group-hover/item:scale-150 transition-transform duration-300" />
+                        <div className="text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300">
+                          {item}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
                 {!isExpanded && (
-                  <div className="flex justify-center mt-6 pt-4 border-t border-white/5">
+                  <div className="flex justify-center mt-3">
                     <motion.div
-                      className="flex flex-col items-center gap-1 text-blue-400/60"
+                      className="flex flex-col items-center gap-0 text-blue-400/40"
                       animate={{
-                        y: [0, 3, 0]
+                        y: [0, 2, 0]
                       }}
                       transition={{
                         duration: 1.5,
@@ -341,8 +346,8 @@ const Home: React.FC = () => {
                         ease: "easeInOut"
                       }}
                     >
-                      <ChevronDown className="w-4 h-4" />
-                      <ChevronDown className="w-4 h-4 -mt-2" />
+                      <ChevronDown className="w-2.5 h-2.5" />
+                      <ChevronDown className="w-2.5 h-2.5 -mt-1" />
                     </motion.div>
                   </div>
                 )}
