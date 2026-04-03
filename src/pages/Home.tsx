@@ -17,7 +17,7 @@ import { ImmersiveTimeline } from '../components/ui/immersive-timeline';
 
 const Home: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
-  const [expandedPillars, setExpandedPillars] = useState<number[]>([]);
+  const [allExpanded, setAllExpanded] = useState(false);
 
   return (
     <div className="relative min-h-screen bg-[#030303] overflow-x-hidden">
@@ -276,8 +276,6 @@ const Home: React.FC = () => {
               ]
             }
           ].map((pillar, idx) => {
-            const isExpanded = expandedPillars.includes(idx);
-
             return (
               <motion.div
                 key={pillar.num}
@@ -285,14 +283,7 @@ const Home: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                onClick={() => {
-                  if (isExpanded) {
-                    setExpandedPillars(expandedPillars.filter(i => i !== idx));
-                  } else {
-                    setExpandedPillars([...expandedPillars, idx]);
-                  }
-                }}
-                className="relative bg-ink2 border border-white/5 rounded-xl p-6 lg:p-8 overflow-hidden group hover:border-blue-500/30 transition-all duration-500 cursor-pointer"
+                className="relative bg-ink2 border border-white/5 rounded-xl p-6 lg:p-8 overflow-hidden group hover:border-blue-500/30 transition-all duration-500"
               >
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -315,9 +306,9 @@ const Home: React.FC = () => {
                 </p>
 
                 <div className="space-y-3 relative">
-                  {(isExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => {
-                    const isLastItem = i === (isExpanded ? pillar.itemsFull : pillar.itemsShort).length - 1;
-                    const shouldFade = !isExpanded && isLastItem;
+                  {(allExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => {
+                    const isLastItem = i === (allExpanded ? pillar.itemsFull : pillar.itemsShort).length - 1;
+                    const shouldFade = !allExpanded && isLastItem;
 
                     return (
                       <div
@@ -332,29 +323,39 @@ const Home: React.FC = () => {
                     );
                   })}
                 </div>
-
-                {!isExpanded && (
-                  <div className="flex justify-center mt-3">
-                    <motion.div
-                      className="flex flex-col items-center gap-0 text-blue-400/40"
-                      animate={{
-                        y: [0, 2, 0]
-                      }}
-                      transition={{
-                        duration: 1.5,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <ChevronDown className="w-2.5 h-2.5" />
-                      <ChevronDown className="w-2.5 h-2.5 -mt-1" />
-                    </motion.div>
-                  </div>
-                )}
               </div>
             </motion.div>
             );
           })}
+        </div>
+
+        {/* Central Expand/Collapse Button */}
+        <div className="flex flex-col items-center mt-8 mb-8">
+          <div className="w-[1px] h-6 bg-gradient-to-b from-blue-500/40 to-blue-500/10" />
+          <motion.button
+            onClick={() => setAllExpanded(!allExpanded)}
+            className="flex flex-col items-center gap-0 text-blue-400/50 hover:text-blue-400/80 transition-colors cursor-pointer group"
+            animate={{
+              y: [0, 3, 0]
+            }}
+            transition={{
+              duration: 1.5,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            {!allExpanded ? (
+              <>
+                <ChevronDown className="w-3 h-3" />
+                <ChevronDown className="w-3 h-3 -mt-1.5" />
+              </>
+            ) : (
+              <>
+                <ChevronDown className="w-3 h-3 rotate-180" />
+                <ChevronDown className="w-3 h-3 -mt-1.5 rotate-180" />
+              </>
+            )}
+          </motion.button>
         </div>
 
         {/* CTA after Four Pillars */}
@@ -363,7 +364,7 @@ const Home: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-16"
+          className="flex flex-col sm:flex-row justify-center items-center gap-4"
         >
           <Link
             to="/qualify"
