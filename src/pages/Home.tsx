@@ -682,7 +682,7 @@ const Home: React.FC = () => {
         </h2>
 
         <p className="text-white/60 max-w-lg mb-14 leading-relaxed">
-          Building internally takes time, capital, and risk. Revenue Division as a Service delivers the same result—faster, cheaper, and guaranteed.
+          Building internally takes time, capital, and risk. Bliztic delivers the same result faster, cheaper, and guaranteed.
         </p>
 
         <div className="overflow-x-auto">
