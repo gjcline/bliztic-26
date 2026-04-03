@@ -306,17 +306,28 @@ const Home: React.FC = () => {
                 </p>
 
                 <div className="space-y-3 relative">
-                  {(allExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => {
-                    const isLastItem = i === (allExpanded ? pillar.itemsFull : pillar.itemsShort).length - 1;
-                    const shouldFade = !allExpanded && isLastItem;
+                  {(allExpanded ? pillar.itemsFull : pillar.itemsFull.slice(0, 3)).map((item, i) => {
+                    let opacityClass = '';
+                    let blurClass = '';
+
+                    if (!allExpanded) {
+                      if (i === 0) {
+                        opacityClass = 'opacity-100';
+                      } else if (i === 1) {
+                        opacityClass = 'opacity-20';
+                      } else if (i === 2) {
+                        opacityClass = 'opacity-10 blur-[1px]';
+                        blurClass = 'blur-[1px]';
+                      }
+                    }
 
                     return (
                       <div
                         key={i}
-                        className={`flex items-start gap-3 group/item ${shouldFade ? 'opacity-40' : ''}`}
+                        className={`flex items-start gap-3 group/item ${opacityClass}`}
                       >
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0 group-hover/item:scale-150 transition-transform duration-300" />
-                        <div className="text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300">
+                        <div className={`w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0 group-hover/item:scale-150 transition-transform duration-300 ${blurClass}`} />
+                        <div className={`text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300 ${blurClass}`}>
                           {item}
                         </div>
                       </div>
@@ -331,28 +342,91 @@ const Home: React.FC = () => {
 
         {/* Central Expand/Collapse with Connecting Lines */}
         <div className="relative flex flex-col items-center mt-12 mb-8">
-          {/* Connecting Lines from Cards */}
+          {/* Connecting Lines from Cards with Animation */}
           <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-full max-w-5xl h-16 pointer-events-none">
             <svg className="w-full h-full" viewBox="0 0 1000 100" preserveAspectRatio="none">
-              {/* Four lines converging to center */}
-              <line x1="125" y1="0" x2="500" y2="100" stroke="rgba(59, 130, 246, 0.3)" strokeWidth="2" />
-              <line x1="375" y1="0" x2="500" y2="100" stroke="rgba(59, 130, 246, 0.3)" strokeWidth="2" />
-              <line x1="625" y1="0" x2="500" y2="100" stroke="rgba(59, 130, 246, 0.3)" strokeWidth="2" />
-              <line x1="875" y1="0" x2="500" y2="100" stroke="rgba(59, 130, 246, 0.3)" strokeWidth="2" />
+              <defs>
+                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stopColor="rgba(59, 130, 246, 0.1)" />
+                  <stop offset="100%" stopColor="rgba(59, 130, 246, 0.5)" />
+                </linearGradient>
+              </defs>
+
+              {/* Four lines converging to center with gradient */}
+              <line x1="125" y1="0" x2="500" y2="100" stroke="url(#lineGradient)" strokeWidth="2">
+                <animate attributeName="stroke-opacity" values="0.3;0.6;0.3" dur="2s" repeatCount="indefinite" />
+              </line>
+              <line x1="375" y1="0" x2="500" y2="100" stroke="url(#lineGradient)" strokeWidth="2">
+                <animate attributeName="stroke-opacity" values="0.3;0.6;0.3" dur="2s" begin="0.2s" repeatCount="indefinite" />
+              </line>
+              <line x1="625" y1="0" x2="500" y2="100" stroke="url(#lineGradient)" strokeWidth="2">
+                <animate attributeName="stroke-opacity" values="0.3;0.6;0.3" dur="2s" begin="0.4s" repeatCount="indefinite" />
+              </line>
+              <line x1="875" y1="0" x2="500" y2="100" stroke="url(#lineGradient)" strokeWidth="2">
+                <animate attributeName="stroke-opacity" values="0.3;0.6;0.3" dur="2s" begin="0.6s" repeatCount="indefinite" />
+              </line>
+
+              {/* Moving dots along the lines */}
+              <circle r="3" fill="rgba(59, 130, 246, 0.8)">
+                <animateMotion dur="2.5s" repeatCount="indefinite">
+                  <mpath href="#path1" />
+                </animateMotion>
+              </circle>
+              <circle r="3" fill="rgba(59, 130, 246, 0.8)">
+                <animateMotion dur="2.5s" begin="0.3s" repeatCount="indefinite">
+                  <mpath href="#path2" />
+                </animateMotion>
+              </circle>
+              <circle r="3" fill="rgba(59, 130, 246, 0.8)">
+                <animateMotion dur="2.5s" begin="0.6s" repeatCount="indefinite">
+                  <mpath href="#path3" />
+                </animateMotion>
+              </circle>
+              <circle r="3" fill="rgba(59, 130, 246, 0.8)">
+                <animateMotion dur="2.5s" begin="0.9s" repeatCount="indefinite">
+                  <mpath href="#path4" />
+                </animateMotion>
+              </circle>
+
+              {/* Hidden paths for animation */}
+              <path id="path1" d="M 125 0 L 500 100" fill="none" />
+              <path id="path2" d="M 375 0 L 500 100" fill="none" />
+              <path id="path3" d="M 625 0 L 500 100" fill="none" />
+              <path id="path4" d="M 875 0 L 500 100" fill="none" />
             </svg>
           </div>
 
-          {/* Clickable Arrow Button */}
-          <button
+          {/* Clickable Arrow Button with Pulse */}
+          <motion.button
             onClick={() => setAllExpanded(!allExpanded)}
             className="relative z-10 flex flex-col items-center gap-2 px-8 py-6 rounded-full bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-2 border-blue-500/30 hover:border-blue-400/60 hover:bg-blue-500/20 transition-all duration-300 cursor-pointer group"
+            animate={{
+              scale: [1, 1.05, 1],
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
           >
+            <motion.div
+              className="absolute inset-0 rounded-full border-2 border-blue-400/40"
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.5, 0, 0.5]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+            />
             {!allExpanded ? (
               <ChevronDown className="w-8 h-8 text-blue-400 group-hover:text-blue-300 transition-colors" />
             ) : (
               <ChevronDown className="w-8 h-8 text-blue-400 group-hover:text-blue-300 transition-colors rotate-180" />
             )}
-          </button>
+          </motion.button>
 
           {/* Three Dots with Fade Out */}
           <div className="flex flex-col items-center gap-2 mt-3">
