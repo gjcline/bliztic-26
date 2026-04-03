@@ -459,7 +459,7 @@ const Home: React.FC = () => {
                       </li>
                       <li className="text-sm text-white/70 flex items-start gap-2">
                         <X className="w-4 h-4 text-red-400/60 mt-0.5 flex-shrink-0" />
-                        SDRs only—no closers or leadership
+                        SDRs only, no closers or leadership
                       </li>
                       <li className="text-sm text-white/70 flex items-start gap-2">
                         <X className="w-4 h-4 text-red-400/60 mt-0.5 flex-shrink-0" />
