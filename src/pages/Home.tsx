@@ -9,13 +9,15 @@ import {
   ArrowRight,
   Check,
   X,
-  Circle
+  Circle,
+  ChevronDown
 } from 'lucide-react';
 import WhoWeAreSection from '../components/WhoWeAreSection';
 import { ImmersiveTimeline } from '../components/ui/immersive-timeline';
 
 const Home: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
+  const [pillarsExpanded, setPillarsExpanded] = useState(false);
 
   return (
     <div className="relative min-h-screen bg-[#030303] overflow-x-hidden">
@@ -205,40 +207,76 @@ const Home: React.FC = () => {
               num: '01',
               name: 'STRATEGY',
               tag: 'The blueprint before the bullets.',
-              items: [
+              itemsShort: [
                 'Revenue Architecture',
                 'ICP & Market Mapping',
                 'GTM Blueprint'
+              ],
+              itemsFull: [
+                'Revenue Architecture Design',
+                'ICP and Market Mapping',
+                'Offer Positioning and Messaging',
+                'GTM Blueprint Delivery',
+                'Channel Selection and Sequencing',
+                'KPI Framework and Revenue Targets',
+                'Pipeline Design and Funnel Architecture'
               ]
             },
             {
               num: '02',
               name: 'SYSTEMS',
               tag: 'The infrastructure that never sleeps.',
-              items: [
+              itemsShort: [
                 'CRM Configuration',
                 'Sales Operating System',
                 'Automation Engine'
+              ],
+              itemsFull: [
+                'CRM Architecture and Configuration',
+                'Sales Operating System Build',
+                'Outreach Automation Engine',
+                'Lead Scoring and Routing Logic',
+                'Tech Stack Deployment',
+                'Sales Playbook Documentation',
+                'Pipeline Intelligence and Dashboards'
               ]
             },
             {
               num: '03',
               name: 'STAFF',
               tag: 'The division that runs under your brand.',
-              items: [
+              itemsShort: [
                 'Fractional CRO',
                 'SDR & Closers',
                 'Pre-Trained Team'
+              ],
+              itemsFull: [
+                'Fractional CRO Leadership',
+                'SDR and Closer Deployment',
+                'Sales Management and Oversight',
+                'White-Label Team Under Your Brand',
+                'Dedicated Account Management',
+                'Staff Operating on Bliztic IP',
+                'Pre-Trained and Ready Day One'
               ]
             },
             {
               num: '04',
               name: 'EXECUTION',
               tag: 'The operation that owns the result.',
-              items: [
+              itemsShort: [
                 'Pipeline Management',
                 'Deal Optimization',
                 'Revenue Reporting'
+              ],
+              itemsFull: [
+                'Active Pipeline Management',
+                'Deal Velocity Optimization',
+                'Weekly Performance Reviews',
+                'Ongoing Sequence Optimization',
+                'Sales Cycle Compression',
+                'Monthly Revenue Reporting',
+                'Full Revenue Accountability'
               ]
             }
           ].map((pillar, idx) => (
@@ -248,7 +286,8 @@ const Home: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
               viewport={{ once: true }}
-              className="relative bg-ink2 border border-white/5 rounded-xl p-6 lg:p-8 overflow-hidden group hover:border-blue-500/30 transition-all duration-500"
+              onClick={() => setPillarsExpanded(true)}
+              className="relative bg-ink2 border border-white/5 rounded-xl p-6 lg:p-8 overflow-hidden group hover:border-blue-500/30 transition-all duration-500 cursor-pointer"
             >
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -271,7 +310,7 @@ const Home: React.FC = () => {
                 </p>
 
                 <div className="space-y-3">
-                  {pillar.items.map((item, i) => (
+                  {(pillarsExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => (
                     <div key={i} className="flex items-start gap-3 group/item">
                       <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0 group-hover/item:scale-150 transition-transform duration-300" />
                       <div className="text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300">
@@ -291,7 +330,7 @@ const Home: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="flex justify-center mt-16"
+          className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-16"
         >
           <Link
             to="/qualify"
@@ -302,6 +341,28 @@ const Home: React.FC = () => {
             See If You Qualify
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
+
+          {!pillarsExpanded && (
+            <button
+              onClick={() => setPillarsExpanded(true)}
+              className="group inline-flex items-center gap-2 px-10 py-4 rounded-lg border border-white/10 text-white/80 font-semibold text-base tracking-wide hover:border-blue-500 hover:text-white hover:bg-blue-500/5 transition-all duration-200 relative"
+            >
+              <motion.div
+                className="absolute inset-0 rounded-lg border-2 border-blue-400/30"
+                animate={{
+                  scale: [1, 1.05, 1],
+                  opacity: [0.5, 0.8, 0.5]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              Expand Details
+              <ChevronDown className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
+            </button>
+          )}
         </motion.div>
       </section>
 
