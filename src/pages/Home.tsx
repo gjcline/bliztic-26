@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -12,6 +12,30 @@ import { ImmersiveTimeline } from '../components/ui/immersive-timeline';
 
 const Home: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
+  const [blurEnabled, setBlurEnabled] = useState(true);
+  const [activeCarouselIndex, setActiveCarouselIndex] = useState(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const totalCards = 4;
+
+  // Auto-rotate carousel every 10 seconds on mobile
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveCarouselIndex((prev) => (prev + 1) % totalCards);
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Scroll to active card when index changes
+  useEffect(() => {
+    if (carouselRef.current) {
+      const cardWidth = carouselRef.current.scrollWidth / totalCards;
+      carouselRef.current.scrollTo({
+        left: cardWidth * activeCarouselIndex,
+        behavior: 'smooth'
+      });
+    }
+  }, [activeCarouselIndex]);
 
   return (
     <div className="relative min-h-screen bg-[#030303] overflow-x-hidden">
@@ -290,23 +314,28 @@ const Home: React.FC = () => {
                     const isLastFour = i >= totalItems - 4;
 
                     let blurClass = '';
-                    if (isLastFour) {
+                    let opacityClass = '';
+                    if (blurEnabled && isLastFour) {
                       const distanceFromEnd = totalItems - 1 - i;
                       if (distanceFromEnd === 3) {
-                        blurClass = 'blur-[0.5px] group-hover:blur-0';
-                      } else if (distanceFromEnd === 2) {
-                        blurClass = 'blur-[1px] group-hover:blur-0';
-                      } else if (distanceFromEnd === 1) {
-                        blurClass = 'blur-[1.5px] group-hover:blur-0';
-                      } else if (distanceFromEnd === 0) {
                         blurClass = 'blur-[2px] group-hover:blur-0';
+                        opacityClass = 'opacity-60';
+                      } else if (distanceFromEnd === 2) {
+                        blurClass = 'blur-[3px] group-hover:blur-0';
+                        opacityClass = 'opacity-40';
+                      } else if (distanceFromEnd === 1) {
+                        blurClass = 'blur-[4px] group-hover:blur-0';
+                        opacityClass = 'opacity-25';
+                      } else if (distanceFromEnd === 0) {
+                        blurClass = 'blur-[5px] group-hover:blur-0';
+                        opacityClass = 'opacity-15';
                       }
                     }
 
                     return (
                       <div
                         key={i}
-                        className={`flex items-start gap-3 transition-all duration-300 ${blurClass}`}
+                        className={`flex items-start gap-3 transition-all duration-300 ${blurClass} ${opacityClass} group-hover:opacity-100`}
                       >
                         <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0" />
                         <div className="text-sm text-white/70 font-medium group-hover:text-white/90 transition-colors duration-300">
@@ -324,7 +353,7 @@ const Home: React.FC = () => {
 
         {/* Mobile: Carousel Layout */}
         <div className="lg:hidden relative">
-          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 hide-scrollbar">
+          <div ref={carouselRef} className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 hide-scrollbar">
             {[
               {
                 num: '01',
@@ -426,12 +455,38 @@ const Home: React.FC = () => {
             ))}
           </div>
 
-          {/* Scroll Indicator */}
+          {/* Scroll Indicator with Progress */}
           <div className="flex justify-center gap-2 mt-6">
-            <div className="w-2 h-2 rounded-full bg-blue-400/60" />
-            <div className="w-2 h-2 rounded-full bg-blue-400/30" />
-            <div className="w-2 h-2 rounded-full bg-blue-400/30" />
-            <div className="w-2 h-2 rounded-full bg-blue-400/30" />
+            {[0, 1, 2, 3].map((idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveCarouselIndex(idx)}
+                className="relative"
+              >
+                <div
+                  className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+                    activeCarouselIndex === idx ? 'bg-blue-400' : 'bg-blue-400/30'
+                  }`}
+                />
+                {activeCarouselIndex === idx && (
+                  <div className="absolute inset-0 rounded-full">
+                    <svg className="w-full h-full -rotate-90" viewBox="0 0 24 24">
+                      <circle
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        fill="none"
+                        stroke="rgba(59, 130, 246, 0.6)"
+                        strokeWidth="3"
+                        strokeDasharray="62.83"
+                        strokeDashoffset="0"
+                        className="animate-[progress_10s_linear_infinite]"
+                      />
+                    </svg>
+                  </div>
+                )}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -441,7 +496,7 @@ const Home: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="flex flex-col sm:flex-row justify-center items-center gap-4"
+          className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-16"
         >
           <Link
             to="/qualify"
@@ -452,6 +507,25 @@ const Home: React.FC = () => {
             See If You Qualify
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
+
+          {/* Blur Toggle - Desktop Only */}
+          <div className="hidden lg:flex items-center gap-3">
+            <span className="text-sm text-white/60 font-medium">Toggle Blur</span>
+            <button
+              onClick={() => setBlurEnabled(!blurEnabled)}
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors duration-300 ${
+                blurEnabled ? 'bg-blue-500' : 'bg-white/20'
+              }`}
+              role="switch"
+              aria-checked={blurEnabled}
+            >
+              <span
+                className={`inline-block h-5 w-5 transform rounded-full bg-white shadow-lg transition-transform duration-300 ${
+                  blurEnabled ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
         </motion.div>
       </section>
 

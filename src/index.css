@@ -237,3 +237,13 @@ body {
 .animate-gradient {
   animation: gradient 3s ease infinite;
 }
+
+/* Carousel progress animation */
+@keyframes progress {
+  0% {
+    stroke-dashoffset: 62.83;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
