@@ -15,7 +15,7 @@ interface ImmersiveTimelineProps {
 export function ImmersiveTimeline({ weeks }: ImmersiveTimelineProps) {
   return (
     <div className="relative py-20">
-      <div className="relative space-y-8 lg:space-y-12">
+      <div className="relative space-y-4 lg:space-y-6">
         {weeks.map((week, idx) => (
           <TimelineItem
             key={week.week}
@@ -52,7 +52,7 @@ function TimelineItem({ week, index, totalWeeks }: TimelineItemProps) {
   const circleOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0.3]);
 
   return (
-    <div ref={itemRef} className="relative min-h-[50vh] flex items-center justify-center">
+    <div ref={itemRef} className="relative min-h-[30vh] flex items-center justify-center">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <motion.div
           style={{ scale: circleScale, opacity: circleOpacity }}
