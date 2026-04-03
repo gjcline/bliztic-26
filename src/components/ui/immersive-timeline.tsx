@@ -51,6 +51,8 @@ function TimelineItem({ week, index, totalWeeks }: TimelineItemProps) {
   const circleScale = useTransform(scrollYProgress, [0, 0.5], [0, 1]);
   const circleOpacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0.3]);
 
+  const isLeft = index % 2 === 0;
+
   return (
     <div ref={itemRef} className="relative min-h-[30vh] flex items-center justify-center">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -68,7 +70,9 @@ function TimelineItem({ week, index, totalWeeks }: TimelineItemProps) {
           y,
           transformPerspective: 1200
         }}
-        className="relative max-w-3xl w-full mx-auto px-4"
+        className={`relative max-w-3xl w-full px-4 ${
+          isLeft ? 'mr-auto lg:ml-0' : 'ml-auto lg:mr-0'
+        }`}
       >
         <div className="relative border border-white/10 rounded-3xl p-10 md:p-12 bg-gradient-to-br from-ink1 via-ink2 to-ink3 overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
