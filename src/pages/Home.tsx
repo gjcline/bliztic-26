@@ -92,7 +92,7 @@ const Home: React.FC = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-lg md:text-xl text-white/60 max-w-2xl mb-12 leading-relaxed"
         >
-          Bliztic installs and operates a <strong className="text-white/80 font-medium">proprietary sales engine</strong> inside your company. strategy, systems, staff, and execution. <strong className="text-white/80 font-medium">Live in 30 days. Or you don't pay.</strong>
+          Bliztic installs and operates a <strong className="text-white/80 font-medium">proprietary sales engine</strong> inside your company. <strong className="text-white/80 font-medium">Live in 30 days. Or you don't pay.</strong>
         </motion.p>
 
         <motion.div
