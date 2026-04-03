@@ -591,7 +591,7 @@ const Home: React.FC = () => {
           </h2>
 
           <p className="text-white/60 max-w-2xl mx-auto mb-8 leading-relaxed">
-            Most firms take 6 months to deliver what Revenue Division as a Service deploys in 30 days. Here's exactly how it works.
+            Most firms take 6 months to deliver what Bliztic deploys in 30 days. Here's exactly how it works.
           </p>
         </div>
 
