@@ -329,33 +329,37 @@ const Home: React.FC = () => {
           })}
         </div>
 
-        {/* Central Expand/Collapse Button */}
-        <div className="flex flex-col items-center mt-8 mb-8">
-          <div className="w-[1px] h-6 bg-gradient-to-b from-blue-500/40 to-blue-500/10" />
-          <motion.button
+        {/* Central Expand/Collapse with Connecting Lines */}
+        <div className="relative flex flex-col items-center mt-12 mb-8">
+          {/* Connecting Lines from Cards */}
+          <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-full max-w-5xl h-16 pointer-events-none">
+            <svg className="w-full h-full" viewBox="0 0 1000 100" preserveAspectRatio="none">
+              {/* Four lines converging to center */}
+              <line x1="125" y1="0" x2="500" y2="100" stroke="rgba(59, 130, 246, 0.3)" strokeWidth="2" />
+              <line x1="375" y1="0" x2="500" y2="100" stroke="rgba(59, 130, 246, 0.3)" strokeWidth="2" />
+              <line x1="625" y1="0" x2="500" y2="100" stroke="rgba(59, 130, 246, 0.3)" strokeWidth="2" />
+              <line x1="875" y1="0" x2="500" y2="100" stroke="rgba(59, 130, 246, 0.3)" strokeWidth="2" />
+            </svg>
+          </div>
+
+          {/* Clickable Arrow Button */}
+          <button
             onClick={() => setAllExpanded(!allExpanded)}
-            className="flex flex-col items-center gap-0 text-blue-400/50 hover:text-blue-400/80 transition-colors cursor-pointer group"
-            animate={{
-              y: [0, 3, 0]
-            }}
-            transition={{
-              duration: 1.5,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
+            className="relative z-10 flex flex-col items-center gap-2 px-8 py-6 rounded-full bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-2 border-blue-500/30 hover:border-blue-400/60 hover:bg-blue-500/20 transition-all duration-300 cursor-pointer group"
           >
             {!allExpanded ? (
-              <>
-                <ChevronDown className="w-3 h-3" />
-                <ChevronDown className="w-3 h-3 -mt-1.5" />
-              </>
+              <ChevronDown className="w-8 h-8 text-blue-400 group-hover:text-blue-300 transition-colors" />
             ) : (
-              <>
-                <ChevronDown className="w-3 h-3 rotate-180" />
-                <ChevronDown className="w-3 h-3 -mt-1.5 rotate-180" />
-              </>
+              <ChevronDown className="w-8 h-8 text-blue-400 group-hover:text-blue-300 transition-colors rotate-180" />
             )}
-          </motion.button>
+          </button>
+
+          {/* Three Dots with Fade Out */}
+          <div className="flex flex-col items-center gap-2 mt-3">
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-400/60" />
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-400/30" />
+            <div className="w-1.5 h-1.5 rounded-full bg-blue-400/10" />
+          </div>
         </div>
 
         {/* CTA after Four Pillars */}
