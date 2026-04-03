@@ -208,9 +208,11 @@ const Home: React.FC = () => {
               name: 'STRATEGY',
               tag: 'The blueprint before the bullets.',
               itemsShort: [
-                'Revenue Architecture',
-                'ICP & Market Mapping',
-                'GTM Blueprint'
+                'Revenue Architecture Design',
+                'ICP and Market Mapping',
+                'Offer Positioning and Messaging',
+                'GTM Blueprint Delivery',
+                'Channel Selection and Sequencing'
               ],
               itemsFull: [
                 'Revenue Architecture Design',
@@ -227,9 +229,11 @@ const Home: React.FC = () => {
               name: 'SYSTEMS',
               tag: 'The infrastructure that never sleeps.',
               itemsShort: [
-                'CRM Configuration',
-                'Sales Operating System',
-                'Automation Engine'
+                'CRM Architecture and Configuration',
+                'Sales Operating System Build',
+                'Outreach Automation Engine',
+                'Lead Scoring and Routing Logic',
+                'Tech Stack Deployment'
               ],
               itemsFull: [
                 'CRM Architecture and Configuration',
@@ -246,9 +250,11 @@ const Home: React.FC = () => {
               name: 'STAFF',
               tag: 'The division that runs under your brand.',
               itemsShort: [
-                'Fractional CRO',
-                'SDR & Closers',
-                'Pre-Trained Team'
+                'Fractional CRO Leadership',
+                'SDR and Closer Deployment',
+                'Sales Management and Oversight',
+                'White-Label Team Under Your Brand',
+                'Dedicated Account Management'
               ],
               itemsFull: [
                 'Fractional CRO Leadership',
@@ -265,9 +271,11 @@ const Home: React.FC = () => {
               name: 'EXECUTION',
               tag: 'The operation that owns the result.',
               itemsShort: [
-                'Pipeline Management',
-                'Deal Optimization',
-                'Revenue Reporting'
+                'Active Pipeline Management',
+                'Deal Velocity Optimization',
+                'Weekly Performance Reviews',
+                'Ongoing Sequence Optimization',
+                'Sales Cycle Compression'
               ],
               itemsFull: [
                 'Active Pipeline Management',
@@ -309,15 +317,25 @@ const Home: React.FC = () => {
                   {pillar.tag}
                 </p>
 
-                <div className="space-y-3">
-                  {(pillarsExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => (
-                    <div key={i} className="flex items-start gap-3 group/item">
-                      <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0 group-hover/item:scale-150 transition-transform duration-300" />
-                      <div className="text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300">
-                        {item}
+                <div className="space-y-3 relative">
+                  {(pillarsExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => {
+                    const totalItems = pillarsExpanded ? pillar.itemsFull.length : pillar.itemsShort.length;
+                    const isFaded = !pillarsExpanded && i >= totalItems - 2;
+                    const fadeOpacity = !pillarsExpanded && i === totalItems - 2 ? 0.4 : (!pillarsExpanded && i === totalItems - 1 ? 0.2 : 1);
+
+                    return (
+                      <div
+                        key={i}
+                        className="flex items-start gap-3 group/item"
+                        style={{ opacity: fadeOpacity }}
+                      >
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0 group-hover/item:scale-150 transition-transform duration-300" />
+                        <div className={`text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300 ${isFaded ? 'blur-[0.5px]' : ''}`}>
+                          {item}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
@@ -345,22 +363,33 @@ const Home: React.FC = () => {
           {!pillarsExpanded && (
             <button
               onClick={() => setPillarsExpanded(true)}
-              className="group inline-flex items-center gap-2 px-10 py-4 rounded-lg border border-white/10 text-white/80 font-semibold text-base tracking-wide hover:border-blue-500 hover:text-white hover:bg-blue-500/5 transition-all duration-200 relative"
+              className="group inline-flex items-center gap-2 px-10 py-4 rounded-lg border-2 border-cyan-400/40 text-white font-semibold text-base tracking-wide hover:border-cyan-400 hover:bg-cyan-500/10 transition-all duration-200 relative overflow-hidden"
             >
               <motion.div
-                className="absolute inset-0 rounded-lg border-2 border-blue-400/30"
+                className="absolute inset-0 rounded-lg border-2 border-cyan-400"
                 animate={{
-                  scale: [1, 1.05, 1],
-                  opacity: [0.5, 0.8, 0.5]
+                  scale: [1, 1.1, 1],
+                  opacity: [0.3, 0.7, 0.3]
                 }}
                 transition={{
-                  duration: 2,
+                  duration: 1.5,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
               />
-              Expand Details
-              <ChevronDown className="w-5 h-5 group-hover:translate-y-0.5 transition-transform" />
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20"
+                animate={{
+                  opacity: [0.2, 0.4, 0.2]
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              />
+              <span className="relative z-10">Expand Details</span>
+              <ChevronDown className="w-5 h-5 group-hover:translate-y-0.5 transition-transform relative z-10" />
             </button>
           )}
         </motion.div>
