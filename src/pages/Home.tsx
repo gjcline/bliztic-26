@@ -209,10 +209,7 @@ const Home: React.FC = () => {
               tag: 'The blueprint before the bullets.',
               itemsShort: [
                 'Revenue Architecture Design',
-                'ICP and Market Mapping',
-                'Offer Positioning and Messaging',
-                'GTM Blueprint Delivery',
-                'Channel Selection and Sequencing'
+                'ICP and Market Mapping'
               ],
               itemsFull: [
                 'Revenue Architecture Design',
@@ -230,10 +227,7 @@ const Home: React.FC = () => {
               tag: 'The infrastructure that never sleeps.',
               itemsShort: [
                 'CRM Architecture and Configuration',
-                'Sales Operating System Build',
-                'Outreach Automation Engine',
-                'Lead Scoring and Routing Logic',
-                'Tech Stack Deployment'
+                'Sales Operating System Build'
               ],
               itemsFull: [
                 'CRM Architecture and Configuration',
@@ -251,10 +245,7 @@ const Home: React.FC = () => {
               tag: 'The division that runs under your brand.',
               itemsShort: [
                 'Fractional CRO Leadership',
-                'SDR and Closer Deployment',
-                'Sales Management and Oversight',
-                'White-Label Team Under Your Brand',
-                'Dedicated Account Management'
+                'SDR and Closer Deployment'
               ],
               itemsFull: [
                 'Fractional CRO Leadership',
@@ -272,10 +263,7 @@ const Home: React.FC = () => {
               tag: 'The operation that owns the result.',
               itemsShort: [
                 'Active Pipeline Management',
-                'Deal Velocity Optimization',
-                'Weekly Performance Reviews',
-                'Ongoing Sequence Optimization',
-                'Sales Cycle Compression'
+                'Deal Velocity Optimization'
               ],
               itemsFull: [
                 'Active Pipeline Management',
@@ -318,25 +306,17 @@ const Home: React.FC = () => {
                 </p>
 
                 <div className="space-y-3 relative">
-                  {(pillarsExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => {
-                    const totalItems = pillarsExpanded ? pillar.itemsFull.length : pillar.itemsShort.length;
-                    const isFaded = !pillarsExpanded && i >= totalItems - 2;
-                    const fadeOpacity = !pillarsExpanded && i === totalItems - 2 ? 0.3 : (!pillarsExpanded && i === totalItems - 1 ? 0.15 : 1);
-                    const blurAmount = !pillarsExpanded && i === totalItems - 2 ? 'blur-[2px]' : (!pillarsExpanded && i === totalItems - 1 ? 'blur-[3px]' : '');
-
-                    return (
-                      <div
-                        key={i}
-                        className="flex items-start gap-3 group/item"
-                        style={{ opacity: fadeOpacity }}
-                      >
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0 group-hover/item:scale-150 transition-transform duration-300" />
-                        <div className={`text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300 ${blurAmount}`}>
-                          {item}
-                        </div>
+                  {(pillarsExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => (
+                    <div
+                      key={i}
+                      className="flex items-start gap-3 group/item"
+                    >
+                      <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0 group-hover/item:scale-150 transition-transform duration-300" />
+                      <div className="text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300">
+                        {item}
                       </div>
-                    );
-                  })}
+                    </div>
+                  ))}
                 </div>
 
                 {!pillarsExpanded && (
