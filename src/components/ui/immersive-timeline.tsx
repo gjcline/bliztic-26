@@ -167,7 +167,7 @@ function TimelineItem({ week, index, totalWeeks }: TimelineItemProps) {
       </div>
 
       {!isLast && (
-        <div className="relative h-16 lg:h-20 pointer-events-none">
+        <div className="relative h-24 lg:h-32 pointer-events-none">
           <svg
             className="absolute inset-0 w-full h-full"
             preserveAspectRatio="none"
@@ -176,23 +176,22 @@ function TimelineItem({ week, index, totalWeeks }: TimelineItemProps) {
             <motion.path
               d={
                 isLeft
-                  ? "M 25 0 Q 50 50, 75 100"
-                  : "M 75 0 Q 50 50, 25 100"
+                  ? "M 25 0 L 25 40 L 75 60 L 75 100"
+                  : "M 75 0 L 75 40 L 25 60 L 25 100"
               }
               stroke="url(#gradient)"
-              strokeWidth="0.5"
+              strokeWidth="1.5"
               fill="none"
-              strokeDasharray="4 4"
               initial={{ pathLength: 0, opacity: 0 }}
-              whileInView={{ pathLength: 1, opacity: 0.3 }}
+              whileInView={{ pathLength: 1, opacity: 0.6 }}
               transition={{ duration: 1, delay: 0.2 }}
               viewport={{ once: true }}
             />
             <defs>
               <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.4" />
-                <stop offset="50%" stopColor="#22d3ee" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#60a5fa" stopOpacity="0.4" />
+                <stop offset="0%" stopColor="#60a5fa" stopOpacity="0.7" />
+                <stop offset="50%" stopColor="#22d3ee" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#60a5fa" stopOpacity="0.7" />
               </linearGradient>
             </defs>
           </svg>
