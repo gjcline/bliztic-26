@@ -69,7 +69,7 @@ const Footer: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.15 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-sm font-medium text-white uppercase tracking-wider mb-4">Services</h3>
+            <h3 className="text-sm font-medium text-white uppercase tracking-wider mb-4">Resources</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/gtm" onClick={() => window.scrollTo(0, 0)} className="text-white/40 hover:text-white transition-colors">GTM</Link>
