@@ -2,22 +2,16 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  Zap,
-  Target,
-  Building2,
-  TrendingUp,
   ArrowRight,
   Check,
   X,
-  Circle,
-  ChevronDown
+  Circle
 } from 'lucide-react';
 import WhoWeAreSection from '../components/WhoWeAreSection';
 import { ImmersiveTimeline } from '../components/ui/immersive-timeline';
 
 const Home: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
-  const [allExpanded, setAllExpanded] = useState(false);
 
   return (
     <div className="relative min-h-screen bg-[#030303] overflow-x-hidden">
@@ -201,17 +195,14 @@ const Home: React.FC = () => {
           Every competitor covers one or two. Revenue Division as a Service owns all four. and delivers them as a single integrated engine inside your company.
         </p>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {/* Desktop: Grid Layout */}
+        <div className="hidden lg:grid lg:grid-cols-4 gap-4">
           {[
             {
               num: '01',
               name: 'STRATEGY',
               tag: 'The blueprint before the bullets.',
-              itemsShort: [
-                'Revenue Architecture Design',
-                'ICP and Market Mapping'
-              ],
-              itemsFull: [
+              items: [
                 'Revenue Architecture Design',
                 'ICP and Market Mapping',
                 'Offer Positioning and Messaging',
@@ -225,11 +216,7 @@ const Home: React.FC = () => {
               num: '02',
               name: 'SYSTEMS',
               tag: 'The infrastructure that never sleeps.',
-              itemsShort: [
-                'CRM Architecture and Configuration',
-                'Sales Operating System Build'
-              ],
-              itemsFull: [
+              items: [
                 'CRM Architecture and Configuration',
                 'Sales Operating System Build',
                 'Outreach Automation Engine',
@@ -243,11 +230,7 @@ const Home: React.FC = () => {
               num: '03',
               name: 'STAFF',
               tag: 'The division that runs under your brand.',
-              itemsShort: [
-                'Fractional CRO Leadership',
-                'SDR and Closer Deployment'
-              ],
-              itemsFull: [
+              items: [
                 'Fractional CRO Leadership',
                 'SDR and Closer Deployment',
                 'Sales Management and Oversight',
@@ -261,11 +244,7 @@ const Home: React.FC = () => {
               num: '04',
               name: 'EXECUTION',
               tag: 'The operation that owns the result.',
-              itemsShort: [
-                'Active Pipeline Management',
-                'Deal Velocity Optimization'
-              ],
-              itemsFull: [
+              items: [
                 'Active Pipeline Management',
                 'Deal Velocity Optimization',
                 'Weekly Performance Reviews',
@@ -306,28 +285,31 @@ const Home: React.FC = () => {
                 </p>
 
                 <div className="space-y-3 relative">
-                  {(allExpanded ? pillar.itemsFull : pillar.itemsFull.slice(0, 3)).map((item, i) => {
-                    let opacityClass = '';
-                    let blurClass = '';
+                  {pillar.items.map((item, i) => {
+                    const totalItems = pillar.items.length;
+                    const isLastFour = i >= totalItems - 4;
 
-                    if (!allExpanded) {
-                      if (i === 0) {
-                        opacityClass = 'opacity-100';
-                      } else if (i === 1) {
-                        opacityClass = 'opacity-20';
-                      } else if (i === 2) {
-                        opacityClass = 'opacity-10 blur-[1px]';
-                        blurClass = 'blur-[1px]';
+                    let blurClass = '';
+                    if (isLastFour) {
+                      const distanceFromEnd = totalItems - 1 - i;
+                      if (distanceFromEnd === 3) {
+                        blurClass = 'blur-[0.5px] group-hover:blur-0';
+                      } else if (distanceFromEnd === 2) {
+                        blurClass = 'blur-[1px] group-hover:blur-0';
+                      } else if (distanceFromEnd === 1) {
+                        blurClass = 'blur-[1.5px] group-hover:blur-0';
+                      } else if (distanceFromEnd === 0) {
+                        blurClass = 'blur-[2px] group-hover:blur-0';
                       }
                     }
 
                     return (
                       <div
                         key={i}
-                        className={`flex items-start gap-3 group/item ${opacityClass}`}
+                        className={`flex items-start gap-3 transition-all duration-300 ${blurClass}`}
                       >
-                        <div className={`w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0 group-hover/item:scale-150 transition-transform duration-300 ${blurClass}`} />
-                        <div className={`text-sm text-white/70 font-medium group-hover/item:text-white/90 transition-colors duration-300 ${blurClass}`}>
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0" />
+                        <div className="text-sm text-white/70 font-medium group-hover:text-white/90 transition-colors duration-300">
                           {item}
                         </div>
                       </div>
@@ -340,99 +322,116 @@ const Home: React.FC = () => {
           })}
         </div>
 
-        {/* Central Expand/Collapse with Connecting Lines */}
-        <div className="relative flex flex-col items-center mt-12 mb-8">
-          {/* Connecting Lines from Cards with Animation */}
-          <div className="absolute bottom-full left-1/2 -translate-x-1/2 w-full max-w-5xl h-16 pointer-events-none">
-            <svg className="w-full h-full" viewBox="0 0 1000 100" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" stopColor="rgba(59, 130, 246, 0.1)" />
-                  <stop offset="100%" stopColor="rgba(59, 130, 246, 0.5)" />
-                </linearGradient>
-              </defs>
+        {/* Mobile: Carousel Layout */}
+        <div className="lg:hidden relative">
+          <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 hide-scrollbar">
+            {[
+              {
+                num: '01',
+                name: 'STRATEGY',
+                tag: 'The blueprint before the bullets.',
+                items: [
+                  'Revenue Architecture Design',
+                  'ICP and Market Mapping',
+                  'Offer Positioning and Messaging',
+                  'GTM Blueprint Delivery',
+                  'Channel Selection and Sequencing',
+                  'KPI Framework and Revenue Targets',
+                  'Pipeline Design and Funnel Architecture'
+                ]
+              },
+              {
+                num: '02',
+                name: 'SYSTEMS',
+                tag: 'The infrastructure that never sleeps.',
+                items: [
+                  'CRM Architecture and Configuration',
+                  'Sales Operating System Build',
+                  'Outreach Automation Engine',
+                  'Lead Scoring and Routing Logic',
+                  'Tech Stack Deployment',
+                  'Sales Playbook Documentation',
+                  'Pipeline Intelligence and Dashboards'
+                ]
+              },
+              {
+                num: '03',
+                name: 'STAFF',
+                tag: 'The division that runs under your brand.',
+                items: [
+                  'Fractional CRO Leadership',
+                  'SDR and Closer Deployment',
+                  'Sales Management and Oversight',
+                  'White-Label Team Under Your Brand',
+                  'Dedicated Account Management',
+                  'Staff Operating on Bliztic IP',
+                  'Pre-Trained and Ready Day One'
+                ]
+              },
+              {
+                num: '04',
+                name: 'EXECUTION',
+                tag: 'The operation that owns the result.',
+                items: [
+                  'Active Pipeline Management',
+                  'Deal Velocity Optimization',
+                  'Weekly Performance Reviews',
+                  'Ongoing Sequence Optimization',
+                  'Sales Cycle Compression',
+                  'Monthly Revenue Reporting',
+                  'Full Revenue Accountability'
+                ]
+              }
+            ].map((pillar, idx) => (
+              <motion.div
+                key={pillar.num}
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                className="relative bg-ink2 border border-white/5 rounded-xl p-6 overflow-hidden snap-center flex-shrink-0 w-[85vw] sm:w-[70vw] md:w-[45vw]"
+              >
+                <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 opacity-50" />
 
-              {/* Four lines converging to center with gradient */}
-              <line x1="125" y1="0" x2="500" y2="100" stroke="url(#lineGradient)" strokeWidth="2">
-                <animate attributeName="stroke-opacity" values="0.3;0.6;0.3" dur="2s" repeatCount="indefinite" />
-              </line>
-              <line x1="375" y1="0" x2="500" y2="100" stroke="url(#lineGradient)" strokeWidth="2">
-                <animate attributeName="stroke-opacity" values="0.3;0.6;0.3" dur="2s" begin="0.2s" repeatCount="indefinite" />
-              </line>
-              <line x1="625" y1="0" x2="500" y2="100" stroke="url(#lineGradient)" strokeWidth="2">
-                <animate attributeName="stroke-opacity" values="0.3;0.6;0.3" dur="2s" begin="0.4s" repeatCount="indefinite" />
-              </line>
-              <line x1="875" y1="0" x2="500" y2="100" stroke="url(#lineGradient)" strokeWidth="2">
-                <animate attributeName="stroke-opacity" values="0.3;0.6;0.3" dur="2s" begin="0.6s" repeatCount="indefinite" />
-              </line>
+                <div className="absolute bottom-[-2rem] right-[-1rem] text-[6rem] font-extrabold text-white/[0.02] pointer-events-none select-none">
+                  {idx + 1}
+                </div>
 
-              {/* Moving dots along the lines */}
-              <circle r="3" fill="rgba(59, 130, 246, 0.8)">
-                <animateMotion dur="2.5s" repeatCount="indefinite">
-                  <mpath href="#path1" />
-                </animateMotion>
-              </circle>
-              <circle r="3" fill="rgba(59, 130, 246, 0.8)">
-                <animateMotion dur="2.5s" begin="0.3s" repeatCount="indefinite">
-                  <mpath href="#path2" />
-                </animateMotion>
-              </circle>
-              <circle r="3" fill="rgba(59, 130, 246, 0.8)">
-                <animateMotion dur="2.5s" begin="0.6s" repeatCount="indefinite">
-                  <mpath href="#path3" />
-                </animateMotion>
-              </circle>
-              <circle r="3" fill="rgba(59, 130, 246, 0.8)">
-                <animateMotion dur="2.5s" begin="0.9s" repeatCount="indefinite">
-                  <mpath href="#path4" />
-                </animateMotion>
-              </circle>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-500/30 flex items-center justify-center">
+                      <div className="text-sm font-bold text-blue-400">{pillar.num}</div>
+                    </div>
+                    <h3 className="text-xl font-extrabold tracking-tight text-white">
+                      {pillar.name}
+                    </h3>
+                  </div>
 
-              {/* Hidden paths for animation */}
-              <path id="path1" d="M 125 0 L 500 100" fill="none" />
-              <path id="path2" d="M 375 0 L 500 100" fill="none" />
-              <path id="path3" d="M 625 0 L 500 100" fill="none" />
-              <path id="path4" d="M 875 0 L 500 100" fill="none" />
-            </svg>
+                  <p className="text-xs text-blue-400/80 mb-6 leading-relaxed">
+                    {pillar.tag}
+                  </p>
+
+                  <div className="space-y-3">
+                    {pillar.items.map((item, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0" />
+                        <div className="text-sm text-white/70 font-medium">
+                          {item}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
-          {/* Clickable Arrow Button with Pulse */}
-          <motion.button
-            onClick={() => setAllExpanded(!allExpanded)}
-            className="relative z-10 flex flex-col items-center gap-2 px-8 py-6 rounded-full bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-2 border-blue-500/30 hover:border-blue-400/60 hover:bg-blue-500/20 transition-all duration-300 cursor-pointer group"
-            animate={{
-              scale: [1, 1.05, 1],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            <motion.div
-              className="absolute inset-0 rounded-full border-2 border-blue-400/40"
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.5, 0, 0.5]
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            />
-            {!allExpanded ? (
-              <ChevronDown className="w-8 h-8 text-blue-400 group-hover:text-blue-300 transition-colors" />
-            ) : (
-              <ChevronDown className="w-8 h-8 text-blue-400 group-hover:text-blue-300 transition-colors rotate-180" />
-            )}
-          </motion.button>
-
-          {/* Three Dots with Fade Out */}
-          <div className="flex flex-col items-center gap-2 mt-3">
-            <div className="w-1.5 h-1.5 rounded-full bg-blue-400/60" />
-            <div className="w-1.5 h-1.5 rounded-full bg-blue-400/30" />
-            <div className="w-1.5 h-1.5 rounded-full bg-blue-400/10" />
+          {/* Scroll Indicator */}
+          <div className="flex justify-center gap-2 mt-6">
+            <div className="w-2 h-2 rounded-full bg-blue-400/60" />
+            <div className="w-2 h-2 rounded-full bg-blue-400/30" />
+            <div className="w-2 h-2 rounded-full bg-blue-400/30" />
+            <div className="w-2 h-2 rounded-full bg-blue-400/30" />
           </div>
         </div>
 
