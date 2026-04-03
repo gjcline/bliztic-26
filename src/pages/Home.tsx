@@ -17,7 +17,7 @@ import { ImmersiveTimeline } from '../components/ui/immersive-timeline';
 
 const Home: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
-  const [pillarsExpanded, setPillarsExpanded] = useState(false);
+  const [expandedPillars, setExpandedPillars] = useState<number[]>([]);
 
   return (
     <div className="relative min-h-screen bg-[#030303] overflow-x-hidden">
@@ -275,16 +275,25 @@ const Home: React.FC = () => {
                 'Full Revenue Accountability'
               ]
             }
-          ].map((pillar, idx) => (
-            <motion.div
-              key={pillar.num}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: idx * 0.1 }}
-              viewport={{ once: true }}
-              onClick={() => setPillarsExpanded(true)}
-              className="relative bg-ink2 border border-white/5 rounded-xl p-6 lg:p-8 overflow-hidden group hover:border-blue-500/30 transition-all duration-500 cursor-pointer"
-            >
+          ].map((pillar, idx) => {
+            const isExpanded = expandedPillars.includes(idx);
+
+            return (
+              <motion.div
+                key={pillar.num}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
+                viewport={{ once: true }}
+                onClick={() => {
+                  if (isExpanded) {
+                    setExpandedPillars(expandedPillars.filter(i => i !== idx));
+                  } else {
+                    setExpandedPillars([...expandedPillars, idx]);
+                  }
+                }}
+                className="relative bg-ink2 border border-white/5 rounded-xl p-6 lg:p-8 overflow-hidden group hover:border-blue-500/30 transition-all duration-500 cursor-pointer"
+              >
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-cyan-500 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <div className="absolute bottom-[-2rem] right-[-1rem] text-[6rem] font-extrabold text-white/[0.02] pointer-events-none select-none transition-all duration-500 group-hover:text-white/[0.04]">
@@ -306,7 +315,7 @@ const Home: React.FC = () => {
                 </p>
 
                 <div className="space-y-3 relative">
-                  {(pillarsExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => (
+                  {(isExpanded ? pillar.itemsFull : pillar.itemsShort).map((item, i) => (
                     <div
                       key={i}
                       className="flex items-start gap-3 group/item"
@@ -319,7 +328,7 @@ const Home: React.FC = () => {
                   ))}
                 </div>
 
-                {!pillarsExpanded && (
+                {!isExpanded && (
                   <div className="flex justify-center mt-6 pt-4 border-t border-white/5">
                     <motion.div
                       className="flex flex-col items-center gap-1 text-blue-400/60"
@@ -339,7 +348,8 @@ const Home: React.FC = () => {
                 )}
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
 
         {/* CTA after Four Pillars */}
@@ -360,9 +370,9 @@ const Home: React.FC = () => {
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
 
-          {!pillarsExpanded && (
+          {expandedPillars.length < 4 && (
             <button
-              onClick={() => setPillarsExpanded(true)}
+              onClick={() => setExpandedPillars([0, 1, 2, 3])}
               className="group inline-flex items-center gap-2 px-10 py-4 rounded-lg border-2 border-cyan-400/40 text-white font-semibold text-base tracking-wide hover:border-cyan-400 hover:bg-cyan-500/10 transition-all duration-200 relative overflow-hidden"
             >
               <motion.div
