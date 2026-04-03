@@ -431,7 +431,7 @@ const Home: React.FC = () => {
                     <>
                       <li className="text-sm text-white/70 flex items-start gap-2">
                         <X className="w-4 h-4 text-red-400/60 mt-0.5 flex-shrink-0" />
-                        Strategy only—no system build or deployment
+                        Strategy only, no system build or deployment
                       </li>
                       <li className="text-sm text-white/70 flex items-start gap-2">
                         <X className="w-4 h-4 text-red-400/60 mt-0.5 flex-shrink-0" />
