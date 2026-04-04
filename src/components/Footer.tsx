@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
               <span className="ml-2 text-xl font-bold text-white">Bliztic</span>
             </div>
             <p className="text-white/40 mb-4">
-              Accelerating Business Growth Through Smart Automation
+              Your all-encompassing revenue division.
             </p>
             <div className="flex space-x-4">
               <a href="https://www.linkedin.com/company/bliztic/" className="text-white/40 hover:text-white transition-colors" aria-label="LinkedIn">
@@ -53,12 +53,6 @@ const Footer: React.FC = () => {
               </li>
               <li>
                 <Link to="/about" onClick={() => window.scrollTo(0, 0)} className="text-white/40 hover:text-white transition-colors">About</Link>
-              </li>
-              <li>
-                <Link to="/blog" onClick={() => window.scrollTo(0, 0)} className="text-white/40 hover:text-white transition-colors">Blog</Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-white/40 hover:text-white transition-colors" onClick={() => window.scrollTo(0, 0)}>Contact</Link>
               </li>
             </ul>
           </motion.div>
@@ -118,11 +112,6 @@ const Footer: React.FC = () => {
               <li className="flex items-center">
                 <Mail className="h-5 w-5 text-white/40 mr-2 flex-shrink-0" />
                 <span className="text-white/40">info@bliztic.com</span>
-              </li>
-              <li className="flex items-center pt-2">
-                <Link to="/contact" className="text-white inline-flex items-center group" onClick={() => window.scrollTo(0, 0)}>
-                  Get in touch <ExternalLink className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
-                </Link>
               </li>
             </ul>
           </motion.div>

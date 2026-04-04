@@ -90,7 +90,7 @@ const Navbar: React.FC = () => {
                   isOtherOpen ? "text-white" : "text-white/60 hover:text-white"
                 )}
               >
-                Other
+                Resources
                 <ChevronDown className={cn(
                   "h-4 w-4 transition-transform",
                   isOtherOpen && "rotate-180"
@@ -182,7 +182,7 @@ const Navbar: React.FC = () => {
               Home
             </Link>
             <div className="pt-2 mt-2 border-t border-white/5">
-              <p className="px-3 py-1 text-xs font-medium text-white/40 uppercase tracking-wider">Other</p>
+              <p className="px-3 py-1 text-xs font-medium text-white/40 uppercase tracking-wider">Resources</p>
               {otherItems.map((item) => (
                 <Link
                   key={item.path}

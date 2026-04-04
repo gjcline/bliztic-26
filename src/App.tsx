@@ -42,7 +42,7 @@ function App() {
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/service" element={<Service />} />
           <Route path="/systems-audit" element={<ExternalRedirect url="https://cdr.bliztic.com" />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/contact" element={<Navigate to="/qualify" replace />} />
           <Route path="/fund" element={<Fund />} />
           <Route path="/gtm" element={<GTM />} />
           <Route path="/gtm-fund" element={<GTMFund />} />
