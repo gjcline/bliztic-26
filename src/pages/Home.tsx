@@ -577,7 +577,8 @@ const Home: React.FC = () => {
             transition={{ duration: 0.3 }}
             className="overflow-x-auto"
           >
-            <table className="w-full border border-white/20 rounded-lg overflow-hidden">
+            {/* Desktop Table - Hidden on Mobile */}
+            <table className="hidden md:table w-full border border-white/20 rounded-lg overflow-hidden">
               <thead>
                 <tr className="bg-ink2">
                   <th className="text-left p-4 text-sm font-bold text-white/80 border-b border-r border-white/20">Service</th>
@@ -615,6 +616,39 @@ const Home: React.FC = () => {
                   <td className="p-4 text-center border-r border-white/20"><X className="w-5 h-5 text-red-400/60 mx-auto" /></td>
                   <td className="p-4 text-center border-r border-white/20"><Circle className="w-5 h-5 text-yellow-400/60 mx-auto" /></td>
                   <td className="p-4 text-center bg-blue-500/5"><Check className="w-5 h-5 text-green-400 mx-auto" /></td>
+                </tr>
+              </tbody>
+            </table>
+
+            {/* Mobile Table - Visible on Mobile Only */}
+            <table className="md:hidden w-full border border-white/20 rounded-lg overflow-hidden">
+              <thead>
+                <tr className="bg-ink2">
+                  <th className="text-left p-3 text-xs font-bold text-white/80 border-b border-r border-white/20">Service</th>
+                  <th className="text-center p-3 text-xs font-bold text-red-400 border-b border-r border-white/20">Alternatives</th>
+                  <th className="text-center p-3 text-xs font-bold text-blue-400 border-b border-white/20 bg-blue-500/5">Revenue Division as a Service</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
+                  <td className="p-3 text-xs font-medium text-white border-r border-white/20">Strategy</td>
+                  <td className="p-3 text-center border-r border-white/20"><Circle className="w-4 h-4 text-yellow-400/60 mx-auto" /></td>
+                  <td className="p-3 text-center bg-blue-500/5"><Check className="w-4 h-4 text-green-400 mx-auto" /></td>
+                </tr>
+                <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
+                  <td className="p-3 text-xs font-medium text-white border-r border-white/20">Systems</td>
+                  <td className="p-3 text-center border-r border-white/20"><Check className="w-4 h-4 text-green-400/60 mx-auto" /></td>
+                  <td className="p-3 text-center bg-blue-500/5"><Check className="w-4 h-4 text-green-400 mx-auto" /></td>
+                </tr>
+                <tr className="border-b border-white/20 hover:bg-ink2 transition-colors">
+                  <td className="p-3 text-xs font-medium text-white border-r border-white/20">Staff</td>
+                  <td className="p-3 text-center border-r border-white/20"><X className="w-4 h-4 text-red-400/60 mx-auto" /></td>
+                  <td className="p-3 text-center bg-blue-500/5"><Check className="w-4 h-4 text-green-400 mx-auto" /></td>
+                </tr>
+                <tr className="hover:bg-ink2 transition-colors">
+                  <td className="p-3 text-xs font-medium text-white border-r border-white/20">Execution</td>
+                  <td className="p-3 text-center border-r border-white/20"><X className="w-4 h-4 text-red-400/60 mx-auto" /></td>
+                  <td className="p-3 text-center bg-blue-500/5"><Check className="w-4 h-4 text-green-400 mx-auto" /></td>
                 </tr>
               </tbody>
             </table>
