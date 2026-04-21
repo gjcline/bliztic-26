@@ -91,7 +91,7 @@ export default function WhoWeAreSection() {
       </h2>
 
       <p className="text-white/60 max-w-lg mb-14 leading-relaxed">
-        Every other solution sells you a piece of the puzzle. Bliztic is the only firm that installs the entire engine. and operates it for you.
+        Every other solution sells you a piece of the puzzle. Bliztic is the only firm that installs the entire engine and operates it for you.
       </p>
 
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">

@@ -216,7 +216,7 @@ const Home: React.FC = () => {
         </h2>
 
         <p className="text-white/60 max-w-lg mb-14 leading-relaxed">
-          Every competitor covers one or two. Revenue Division as a Service owns all four. and delivers them as a single integrated engine inside your company.
+          Every competitor covers one or two. Revenue Division as a Service owns all four and delivers them as a single integrated engine inside your company.
         </p>
 
         {/* Desktop: Grid Layout */}
