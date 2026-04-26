@@ -198,18 +198,6 @@ const Pricing: React.FC = () => {
           <p className="text-base md:text-lg text-white/60 leading-relaxed max-w-lg mb-10">
             No tiers. No fixed packages. Every engagement is priced to the scope of the division we build and scoped individually before a number is ever set.
           </p>
-
-          {/* Minimum spend callout */}
-          <div className="inline-flex items-center gap-4 border border-white/10 rounded-xl px-5 py-4 bg-[#0a0a0a]">
-            <div>
-              <div className="text-2xl font-extrabold tracking-tight text-white font-sans">$5K<span className="text-sm font-medium text-white/40">/mo</span></div>
-            </div>
-            <div className="w-px h-8 bg-white/10" />
-            <div className="text-xs text-white/50 leading-relaxed">
-              <strong className="block text-white/80 font-semibold">Minimum monthly investment</strong>
-              to become a core client.
-            </div>
-          </div>
         </motion.div>
       </section>
 
