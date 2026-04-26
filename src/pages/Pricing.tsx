@@ -106,11 +106,11 @@ const Pricing: React.FC = () => {
   const [dealSize,  setDealSize]  = useState('');
   const [markets,   setMarkets]   = useState('');
   const [infra,     setInfra]     = useState('');
-  const [urgency,   setUrgency]   = useState('');
 
   const [name,     setName]     = useState('');
   const [company,  setCompany]  = useState('');
   const [email,    setEmail]    = useState('');
+  const [phone,    setPhone]    = useState('');
   const [role,     setRole]     = useState('');
 
   const [revealed,   setRevealed]   = useState(false);
@@ -118,16 +118,16 @@ const Pricing: React.FC = () => {
   const [submitting, setSubmitting] = useState(false);
   const [errors,     setErrors]     = useState<Record<string, boolean>>({});
 
-  const allDropdownsFilled = !!(bizType && staffing && revTarget && meetings && dealSize && markets && infra && urgency);
+  const allDropdownsFilled = !!(bizType && staffing && revTarget && meetings && dealSize && markets && infra);
   const canSubmit = allDropdownsFilled && name.trim() && email.trim() && company.trim();
 
   const estimate = useMemo(() => {
     if (!allDropdownsFilled) return null;
     return calcEstimate(
       parseInt(staffing), parseInt(revTarget), parseInt(meetings),
-      parseInt(dealSize), parseInt(markets), parseInt(infra), parseInt(urgency)
+      parseInt(dealSize), parseInt(markets), parseInt(infra), 2
     );
-  }, [bizType, staffing, revTarget, meetings, dealSize, markets, infra, urgency, allDropdownsFilled]);
+  }, [bizType, staffing, revTarget, meetings, dealSize, markets, infra, allDropdownsFilled]);
 
   const staffingHint  = staffing ? STAFFING_HINTS[parseInt(staffing) - 1] : '';
   const staffingLabel = estimate && staffing ? STAFFING_LABELS[parseInt(staffing) - 1] : '—';
@@ -153,9 +153,10 @@ const Pricing: React.FC = () => {
     setSubmitting(true);
     try {
       await supabase.from('pricing_estimates').insert({
-        name: name.trim(), company: company.trim(), email: email.trim(), role: role.trim(),
+        name: name.trim(), company: company.trim(), email: email.trim(),
+        phone: phone.trim(), role: role.trim(),
         biz_type: bizType, staffing, rev_target: revTarget, meetings, deal_size: dealSize,
-        markets, infra, urgency,
+        markets, infra,
         estimate_lo: estimate?.lo, estimate_hi: estimate?.hi, tier: estimate?.tier,
       });
     } catch {
@@ -473,24 +474,21 @@ const Pricing: React.FC = () => {
                   ]}
                 />
 
-                <EstSelect
-                  value={urgency}
-                  onChange={setUrgency}
-                  label="How quickly do you need results?"
-                  options={[
-                    { value: '', label: 'Select timeline...' },
-                    { value: '1', label: 'Within 90 days' },
-                    { value: '2', label: '3 to 6 months' },
-                    { value: '3', label: '6 to 12 months' },
-                  ]}
-                />
-
               </div>
             </motion.div>
 
             {/* RIGHT: Result panel */}
-            <motion.div {...fadeUp} transition={{ duration: 0.6, delay: 0.2 }} className="lg:sticky lg:top-24">
-              <div className="bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden">
+            <motion.div {...fadeUp} transition={{ duration: 0.6, delay: 0.2 }} className="lg:sticky lg:top-24 relative">
+              {/* Pulsing glow ring — appears when all dropdowns filled */}
+              {allDropdownsFilled && !submitted && (
+                <motion.div
+                  className="absolute -inset-px rounded-xl border border-blue-500/60 pointer-events-none z-20"
+                  style={{ boxShadow: '0 0 40px rgba(59,130,246,0.2), 0 0 12px rgba(59,130,246,0.15) inset' }}
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                />
+              )}
+              <div className="bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden relative z-10">
 
                 {/* Panel header */}
                 <div className="bg-[#0f0f0f] px-6 py-4 border-b border-white/5 flex items-center justify-between">
@@ -548,11 +546,26 @@ const Pricing: React.FC = () => {
 
                   {/* Form — shown until submitted */}
                   {!submitted ? (
-                    <div className="border-t border-white/5 pt-5 flex flex-col gap-3">
-                      <div>
-                        <p className="text-[0.78rem] font-bold text-white mb-0.5">Redeem your free consultation</p>
-                        <p className="text-[0.7rem] text-white/40 leading-relaxed">Submit your estimate to book a complimentary introductory consultation. No cost, no obligation.</p>
-                      </div>
+                    <div className={`border-t pt-5 flex flex-col gap-3 transition-all duration-500 ${allDropdownsFilled ? 'border-blue-500/25' : 'border-white/5'}`}>
+                      {/* Nudge banner — appears when all dropdowns filled */}
+                      {allDropdownsFilled ? (
+                        <motion.div
+                          initial={{ opacity: 0, y: -6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4 }}
+                          className="flex items-center gap-2.5 bg-blue-500/10 border border-blue-500/30 rounded-lg px-3.5 py-2.5"
+                        >
+                          <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse flex-shrink-0" />
+                          <p className="text-[0.72rem] font-semibold text-blue-300 leading-snug">
+                            Your estimate is ready — enter your details below to reveal it
+                          </p>
+                        </motion.div>
+                      ) : (
+                        <div>
+                          <p className="text-[0.78rem] font-bold text-white mb-0.5">Redeem your free consultation</p>
+                          <p className="text-[0.7rem] text-white/40 leading-relaxed">Complete the questions on the left, then enter your details to reveal your estimate.</p>
+                        </div>
+                      )}
 
                       <div className="grid grid-cols-2 gap-2">
                         <input
@@ -560,14 +573,14 @@ const Pricing: React.FC = () => {
                           placeholder="Your name *"
                           value={name}
                           onChange={e => setName(e.target.value)}
-                          className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${errors.name ? 'border-red-500/50' : 'border-white/10'}`}
+                          className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${errors.name ? 'border-red-500/50' : allDropdownsFilled ? 'border-blue-500/25 focus:border-blue-500/60' : 'border-white/10'}`}
                         />
                         <input
                           type="text"
                           placeholder="Company *"
                           value={company}
                           onChange={e => setCompany(e.target.value)}
-                          className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${errors.company ? 'border-red-500/50' : 'border-white/10'}`}
+                          className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${errors.company ? 'border-red-500/50' : allDropdownsFilled ? 'border-blue-500/25 focus:border-blue-500/60' : 'border-white/10'}`}
                         />
                       </div>
                       <input
@@ -575,14 +588,21 @@ const Pricing: React.FC = () => {
                         placeholder="Work email *"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
-                        className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${errors.email ? 'border-red-500/50' : 'border-white/10'}`}
+                        className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${errors.email ? 'border-red-500/50' : allDropdownsFilled ? 'border-blue-500/25 focus:border-blue-500/60' : 'border-white/10'}`}
+                      />
+                      <input
+                        type="tel"
+                        placeholder="Phone number"
+                        value={phone}
+                        onChange={e => setPhone(e.target.value)}
+                        className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${allDropdownsFilled ? 'border-blue-500/25 focus:border-blue-500/60' : 'border-white/10'}`}
                       />
                       <input
                         type="text"
                         placeholder="Your role / title"
                         value={role}
                         onChange={e => setRole(e.target.value)}
-                        className="bg-[#111620] border border-white/10 text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40"
+                        className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${allDropdownsFilled ? 'border-blue-500/25 focus:border-blue-500/60' : 'border-white/10'}`}
                       />
 
                       <button
