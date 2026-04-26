@@ -350,7 +350,7 @@ const Pricing: React.FC = () => {
               <div className="inline-flex items-center gap-3 border border-white/10 rounded-lg px-4 py-3 bg-[#0a0a0a]">
                 <span className="text-base font-extrabold text-white tracking-tight">$5K<span className="text-xs font-medium text-white/40">/mo</span></span>
                 <div className="w-px h-5 bg-white/10" />
-                <span className="text-xs text-white/40 leading-snug">Minimum monthly investment<br/>to become a core client.</span>
+                <span className="text-xs text-white/40 leading-snug">Minimum monthly investment<br/>to become a <strong className="text-white/70 font-semibold">core client.</strong></span>
               </div>
             </motion.div>
             <motion.p {...fadeUp} transition={{ duration: 0.6, delay: 0.1 }} className="text-[0.85rem] text-white/50 leading-relaxed">
