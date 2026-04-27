@@ -478,10 +478,10 @@ const Pricing: React.FC = () => {
               {/* Pulsing glow ring — appears when all dropdowns filled */}
               {allDropdownsFilled && !submitted && (
                 <motion.div
-                  className="absolute -inset-px rounded-xl border border-blue-500/60 pointer-events-none z-20"
-                  style={{ boxShadow: '0 0 40px rgba(59,130,246,0.2), 0 0 12px rgba(59,130,246,0.15) inset' }}
-                  animate={{ opacity: [0.5, 1, 0.5] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  className="absolute -inset-[2px] rounded-xl border border-blue-400/80 pointer-events-none z-20"
+                  style={{ boxShadow: '0 0 80px rgba(59,130,246,0.45), 0 0 30px rgba(59,130,246,0.3), 0 0 12px rgba(59,130,246,0.2) inset' }}
+                  animate={{ opacity: [0.55, 1, 0.55] }}
+                  transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
                 />
               )}
               <div className="bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden relative z-10">
@@ -543,20 +543,7 @@ const Pricing: React.FC = () => {
                   {/* Form — shown until submitted */}
                   {!submitted ? (
                     <div className={`border-t pt-5 flex flex-col gap-3 transition-all duration-500 ${allDropdownsFilled ? 'border-blue-500/25' : 'border-white/5'}`}>
-                      {/* Nudge banner — appears when all dropdowns filled */}
-                      {allDropdownsFilled ? (
-                        <motion.div
-                          initial={{ opacity: 0, y: -6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.4 }}
-                          className="flex items-center gap-2.5 bg-blue-500/10 border border-blue-500/30 rounded-lg px-3.5 py-2.5"
-                        >
-                          <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse flex-shrink-0" />
-                          <p className="text-[0.72rem] font-semibold text-blue-300 leading-snug">
-                            Your estimate is ready — enter your details below to reveal it
-                          </p>
-                        </motion.div>
-                      ) : (
+                      {!allDropdownsFilled && (
                         <div>
                           <p className="text-[0.78rem] font-bold text-white mb-0.5">Redeem your free consultation</p>
                           <p className="text-[0.7rem] text-white/40 leading-relaxed">Complete the questions on the left, then enter your details to reveal your estimate.</p>
