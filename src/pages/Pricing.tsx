@@ -540,6 +540,44 @@ const Pricing: React.FC = () => {
                 />
 
               </div>
+
+              {/* Post-reveal CTA block — appears after estimate is revealed */}
+              {submitted && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="mt-4 flex flex-col gap-3"
+                >
+                  {/* Book a Call */}
+                  <a
+                    href="https://cal.com/bliztic/bliztic-consultation-call"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-[0.82rem] font-bold tracking-wide shadow-[0_4px_20px_rgba(37,99,235,0.3)] hover:opacity-90 transition-opacity"
+                  >
+                    Book a Call
+                    <ArrowRight className="w-4 h-4" />
+                  </a>
+
+                  {/* Pricing too expensive callout */}
+                  <div className="border border-white/8 rounded-xl px-5 py-4 bg-[#0a0a0a] flex flex-col gap-3">
+                    <div className="flex flex-col gap-0.5">
+                      <p className="text-[0.72rem] font-bold tracking-[0.08em] uppercase text-white/25">Not the right fit right now?</p>
+                      <p className="text-[0.82rem] font-semibold text-white/70 leading-snug">Pricing feel out of range?</p>
+                    </div>
+                    <a
+                      href="https://cal.com/bliztic/bliztic-consultation-call"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg border border-white/12 bg-white/[0.04] text-white/70 text-[0.8rem] font-semibold hover:bg-white/[0.07] hover:text-white transition-all"
+                    >
+                      Explore other solutions
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </motion.div>
+              )}
             </motion.div>
 
             {/* RIGHT: Result panel */}
