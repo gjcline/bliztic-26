@@ -139,7 +139,7 @@ const Pricing: React.FC = () => {
     );
   }, [bizType, staffing, revTarget, meetings, dealSize, markets, infra, allDropdownsFilled]);
 
-  const showStaffPrice = (staffing === '1' || staffing === '2') && !!(estimate && estimate.mid < 12500);
+  const showStaffPrice = (staffing === '1' || staffing === '2') && !!(estimate && (estimate.lo / 4) < 8000);
   const staffEstimate  = useMemo(() => {
     if (!estimate || !showStaffPrice) return null;
     return calcStaffEstimate(estimate.mid);
@@ -550,24 +550,23 @@ const Pricing: React.FC = () => {
                   className="mt-4 flex flex-col gap-3"
                 >
                   {/* Book a Call */}
-                  <a
+                  <motion.a
                     href="https://cal.com/bliztic/bliztic-consultation-call"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-[0.85rem] font-bold tracking-wide shadow-[0_4px_28px_rgba(37,99,235,0.45)] hover:shadow-[0_4px_36px_rgba(37,99,235,0.6)] hover:opacity-95 transition-all overflow-hidden"
+                    className="group flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-[0.85rem] font-bold tracking-wide transition-all"
+                    animate={{
+                      boxShadow: [
+                        '0 0 18px rgba(37,99,235,0.45)',
+                        '0 0 32px rgba(37,99,235,0.7)',
+                        '0 0 18px rgba(37,99,235,0.45)',
+                      ],
+                    }}
+                    transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
                   >
-                    {/* Rotating ring */}
-                    <motion.span
-                      className="absolute inset-0 rounded-xl pointer-events-none"
-                      style={{
-                        background: 'conic-gradient(from 0deg, transparent 70%, rgba(255,255,255,0.35) 100%)',
-                      }}
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 2.4, repeat: Infinity, ease: 'linear' }}
-                    />
-                    <span className="relative z-10">Book a Call</span>
-                    <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                  </a>
+                    Book a Call
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                  </motion.a>
 
                   {/* Pricing too expensive callout */}
                   <div className="border border-white/8 rounded-xl px-5 py-4 bg-[#0a0a0a] flex flex-col gap-3">
@@ -616,15 +615,15 @@ const Pricing: React.FC = () => {
                       <div className="text-4xl font-extrabold tracking-tight text-white mb-1 leading-none">{displayRange}</div>
                       <div className="text-[0.75rem] text-white/40 mb-4">Billed weekly. Quarterly operating cycle.</div>
 
-                      {/* With our staff add-on chip — only for low-end founder/no-team estimates */}
+                      {/* With our staff add-on chip — only for low weekly estimates */}
                       {showStaffPrice && (
-                        <div className="mb-5 border border-dashed border-white/10 rounded-lg px-4 py-3 bg-white/[0.015] flex items-center justify-between gap-3">
+                        <div className="mb-5 border border-dashed border-blue-500/20 rounded-lg px-4 py-3 bg-blue-500/[0.03] flex items-center justify-between gap-3">
                           <div>
-                            <div className="text-[0.62rem] font-bold tracking-[0.12em] uppercase text-white/25 mb-0.5">Add-on option</div>
-                            <div className="text-[0.78rem] font-semibold text-white/50">With our sales staff placed</div>
+                            <div className="text-[0.62rem] font-bold tracking-[0.12em] uppercase text-blue-400/50 mb-0.5">Optional add-on</div>
+                            <div className="text-[0.78rem] font-semibold text-white/55">Sales staff placed by Bliztic</div>
                           </div>
                           <div className="flex-shrink-0 text-right">
-                            <div className="text-[0.72rem] font-bold text-white/40">+$2K<span className="text-white/25 font-normal">/mo</span></div>
+                            <div className="text-[0.8rem] font-bold text-white/50">+$2K<span className="text-white/30 font-normal text-[0.7rem]">/wk</span></div>
                           </div>
                         </div>
                       )}
@@ -763,7 +762,7 @@ const Pricing: React.FC = () => {
                       </div>
                       <div className="text-[0.85rem] font-bold text-white">You're on the list.</div>
                       <div className="text-[0.75rem] text-white/45 leading-relaxed">
-                        We'll reach out within one business day to confirm your consultation. Your estimate has been included for context.
+                        Your next step is to book a call using the button below. Your estimate has been included for context.
                       </div>
                     </div>
                   )}
