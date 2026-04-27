@@ -139,7 +139,7 @@ const Pricing: React.FC = () => {
     );
   }, [bizType, staffing, revTarget, meetings, dealSize, markets, infra, allDropdownsFilled]);
 
-  const showStaffPrice = staffing === '1' || staffing === '2';
+  const showStaffPrice = (staffing === '1' || staffing === '2') && !!(estimate && estimate.mid < 12500);
   const staffEstimate  = useMemo(() => {
     if (!estimate || !showStaffPrice) return null;
     return calcStaffEstimate(estimate.mid);
@@ -554,10 +554,19 @@ const Pricing: React.FC = () => {
                     href="https://cal.com/bliztic/bliztic-consultation-call"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-[0.82rem] font-bold tracking-wide shadow-[0_4px_20px_rgba(37,99,235,0.3)] hover:opacity-90 transition-opacity"
+                    className="group relative flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-[0.85rem] font-bold tracking-wide shadow-[0_4px_28px_rgba(37,99,235,0.45)] hover:shadow-[0_4px_36px_rgba(37,99,235,0.6)] hover:opacity-95 transition-all overflow-hidden"
                   >
-                    Book a Call
-                    <ArrowRight className="w-4 h-4" />
+                    {/* Rotating ring */}
+                    <motion.span
+                      className="absolute inset-0 rounded-xl pointer-events-none"
+                      style={{
+                        background: 'conic-gradient(from 0deg, transparent 70%, rgba(255,255,255,0.35) 100%)',
+                      }}
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 2.4, repeat: Infinity, ease: 'linear' }}
+                    />
+                    <span className="relative z-10">Book a Call</span>
+                    <ArrowRight className="relative z-10 w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                   </a>
 
                   {/* Pricing too expensive callout */}
@@ -607,12 +616,16 @@ const Pricing: React.FC = () => {
                       <div className="text-4xl font-extrabold tracking-tight text-white mb-1 leading-none">{displayRange}</div>
                       <div className="text-[0.75rem] text-white/40 mb-4">Billed weekly. Quarterly operating cycle.</div>
 
-                      {/* With our staff secondary price */}
-                      {showStaffPrice && staffDisplayRange && (
-                        <div className="mb-5 border border-white/8 rounded-lg px-4 py-3 bg-white/[0.02]">
-                          <div className="text-[0.65rem] font-bold tracking-[0.12em] uppercase text-white/30 mb-1.5">With our sales staff placed</div>
-                          <div className="text-2xl font-extrabold tracking-tight text-white/70 leading-none">{staffDisplayRange}</div>
-                          <div className="text-[0.68rem] text-white/25 mt-1">Per week — includes full staffing by Bliztic</div>
+                      {/* With our staff add-on chip — only for low-end founder/no-team estimates */}
+                      {showStaffPrice && (
+                        <div className="mb-5 border border-dashed border-white/10 rounded-lg px-4 py-3 bg-white/[0.015] flex items-center justify-between gap-3">
+                          <div>
+                            <div className="text-[0.62rem] font-bold tracking-[0.12em] uppercase text-white/25 mb-0.5">Add-on option</div>
+                            <div className="text-[0.78rem] font-semibold text-white/50">With our sales staff placed</div>
+                          </div>
+                          <div className="flex-shrink-0 text-right">
+                            <div className="text-[0.72rem] font-bold text-white/40">+$2K<span className="text-white/25 font-normal">/mo</span></div>
+                          </div>
                         </div>
                       )}
 
