@@ -327,13 +327,6 @@ const About: React.FC = () => {
               View Pricing
               <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </Link>
-            <Link
-              to="/qualify"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-white/45 hover:text-white transition-colors"
-            >
-              Or apply to qualify
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
           </div>
         </motion.div>
       </section>
