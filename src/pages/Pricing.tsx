@@ -7,10 +7,10 @@ import { supabase } from '../lib/supabase';
 // ─── Calculation constants ───────────────────────────────────────────────────
 
 const TIERS = [
-  { max: 9000,      tier: 'Foundational Engagement',        scope: 'Foundational' },
-  { max: 20000,     tier: 'Core Build Engagement',          scope: 'Core' },
-  { max: 45000,     tier: 'Growth Division Engagement',     scope: 'Growth' },
-  { max: 90000,     tier: 'Enterprise Division Engagement', scope: 'Enterprise' },
+  { max: 12000,     tier: 'Foundational Engagement',        scope: 'Foundational' },
+  { max: 25000,     tier: 'Core Build Engagement',          scope: 'Core' },
+  { max: 50000,     tier: 'Growth Division Engagement',     scope: 'Growth' },
+  { max: 80000,     tier: 'Enterprise Division Engagement', scope: 'Enterprise' },
   { max: Infinity,  tier: 'Strategic Division Engagement',  scope: 'Strategic' },
 ];
 
@@ -30,35 +30,49 @@ const STAFFING_HINTS = [
   "We'll build the infrastructure around your team and make sure they always have pipeline.",
 ];
 
-const STAFFING_BASE = [25000, 25000, 15000, 20000, 6000];
+// Base values intentionally low — adjustments drive the estimate up from here.
+// All-lowest inputs: sf=1 (no team), rt=1 (under $25K), mt=1 (1-5 meetings),
+// ds=1 (under $5K), mk=1 (one market), inf=3 (solid foundation) → mid ≈ $7K → $5K–$10K band.
+// All-highest inputs: sf=1 (full build) + max adjustments → mid ≈ $88K → $80K–$100K band.
+const STAFFING_BASE = [7000, 7000, 5500, 6500, 5000];
 
 function fmt(n: number) {
   return '$' + Math.round(n / 1000) + 'K';
 }
 
 function bandWidth(mid: number) {
-  if (mid < 10000) return 1500;
-  if (mid < 20000) return 2500;
-  if (mid < 35000) return 4000;
-  if (mid < 60000) return 6000;
-  if (mid < 90000) return 12000;
-  return 22000;
+  if (mid < 10000) return 5000;
+  if (mid < 20000) return 8000;
+  if (mid < 35000) return 12000;
+  if (mid < 60000) return 16000;
+  if (mid < 90000) return 20000;
+  return 24000;
 }
 
-function calcEstimate(sf: number, rt: number, mt: number, ds: number, mk: number, inf: number, urg: number) {
-  const revAdj  = [0, 1500, 4000, 9000, 18000][rt - 1] ?? 0;
-  const meetAdj = [0, 1000, 2500, 5000][mt - 1] ?? 0;
-  const dealAdj = [0, 800, 2000, 4000][ds - 1] ?? 0;
-  const mktAdj  = [0, 1000, 2500][mk - 1] ?? 0;
-  const infraAdj = [2000, 800, 0][inf - 1] ?? 0;
-  const urgAdj  = [1000, 0, -500][urg - 1] ?? 0;
+function calcEstimate(sf: number, rt: number, mt: number, ds: number, mk: number, inf: number, _urg: number) {
+  // Revenue target is the primary driver — keeps estimate below the target bracket.
+  // rt=1 (under $25K) → adds nothing, keeping estimate well under $25K.
+  // rt=5 ($750K+) → adds ~$55K, pushing high-end estimates toward $80K–$100K.
+  const revAdj  = [0, 8000, 20000, 38000, 55000][rt - 1] ?? 0;
 
-  const mid  = STAFFING_BASE[sf - 1] + revAdj + meetAdj + dealAdj + mktAdj + infraAdj + urgAdj;
+  // Meeting volume: moderate driver.
+  const meetAdj = [0, 2500, 6000, 10000][mt - 1] ?? 0;
+
+  // Deal size: higher complexity for larger deals.
+  const dealAdj = [0, 1500, 4000, 7000][ds - 1] ?? 0;
+
+  // Market scope: each additional market adds meaningful outbound/strategy load.
+  const mktAdj  = [0, 3000, 7000][mk - 1] ?? 0;
+
+  // Infrastructure: building from nothing adds cost; solid foundation reduces it.
+  const infraAdj = [3000, 1000, 0][inf - 1] ?? 0;
+
+  const mid  = STAFFING_BASE[sf - 1] + revAdj + meetAdj + dealAdj + mktAdj + infraAdj;
   const midR = Math.round(mid / 500) * 500;
-  const half = Math.round(bandWidth(midR) / 2 / 250) * 250;
+  const half = Math.round(bandWidth(midR) / 2 / 500) * 500;
   const lo   = Math.max(5000, midR - half);
   let hi     = midR + half;
-  if (hi - lo < 3000) hi = lo + 3000;
+  if (hi - lo < 5000) hi = lo + 5000;
 
   const tier = TIERS.find(t => midR <= t.max) ?? TIERS[TIERS.length - 1];
   return { lo, hi, tier: tier.tier, scope: tier.scope };
