@@ -149,7 +149,7 @@ const Home: React.FC = () => {
           </div>
           <div className="px-8 sm:px-10 py-6 text-center">
             <div className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white to-blue-400 bg-clip-text text-transparent">
-              1 Year+
+              2 Year+
             </div>
             <div className="text-[0.65rem] tracking-[0.15em] uppercase text-white/40 mt-1">
               R&D already done for you
