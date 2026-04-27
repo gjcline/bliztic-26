@@ -151,14 +151,22 @@ const Pricing: React.FC = () => {
     }
 
     setSubmitting(true);
+    const payload = {
+      name: name.trim(), company: company.trim(), email: email.trim(),
+      phone: phone.trim(), role: role.trim(),
+      biz_type: bizType, staffing, rev_target: revTarget, meetings, deal_size: dealSize,
+      markets, infra,
+      estimate_lo: estimate?.lo, estimate_hi: estimate?.hi, tier: estimate?.tier,
+    };
     try {
-      await supabase.from('pricing_estimates').insert({
-        name: name.trim(), company: company.trim(), email: email.trim(),
-        phone: phone.trim(), role: role.trim(),
-        biz_type: bizType, staffing, rev_target: revTarget, meetings, deal_size: dealSize,
-        markets, infra,
-        estimate_lo: estimate?.lo, estimate_hi: estimate?.hi, tier: estimate?.tier,
-      });
+      await Promise.all([
+        supabase.from('pricing_estimates').insert(payload),
+        fetch('https://hook.us2.make.com/nysxiz5bmca551k433ytiap2bhimhac5', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        }),
+      ]);
     } catch {
       // silent — still reveal on error
     }
