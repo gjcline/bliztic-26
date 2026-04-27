@@ -406,7 +406,7 @@ const Pricing: React.FC = () => {
                     { value: '', label: 'Select team situation...' },
                     { value: '1', label: "We don't have one yet" },
                     { value: '2', label: "It's just me or a founder-led effort" },
-                    { value: '3', label: 'We have one or two reps but it\'s early' },
+                    { value: '3', label: 'We have one or two external reps' },
                     { value: '4', label: "We have a team but it's underperforming" },
                     { value: '5', label: 'We have a strong team and just need more pipeline' },
                   ]}
