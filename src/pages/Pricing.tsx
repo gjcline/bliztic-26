@@ -146,7 +146,7 @@ const Pricing: React.FC = () => {
   const staffingHint  = staffing ? STAFFING_HINTS[parseInt(staffing) - 1] : '';
   const staffingLabel = estimate && staffing ? STAFFING_LABELS[parseInt(staffing) - 1] : '—';
 
-  const displayRange     = estimate ? `${fmt(estimate.lo)} – ${fmt(estimate.hi)}`         : '$5K – $8K';
+  const displayRange     = estimate ? `${fmt(Math.round(estimate.lo / 4))} – ${fmt(Math.round(estimate.hi / 4))}` : '$1K – $2K';
   const displayQuarterly = estimate ? `${fmt(estimate.lo * 3)} – ${fmt(estimate.hi * 3)}` : '$15K – $24K';
   const displayTier      = estimate?.tier ?? 'Core Build Engagement';
   const displayScope     = estimate?.scope ?? 'Core';
@@ -502,9 +502,9 @@ const Pricing: React.FC = () => {
                   {/* Numbers section — blurred until revealed */}
                   <div className="relative mb-6">
                     <div className={`transition-all duration-700 ${revealed ? '' : 'blur-[7px] select-none pointer-events-none'}`}>
-                      <div className="text-[0.75rem] text-white/40 mb-1.5">Per month</div>
+                      <div className="text-[0.75rem] text-white/40 mb-1.5">Per week</div>
                       <div className="text-4xl font-extrabold tracking-tight text-white mb-1 leading-none">{displayRange}</div>
-                      <div className="text-[0.75rem] text-white/40 mb-6">Billed monthly or weekly. Quarterly operating cycle.</div>
+                      <div className="text-[0.75rem] text-white/40 mb-6">Billed weekly. Quarterly operating cycle.</div>
 
                       <div className="flex items-center gap-2.5 bg-blue-500/8 border border-blue-500/18 rounded-lg px-4 py-3 mb-5">
                         <div className="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0" />
