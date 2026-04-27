@@ -174,7 +174,7 @@ const About: React.FC = () => {
               </span>
             </h2>
             <p className="text-[0.9rem] text-white/50 leading-[1.9]">
-              We want you to understand what these years actually looked like so you can make an honest comparison between partnering with us and attempting to build it on your own. The infrastructure we bring to your business on day one is the result of hundreds of hours of development, real engagement experience, and systematic refinement across every pillar. The question is never whether you need it. The question is whether you want to build it or inherit it.
+              We want you to understand what these years actually looked like so you can make an honest comparison between partnering with us and attempting to build it on your own. The infrastructure we bring to your business on day one is the result of hundreds of hours of development, real engagement experience, and systematic refinement across every pillar. <strong>The question is never whether you need it. The question is whether you want to build it or inherit it.</strong>
             </p>
           </motion.div>
 
