@@ -81,6 +81,18 @@ const Navbar: React.FC = () => {
             >
               Home
             </Link>
+            <Link
+              to="/about"
+              onClick={() => window.scrollTo(0, 0)}
+              className={cn(
+                "text-sm font-medium transition-colors",
+                location.pathname === '/about'
+                  ? "text-white"
+                  : "text-white/60 hover:text-white"
+              )}
+            >
+              About
+            </Link>
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsOtherOpen(!isOtherOpen)}
@@ -177,6 +189,18 @@ const Navbar: React.FC = () => {
               onClick={toggleMenu}
             >
               Home
+            </Link>
+            <Link
+              to="/about"
+              className={cn(
+                "block px-3 py-2 text-base font-medium rounded-md",
+                location.pathname === '/about'
+                  ? "text-white bg-white/5"
+                  : "text-white/60 hover:text-white hover:bg-white/5"
+              )}
+              onClick={toggleMenu}
+            >
+              About
             </Link>
             <div className="pt-2 mt-2 border-t border-white/5">
               <p className="px-3 py-1 text-xs font-medium text-white/40 uppercase tracking-wider">Resources</p>
