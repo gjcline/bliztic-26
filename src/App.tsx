@@ -21,7 +21,6 @@ import Offers from './pages/Offers';
 import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
 import Qualify from './pages/Qualify';
-import Pricing from './pages/Pricing';
 
 const ExternalRedirect = ({ url }: { url: string }) => {
   React.useEffect(() => {
@@ -38,7 +37,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/services" element={<Navigate to="/expertise" replace />} />
           <Route path="/expertise" element={<Expertise />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/about" element={<Navigate to="/" replace />} />
           <Route path="/blog" element={<BlogIndex />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/service" element={<Service />} />
@@ -51,7 +50,6 @@ function App() {
           <Route path="/offers" element={<Offers />} />
           <Route path="/partner/login" element={<PartnerLogin />} />
           <Route path="/dev" element={<Dev />} />
-          <Route path="/pricing" element={<Pricing />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="*" element={<NotFound />} />
         </Route>

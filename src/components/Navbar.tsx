@@ -125,7 +125,9 @@ const Navbar: React.FC = () => {
               )}
             </div>
             <Link
-              to="/pricing"
+              to="/qualify"
+              target="_blank"
+              rel="noopener noreferrer"
               className="bg-white text-[#030303] px-4 py-2 rounded-full text-sm font-medium transition-all hover:shadow-glow hover:scale-105"
               onClick={() => window.scrollTo(0, 0)}
             >
@@ -197,7 +199,9 @@ const Navbar: React.FC = () => {
               ))}
             </div>
             <Link
-              to="/pricing"
+              to="/qualify"
+              target="_blank"
+              rel="noopener noreferrer"
               className="block bg-white text-[#030303] mt-3 px-4 py-2 rounded-md font-medium text-center"
               onClick={() => {
                 toggleMenu();
