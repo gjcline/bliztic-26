@@ -572,7 +572,7 @@ const Pricing: React.FC = () => {
                   <div className="border border-white/8 rounded-xl px-5 py-4 bg-[#0a0a0a] flex flex-col gap-3">
                     <div className="flex flex-col gap-0.5">
                       <p className="text-[0.72rem] font-bold tracking-[0.08em] uppercase text-white/25">Not the right fit right now?</p>
-                      <p className="text-[0.82rem] font-semibold text-white/70 leading-snug">Pricing feel out of range?</p>
+                      <p className="text-[0.82rem] font-semibold text-white/70 leading-snug">Pricing feel out of range? Have other questions?</p>
                     </div>
                     <a
                       href="https://cal.com/bliztic/bliztic-consultation-call"
