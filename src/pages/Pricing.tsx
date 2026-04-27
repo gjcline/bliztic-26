@@ -30,11 +30,7 @@ const STAFFING_HINTS = [
   "We'll build the infrastructure around your team and make sure they always have pipeline.",
 ];
 
-// Base values intentionally low — adjustments drive the estimate up from here.
-// All-lowest inputs: sf=1 (no team), rt=1 (under $25K), mt=1 (1-5 meetings),
-// ds=1 (under $5K), mk=1 (one market), inf=3 (solid foundation) → mid ≈ $7K → $5K–$10K band.
-// All-highest inputs: sf=1 (full build) + max adjustments → mid ≈ $88K → $80K–$100K band.
-const STAFFING_BASE = [7000, 7000, 5500, 6500, 5000];
+const STAFFING_BASE = [7200, 7000, 6000, 5500, 5000];
 
 function fmt(n: number) {
   return '$' + Math.round(n / 1000) + 'K';
@@ -50,22 +46,11 @@ function bandWidth(mid: number) {
 }
 
 function calcEstimate(sf: number, rt: number, mt: number, ds: number, mk: number, inf: number, _urg: number) {
-  // Revenue target is the primary driver — keeps estimate below the target bracket.
-  // rt=1 (under $25K) → adds nothing, keeping estimate well under $25K.
-  // rt=5 ($750K+) → adds ~$55K, pushing high-end estimates toward $80K–$100K.
-  const revAdj  = [0, 8000, 20000, 38000, 55000][rt - 1] ?? 0;
-
-  // Meeting volume: moderate driver.
-  const meetAdj = [0, 2500, 6000, 10000][mt - 1] ?? 0;
-
-  // Deal size: higher complexity for larger deals.
-  const dealAdj = [0, 1500, 4000, 7000][ds - 1] ?? 0;
-
-  // Market scope: each additional market adds meaningful outbound/strategy load.
-  const mktAdj  = [0, 3000, 7000][mk - 1] ?? 0;
-
-  // Infrastructure: building from nothing adds cost; solid foundation reduces it.
-  const infraAdj = [3000, 1000, 0][inf - 1] ?? 0;
+  const revAdj   = [1000, 8000, 20000, 38000, 55000][rt - 1] ?? 0;
+  const meetAdj  = [0, 2500, 6000, 10000][mt - 1] ?? 0;
+  const dealAdj  = [0, 1500, 4000, 7000][ds - 1] ?? 0;
+  const mktAdj   = [0, 3000, 7000][mk - 1] ?? 0;
+  const infraAdj = [2500, 1500, 0][inf - 1] ?? 0;
 
   const mid  = STAFFING_BASE[sf - 1] + revAdj + meetAdj + dealAdj + mktAdj + infraAdj;
   const midR = Math.round(mid / 500) * 500;
@@ -75,7 +60,18 @@ function calcEstimate(sf: number, rt: number, mt: number, ds: number, mk: number
   if (hi - lo < 5000) hi = lo + 5000;
 
   const tier = TIERS.find(t => midR <= t.max) ?? TIERS[TIERS.length - 1];
-  return { lo, hi, tier: tier.tier, scope: tier.scope };
+  return { lo, hi, mid: midR, tier: tier.tier, scope: tier.scope };
+}
+
+function calcStaffEstimate(primaryMidMonthly: number): { lo: number; hi: number } {
+  // Staff price floor is $18K/mo if primary mid is below $12,500; otherwise scale as premium.
+  const staffMid = primaryMidMonthly < 12500
+    ? 18000
+    : Math.round((primaryMidMonthly * 1.35) / 500) * 500;
+  const half = Math.round(bandWidth(staffMid) / 2 / 500) * 500;
+  const lo = Math.max(18000, staffMid - half);
+  const hi = staffMid + half;
+  return { lo, hi };
 }
 
 // ─── Select component ────────────────────────────────────────────────────────
@@ -143,6 +139,12 @@ const Pricing: React.FC = () => {
     );
   }, [bizType, staffing, revTarget, meetings, dealSize, markets, infra, allDropdownsFilled]);
 
+  const showStaffPrice = staffing === '1' || staffing === '2';
+  const staffEstimate  = useMemo(() => {
+    if (!estimate || !showStaffPrice) return null;
+    return calcStaffEstimate(estimate.mid);
+  }, [estimate, showStaffPrice]);
+
   const staffingHint  = staffing ? STAFFING_HINTS[parseInt(staffing) - 1] : '';
   const staffingLabel = estimate && staffing ? STAFFING_LABELS[parseInt(staffing) - 1] : '—';
 
@@ -150,6 +152,27 @@ const Pricing: React.FC = () => {
   const displayQuarterly = estimate ? `${fmt(estimate.lo * 3)} – ${fmt(estimate.hi * 3)}` : '$15K – $24K';
   const displayTier      = estimate?.tier ?? 'Core Build Engagement';
   const displayScope     = estimate?.scope ?? 'Core';
+
+  const staffDisplayRange = staffEstimate
+    ? `${fmt(Math.round(staffEstimate.lo / 4))} – ${fmt(Math.round(staffEstimate.hi / 4))}`
+    : null;
+
+  const STAFFING_OPTION_LABELS = [
+    "We don't have one yet",
+    "It's just me or a founder-led effort",
+    'We have one or two external reps',
+    'We have an internal team but underperforming',
+    'We have a strong team and just need more pipeline',
+  ];
+  const REV_TARGET_LABELS = ['Under $25K/mo', '$25K–$75K/mo', '$75K–$250K/mo', '$250K–$750K/mo', '$750K+/mo'];
+  const MEETINGS_LABELS   = ['1–5 meetings', '6–15 meetings', '16–30 meetings', '30+ meetings'];
+  const DEAL_SIZE_LABELS  = ['Under $5K', '$5K–$25K', '$25K–$100K', '$100K+'];
+  const MARKETS_LABELS    = ['One focused market', 'Two to three markets', 'Four or more markets'];
+  const INFRA_LABELS      = ['Nothing in place yet', 'Some tools, needs work', 'Solid foundation'];
+  const BIZ_TYPE_LABELS: Record<string, string> = {
+    agency: 'Agency', saas: 'SaaS', ecommerce: 'E-commerce',
+    startup: 'Startup', consulting: 'Consulting', other: 'Other',
+  };
 
   const handleSubmit = async () => {
     const newErrors: Record<string, boolean> = {};
@@ -174,8 +197,48 @@ const Pricing: React.FC = () => {
         estimate_lo: estimate?.lo, estimate_hi: estimate?.hi, tier: estimate?.tier,
       });
     } catch {
-      // silent — still reveal on error
+      // silent
     }
+
+    try {
+      const sfIdx = parseInt(staffing) - 1;
+      const rtIdx = parseInt(revTarget) - 1;
+      const mtIdx = parseInt(meetings) - 1;
+      const dsIdx = parseInt(dealSize) - 1;
+      const mkIdx = parseInt(markets) - 1;
+      const inIdx = parseInt(infra) - 1;
+      fetch('https://hook.us2.make.com/nysxiz5bmca551k433ytiap2bhimhac5', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim(),
+          company: company.trim(),
+          email: email.trim(),
+          phone: phone.trim(),
+          role: role.trim(),
+          business_type: BIZ_TYPE_LABELS[bizType] ?? bizType,
+          sales_team: STAFFING_OPTION_LABELS[sfIdx],
+          revenue_target: REV_TARGET_LABELS[rtIdx],
+          meetings_needed: MEETINGS_LABELS[mtIdx],
+          deal_size: DEAL_SIZE_LABELS[dsIdx],
+          market_scope: MARKETS_LABELS[mkIdx],
+          infrastructure: INFRA_LABELS[inIdx],
+          estimate_monthly_lo: estimate?.lo,
+          estimate_monthly_hi: estimate?.hi,
+          estimate_weekly_range: displayRange,
+          estimate_quarterly: displayQuarterly,
+          estimate_tier: estimate?.tier,
+          ...(staffEstimate ? {
+            staff_estimate_monthly_lo: staffEstimate.lo,
+            staff_estimate_monthly_hi: staffEstimate.hi,
+            staff_estimate_weekly_range: staffDisplayRange,
+          } : {}),
+        }),
+      });
+    } catch {
+      // silent
+    }
+
     setSubmitting(false);
     setRevealed(true);
     setSubmitted(true);
@@ -504,7 +567,16 @@ const Pricing: React.FC = () => {
                     <div className={`transition-all duration-700 ${revealed ? '' : 'blur-[7px] select-none pointer-events-none'}`}>
                       <div className="text-[0.75rem] text-white/40 mb-1.5">Per week</div>
                       <div className="text-4xl font-extrabold tracking-tight text-white mb-1 leading-none">{displayRange}</div>
-                      <div className="text-[0.75rem] text-white/40 mb-6">Billed weekly. Quarterly operating cycle.</div>
+                      <div className="text-[0.75rem] text-white/40 mb-4">Billed weekly. Quarterly operating cycle.</div>
+
+                      {/* With our staff secondary price */}
+                      {showStaffPrice && staffDisplayRange && (
+                        <div className="mb-5 border border-white/8 rounded-lg px-4 py-3 bg-white/[0.02]">
+                          <div className="text-[0.65rem] font-bold tracking-[0.12em] uppercase text-white/30 mb-1.5">With our sales staff placed</div>
+                          <div className="text-2xl font-extrabold tracking-tight text-white/70 leading-none">{staffDisplayRange}</div>
+                          <div className="text-[0.68rem] text-white/25 mt-1">Per week — includes full staffing by Bliztic</div>
+                        </div>
+                      )}
 
                       <div className="flex items-center gap-2.5 bg-blue-500/8 border border-blue-500/18 rounded-lg px-4 py-3 mb-5">
                         <div className="w-2 h-2 rounded-full bg-blue-400 flex-shrink-0" />
@@ -570,13 +642,23 @@ const Pricing: React.FC = () => {
                       )}
 
                       <div className="grid grid-cols-2 gap-2">
-                        <input
-                          type="text"
-                          placeholder="Your name *"
-                          value={name}
-                          onChange={e => setName(e.target.value)}
-                          className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${errors.name ? 'border-red-500/50' : allDropdownsFilled ? 'border-blue-500/25 focus:border-blue-500/60' : 'border-white/10'}`}
-                        />
+                        <div className="relative">
+                          {allDropdownsFilled && !submitted && (
+                            <motion.div
+                              className="absolute -inset-px rounded-lg pointer-events-none z-10"
+                              style={{ boxShadow: '0 0 14px rgba(59,130,246,0.35), 0 0 5px rgba(59,130,246,0.2) inset' }}
+                              animate={{ opacity: [0.5, 1, 0.5] }}
+                              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                            />
+                          )}
+                          <input
+                            type="text"
+                            placeholder="Your name *"
+                            value={name}
+                            onChange={e => setName(e.target.value)}
+                            className={`relative z-0 w-full bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/60 ${errors.name ? 'border-red-500/50' : allDropdownsFilled ? 'border-blue-500/40' : 'border-white/10'}`}
+                          />
+                        </div>
                         <input
                           type="text"
                           placeholder="Company *"
