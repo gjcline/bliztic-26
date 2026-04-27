@@ -638,7 +638,7 @@ const Pricing: React.FC = () => {
                           ['Quarterly total',      displayQuarterly],
                           ['Sales staffing',       staffingLabel],
                           ['Engagement scope',     displayScope],
-                          ['Operating period',     '90-day cycle'],
+                          ['Operating period',     '12-week cycle'],
                           ['Deployment timeline',  '30 days or less'],
                         ].map(([k, v]) => (
                           <div key={k} className="flex justify-between items-baseline text-[0.8rem]">
