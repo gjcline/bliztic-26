@@ -175,11 +175,15 @@ const Pricing: React.FC = () => {
     startup: 'Startup', consulting: 'Consulting', other: 'Other',
   };
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const phoneRegex = /^\+?[\d\s\-().]{7,20}$/;
+
   const handleSubmit = async () => {
     const newErrors: Record<string, boolean> = {};
     if (!name.trim())    newErrors.name = true;
-    if (!email.trim())   newErrors.email = true;
+    if (!email.trim() || !emailRegex.test(email.trim())) newErrors.email = true;
     if (!company.trim()) newErrors.company = true;
+    if (phone.trim() && !phoneRegex.test(phone.trim())) newErrors.phone = true;
     if (!allDropdownsFilled) return;
 
     if (Object.keys(newErrors).length > 0) {
@@ -716,20 +720,30 @@ const Pricing: React.FC = () => {
                           className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${errors.company ? 'border-red-500/50' : allDropdownsFilled ? 'border-blue-500/25 focus:border-blue-500/60' : 'border-white/10'}`}
                         />
                       </div>
-                      <input
-                        type="email"
-                        placeholder="Work email *"
-                        value={email}
-                        onChange={e => setEmail(e.target.value)}
-                        className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${errors.email ? 'border-red-500/50' : allDropdownsFilled ? 'border-blue-500/25 focus:border-blue-500/60' : 'border-white/10'}`}
-                      />
-                      <input
-                        type="tel"
-                        placeholder="Phone number"
-                        value={phone}
-                        onChange={e => setPhone(e.target.value)}
-                        className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${allDropdownsFilled ? 'border-blue-500/25 focus:border-blue-500/60' : 'border-white/10'}`}
-                      />
+                      <div className="flex flex-col gap-1">
+                        <input
+                          type="email"
+                          placeholder="Work email *"
+                          value={email}
+                          onChange={e => setEmail(e.target.value)}
+                          className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${errors.email ? 'border-red-500/50' : allDropdownsFilled ? 'border-blue-500/25 focus:border-blue-500/60' : 'border-white/10'}`}
+                        />
+                        {errors.email && (
+                          <p className="text-[0.67rem] text-red-400/80">Enter a valid email address</p>
+                        )}
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <input
+                          type="tel"
+                          placeholder="Phone number"
+                          value={phone}
+                          onChange={e => setPhone(e.target.value)}
+                          className={`bg-[#111620] border text-white text-[0.78rem] font-medium px-3 py-2.5 rounded-lg outline-none placeholder:text-white/20 transition-colors focus:border-blue-500/40 ${errors.phone ? 'border-red-500/50' : allDropdownsFilled ? 'border-blue-500/25 focus:border-blue-500/60' : 'border-white/10'}`}
+                        />
+                        {errors.phone && (
+                          <p className="text-[0.67rem] text-red-400/80">Enter a valid phone number</p>
+                        )}
+                      </div>
                       <input
                         type="text"
                         placeholder="Your role / title"
