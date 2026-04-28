@@ -22,6 +22,9 @@ import Privacy from './pages/Privacy';
 import NotFound from './pages/NotFound';
 import Qualify from './pages/Qualify';
 import Pricing from './pages/Pricing';
+import Explore from './pages/Explore';
+import AdminLogin from './pages/AdminLogin';
+import Admin from './pages/Admin';
 
 const ExternalRedirect = ({ url }: { url: string }) => {
   React.useEffect(() => {
@@ -64,6 +67,9 @@ function App() {
           }
         />
         <Route path="/qualify" element={<Qualify />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>
   );
