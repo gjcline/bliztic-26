@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 
 const CAL_URL = 'https://cal.com/bliztic/bliztic-consultation-call';
@@ -124,15 +125,20 @@ const fadeUp = {
   transition: { duration: 0.28, ease: [0.4, 0, 0.2, 1] },
 };
 
+interface PricingContact {
+  name?: string;
+  email?: string;
+  company?: string;
+  phone?: string;
+}
+
 export default function Explore() {
+  const location = useLocation();
+  const prefill = (location.state as PricingContact | null) ?? null;
+
   const [step, setStep] = useState(1);
   const [primaryReason, setPrimaryReason] = useState<string | null>(null);
   const [followupAnswer, setFollowupAnswer] = useState<string | null>(null);
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [company, setCompany] = useState('');
-  const [outcome, setOutcome] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
 
@@ -165,25 +171,21 @@ export default function Explore() {
     goTo(3);
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const errs: Record<string, string> = {};
-    if (!firstName.trim()) errs.firstName = 'Required';
-    if (!lastName.trim()) errs.lastName = 'Required';
-    if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = 'Valid email required';
-    if (!company.trim()) errs.company = 'Required';
-    if (Object.keys(errs).length) { setErrors(errs); return; }
-
+  async function submitAndBook() {
     setSubmitting(true);
     try {
+      const nameParts = (prefill?.name ?? '').trim().split(' ');
+      const firstName = nameParts[0] ?? '';
+      const lastName = nameParts.slice(1).join(' ') || '';
+
       const { data: row, error } = await supabase
         .from('explore_submissions')
         .insert({
-          first_name: firstName.trim(),
-          last_name: lastName.trim(),
-          email: email.trim(),
-          company: company.trim(),
-          outcome: outcome.trim(),
+          first_name: firstName,
+          last_name: lastName,
+          email: prefill?.email?.trim() ?? '',
+          company: prefill?.company?.trim() ?? '',
+          outcome: '',
           primary_reason: primaryReason,
           primary_reason_label: primaryLabel,
           followup_answer: followupAnswer,
@@ -205,11 +207,12 @@ export default function Explore() {
               source: 'explore_form',
               timestamp: new Date().toISOString(),
               contactInfo: {
-                fullName: `${firstName.trim()} ${lastName.trim()}`,
-                firstName: firstName.trim(),
-                lastName: lastName.trim(),
-                email: email.trim(),
-                company: company.trim(),
+                fullName: prefill?.name?.trim() ?? '',
+                firstName,
+                lastName,
+                email: prefill?.email?.trim() ?? '',
+                company: prefill?.company?.trim() ?? '',
+                phone: prefill?.phone?.trim() ?? '',
               },
               answers: {
                 primaryReason: primaryLabel,
@@ -217,7 +220,81 @@ export default function Explore() {
                 followupAnswer: followupLabel,
                 followupAnswerCode: followupAnswer,
                 recommendedRoute: route,
-                outcome: outcome.trim() || null,
+              },
+            }),
+          });
+          if (res.ok) {
+            await supabase
+              .from('explore_submissions')
+              .update({ webhook_sent: true, webhook_sent_at: new Date().toISOString() })
+              .eq('id', row.id);
+          }
+        } catch (webhookErr) {
+          console.error('Webhook error:', webhookErr);
+        }
+      }
+
+      window.open(CAL_URL, '_blank', 'noopener,noreferrer');
+    } catch (err) {
+      console.error('Submit error:', err);
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    const firstName = (e.currentTarget as HTMLFormElement).querySelector<HTMLInputElement>('#ex-first')?.value.trim() ?? '';
+    const lastName = (e.currentTarget as HTMLFormElement).querySelector<HTMLInputElement>('#ex-last')?.value.trim() ?? '';
+    const email = (e.currentTarget as HTMLFormElement).querySelector<HTMLInputElement>('#ex-email')?.value.trim() ?? '';
+    const company = (e.currentTarget as HTMLFormElement).querySelector<HTMLInputElement>('#ex-company')?.value.trim() ?? '';
+    const outcome = (e.currentTarget as HTMLFormElement).querySelector<HTMLTextAreaElement>('#ex-outcome')?.value.trim() ?? '';
+
+    const errs: Record<string, string> = {};
+    if (!firstName) errs.firstName = 'Required';
+    if (!lastName) errs.lastName = 'Required';
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errs.email = 'Valid email required';
+    if (!company) errs.company = 'Required';
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+
+    setSubmitting(true);
+    try {
+      const { data: row, error } = await supabase
+        .from('explore_submissions')
+        .insert({
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          company,
+          outcome,
+          primary_reason: primaryReason,
+          primary_reason_label: primaryLabel,
+          followup_answer: followupAnswer,
+          followup_answer_label: followupLabel,
+          recommended_route: route,
+        })
+        .select('id')
+        .single();
+
+      if (error) console.error('Supabase insert error:', error);
+
+      if (row?.id && WEBHOOK_URL) {
+        try {
+          const res = await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              submissionId: row.id,
+              source: 'explore_form',
+              timestamp: new Date().toISOString(),
+              contactInfo: { fullName: `${firstName} ${lastName}`, firstName, lastName, email, company },
+              answers: {
+                primaryReason: primaryLabel,
+                primaryReasonCode: primaryReason,
+                followupAnswer: followupLabel,
+                followupAnswerCode: followupAnswer,
+                recommendedRoute: route,
+                outcome: outcome || null,
               },
             }),
           });
@@ -415,10 +492,11 @@ export default function Explore() {
               </div>
               <div className="flex items-center gap-3 flex-wrap">
                 <button
-                  onClick={() => goTo(4)}
-                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-500 text-white text-[14px] font-semibold rounded-lg transition-colors"
+                  onClick={prefill ? submitAndBook : () => goTo(4)}
+                  disabled={submitting}
+                  className="inline-flex items-center gap-2 px-7 py-3.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-60 text-white text-[14px] font-semibold rounded-lg transition-colors"
                 >
-                  Book my call <ArrowRight className="w-4 h-4" />
+                  {submitting ? 'Saving...' : <>{prefill ? 'Book my call' : 'Continue'} <ArrowRight className="w-4 h-4" /></>}
                 </button>
                 <button
                   onClick={() => { setPrimaryReason(null); setFollowupAnswer(null); goTo(1); }}
@@ -451,9 +529,8 @@ export default function Explore() {
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-white/30">First name</label>
                     <input
+                      id="ex-first"
                       type="text"
-                      value={firstName}
-                      onChange={e => setFirstName(e.target.value)}
                       placeholder="Alex"
                       className="bg-[#0C1120] border border-white/7 rounded-lg px-4 py-3.5 text-[14.5px] text-white placeholder-white/20 outline-none focus:border-blue-600 transition-colors"
                     />
@@ -462,9 +539,8 @@ export default function Explore() {
                   <div className="flex flex-col gap-1.5">
                     <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-white/30">Last name</label>
                     <input
+                      id="ex-last"
                       type="text"
-                      value={lastName}
-                      onChange={e => setLastName(e.target.value)}
                       placeholder="Chen"
                       className="bg-[#0C1120] border border-white/7 rounded-lg px-4 py-3.5 text-[14.5px] text-white placeholder-white/20 outline-none focus:border-blue-600 transition-colors"
                     />
@@ -474,9 +550,8 @@ export default function Explore() {
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-white/30">Work email</label>
                   <input
+                    id="ex-email"
                     type="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
                     placeholder="alex@company.com"
                     className="bg-[#0C1120] border border-white/7 rounded-lg px-4 py-3.5 text-[14.5px] text-white placeholder-white/20 outline-none focus:border-blue-600 transition-colors"
                   />
@@ -485,9 +560,8 @@ export default function Explore() {
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[11px] font-semibold tracking-[0.12em] uppercase text-white/30">Company</label>
                   <input
+                    id="ex-company"
                     type="text"
-                    value={company}
-                    onChange={e => setCompany(e.target.value)}
                     placeholder="Acme Inc."
                     className="bg-[#0C1120] border border-white/7 rounded-lg px-4 py-3.5 text-[14.5px] text-white placeholder-white/20 outline-none focus:border-blue-600 transition-colors"
                   />
@@ -498,8 +572,7 @@ export default function Explore() {
                     The outcome you are working toward <span className="text-white/20 normal-case font-normal text-[10px]">Optional</span>
                   </label>
                   <textarea
-                    value={outcome}
-                    onChange={e => setOutcome(e.target.value)}
+                    id="ex-outcome"
                     placeholder="Describe the result you are trying to achieve or the problem you are solving..."
                     rows={3}
                     className="bg-[#0C1120] border border-white/7 rounded-lg px-4 py-3.5 text-[14.5px] text-white placeholder-white/20 outline-none focus:border-blue-600 transition-colors resize-y leading-[1.65]"

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, Lock } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -109,6 +109,7 @@ const EstSelect: React.FC<SelectProps> = ({ value, onChange, label, hint, option
 // ─── Main page ───────────────────────────────────────────────────────────────
 
 const Pricing: React.FC = () => {
+  const navigate = useNavigate();
   const [bizType,   setBizType]   = useState('');
   const [staffing,  setStaffing]  = useState('');
   const [revTarget, setRevTarget] = useState('');
@@ -574,13 +575,13 @@ const Pricing: React.FC = () => {
                       <p className="text-[0.72rem] font-bold tracking-[0.08em] uppercase text-white/25">Not the right fit right now?</p>
                       <p className="text-[0.82rem] font-semibold text-white/70 leading-snug">Pricing feel out of range? Have other questions?</p>
                     </div>
-                    <Link
-                      to="/explore"
+                    <button
+                      onClick={() => navigate('/explore', { state: { name: name.trim(), email: email.trim(), company: company.trim(), phone: phone.trim() } })}
                       className="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-lg border border-white/12 bg-white/[0.04] text-white/70 text-[0.8rem] font-semibold hover:bg-white/[0.07] hover:text-white transition-all"
                     >
                       Explore other solutions
                       <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
+                    </button>
                   </div>
                 </motion.div>
               )}
