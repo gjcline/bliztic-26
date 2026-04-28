@@ -4,7 +4,7 @@ import { ArrowRight, ArrowLeft, Check } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { supabase } from '@/lib/supabase';
 
-const CAL_URL = 'https://cal.com/bliztic/bliztic-consultation-call';
+const CAL_URL = 'https://cal.com/bliztic/bliztic-base-consultation-session';
 const WEBHOOK_URL = import.meta.env.VITE_WEBHOOK_URL as string;
 
 const PRIMARY_OPTIONS = [

@@ -552,7 +552,7 @@ const Pricing: React.FC = () => {
                 >
                   {/* Book a Call */}
                   <motion.a
-                    href="https://cal.com/bliztic/bliztic-consultation-call"
+                    href="https://cal.com/bliztic/bliztic-core-client-interview"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="group flex items-center justify-center gap-2 w-full px-4 py-3.5 rounded-xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-[0.85rem] font-bold tracking-wide transition-all"
