@@ -104,6 +104,58 @@ const TABS: TabConfig[] = [
   },
 ];
 
+// ─── Pricing label maps ───────────────────────────────────────────────────────
+
+const PRICING_LABELS: Record<string, Record<string, string>> = {
+  biz_type: {
+    agency: 'Agency', saas: 'SaaS', ecommerce: 'E-commerce',
+    startup: 'Startup', consulting: 'Consulting', other: 'Other',
+  },
+  staffing: {
+    '1': "We don't have one yet",
+    '2': "It's just me or a founder-led effort",
+    '3': 'We have one or two external reps',
+    '4': 'We have an internal team but underperforming',
+    '5': 'We have a strong team and just need more pipeline',
+  },
+  rev_target: {
+    '1': 'Under $25K/mo',
+    '2': '$25K–$75K/mo',
+    '3': '$75K–$250K/mo',
+    '4': '$250K–$750K/mo',
+    '5': '$750K+/mo',
+  },
+  meetings: {
+    '1': '1–5 meetings/mo',
+    '2': '6–15 meetings/mo',
+    '3': '16–30 meetings/mo',
+    '4': '30+ meetings/mo',
+  },
+  deal_size: {
+    '1': 'Under $5K',
+    '2': '$5K–$25K',
+    '3': '$25K–$100K',
+    '4': '$100K+',
+  },
+  markets: {
+    '1': 'One focused market',
+    '2': 'Two to three markets',
+    '3': 'Four or more markets',
+  },
+  infra: {
+    '1': 'Nothing in place yet',
+    '2': 'Some tools and processes, needs work',
+    '3': 'Solid foundation, needs optimization',
+  },
+};
+
+function resolvePricingValue(key: string, value: unknown): string | null {
+  const map = PRICING_LABELS[key];
+  if (!map) return null;
+  const resolved = map[String(value)];
+  return resolved ?? null;
+}
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function formatDate(val: unknown): string {
@@ -119,9 +171,21 @@ function truncate(s: string, n = 40): string {
 
 // ─── Detail drawer ────────────────────────────────────────────────────────────
 
-function DetailDrawer({ row, onClose }: { row: Record<string, unknown>; onClose: () => void }) {
+function DetailDrawer({ row, tabKey, onClose }: { row: Record<string, unknown>; tabKey: TabKey; onClose: () => void }) {
   const SKIP_KEYS = ['id'];
   const entries = Object.entries(row).filter(([k]) => !SKIP_KEYS.includes(k));
+
+  function displayValue(key: string, value: unknown): React.ReactNode {
+    if (value === null || value === undefined || value === '')
+      return <span className="text-white/20 italic">—</span>;
+    if (tabKey === 'pricing') {
+      const resolved = resolvePricingValue(key, value);
+      if (resolved) return resolved;
+    }
+    if (typeof value === 'object')
+      return <span className="font-mono text-[12px] text-white/60">{JSON.stringify(value, null, 2)}</span>;
+    return String(value);
+  }
 
   return (
     <motion.div
@@ -153,11 +217,7 @@ function DetailDrawer({ row, onClose }: { row: Record<string, unknown>; onClose:
                 {key.replace(/_/g, ' ')}
               </p>
               <p className="text-[13.5px] text-white/80 leading-[1.6] break-words">
-                {value === null || value === undefined || value === ''
-                  ? <span className="text-white/20 italic">—</span>
-                  : typeof value === 'object'
-                  ? <span className="font-mono text-[12px] text-white/60">{JSON.stringify(value, null, 2)}</span>
-                  : String(value)}
+                {displayValue(key, value)}
               </p>
             </div>
           ))}
@@ -296,7 +356,7 @@ function TabPanel({ config }: { config: TabConfig }) {
 
       <AnimatePresence>
         {selectedRow && (
-          <DetailDrawer row={selectedRow} onClose={() => setSelectedRow(null)} />
+          <DetailDrawer row={selectedRow} tabKey={config.key} onClose={() => setSelectedRow(null)} />
         )}
       </AnimatePresence>
     </>
