@@ -1,23 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Lock, ArrowRight, AlertCircle } from 'lucide-react';
 import { FloatingPaths } from '../components/ui/floating-paths';
 import { cn } from '@/lib/utils';
+import { supabase } from '@/lib/supabase';
 
 const PartnerLogin: React.FC = () => {
-  const [showMessage, setShowMessage] = React.useState(false);
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setShowMessage(true);
+    setLoading(true);
+    setError('');
+
+    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (authError) {
+      setError("We couldn't find your account. Please book a call with us to set up your partner access.");
+      setLoading(false);
+      return;
+    }
+
+    navigate('/partner');
   };
 
   return (
     <div className="min-h-screen bg-[#030303] flex flex-col">
       <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
-        
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.05] via-transparent to-rose-500/[0.05] blur-3xl" />
+
         <div className="absolute inset-0">
           <FloatingPaths position={1} />
           <FloatingPaths position={-1} />
@@ -47,7 +63,7 @@ const PartnerLogin: React.FC = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {showMessage && (
+              {error && (
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -60,16 +76,14 @@ const PartnerLogin: React.FC = () => {
                   <div className="flex items-start">
                     <AlertCircle className="h-5 w-5 text-white/60 mt-0.5 mr-3 flex-shrink-0" />
                     <p>
-                      Sorry, we couldn't find your account. Please{' '}
+                      {error}{' '}
                       <Link
                         to="/qualify"
-                        target="_blank"
-                        rel="noopener noreferrer"
                         className="text-white underline hover:text-white/80"
                       >
-                        book a call
+                        Book a call
                       </Link>{' '}
-                      with us to set up your partner access.
+                      to get started.
                     </p>
                   </div>
                 </motion.div>
@@ -82,6 +96,9 @@ const PartnerLogin: React.FC = () => {
                 <input
                   type="email"
                   id="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  required
                   className={cn(
                     "w-full p-3 rounded-lg",
                     "bg-white/5 border border-white/10",
@@ -89,7 +106,6 @@ const PartnerLogin: React.FC = () => {
                     "focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20",
                     "transition-all duration-300"
                   )}
-                  required
                 />
               </div>
 
@@ -100,6 +116,9 @@ const PartnerLogin: React.FC = () => {
                 <input
                   type="password"
                   id="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  required
                   className={cn(
                     "w-full p-3 rounded-lg",
                     "bg-white/5 border border-white/10",
@@ -107,37 +126,20 @@ const PartnerLogin: React.FC = () => {
                     "focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-white/20",
                     "transition-all duration-300"
                   )}
-                  required
                 />
-              </div>
-
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  <input
-                    id="remember-me"
-                    type="checkbox"
-                    className="h-4 w-4 bg-white/5 border-white/10 rounded focus:ring-white/20"
-                  />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-white/60">
-                    Remember me
-                  </label>
-                </div>
-
-                <a href="#" className="text-sm text-white/60 hover:text-white">
-                  Forgot password?
-                </a>
               </div>
 
               <button
                 type="submit"
+                disabled={loading}
                 className={cn(
-                  "w-full px-6 py-3 rounded-lg font-medium",
+                  "w-full flex items-center justify-center gap-2 px-6 py-3 rounded-lg font-medium",
                   "bg-white text-[#030303]",
                   "transform transition-all duration-300",
-                  "hover:shadow-glow hover:scale-[1.02]"
+                  "hover:opacity-90 disabled:opacity-60"
                 )}
               >
-                Sign In
+                {loading ? 'Signing in...' : <>Sign In <ArrowRight className="h-4 w-4" /></>}
               </button>
             </form>
           </motion.div>
@@ -165,8 +167,6 @@ const PartnerLogin: React.FC = () => {
               </p>
               <Link
                 to="/qualify"
-                target="_blank"
-                rel="noopener noreferrer"
                 className={cn(
                   "inline-flex items-center",
                   "px-6 py-3 rounded-lg",
