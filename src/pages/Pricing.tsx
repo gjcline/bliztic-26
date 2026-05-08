@@ -918,13 +918,6 @@ const Pricing: React.FC = () => {
                   Build Your Estimate
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </a>
-                <Link
-                  to="/qualify"
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-white/50 hover:text-white transition-colors pt-3 sm:pt-3.5"
-                >
-                  Or apply to qualify
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
               </div>
 
               <div className="flex items-center gap-4 border-t border-white/5 pt-8">
