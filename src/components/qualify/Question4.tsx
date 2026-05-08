@@ -30,7 +30,7 @@ const fundingStages = [
   { value: 'series_a' as FundingStage, label: 'Series A' },
   { value: 'series_b_plus' as FundingStage, label: 'Series B+' },
   { value: 'bootstrapped' as FundingStage, label: 'Bootstrapped / Profitable' },
-  { value: 'pre_revenue' as FundingStage, label: 'Pre-revenue' },
+  { value: 'pre_revenue' as FundingStage, label: 'Profitable but need to scale' },
   { value: 'not_seeking' as FundingStage, label: 'Not seeking funding' },
 ];
 
