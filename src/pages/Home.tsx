@@ -821,12 +821,10 @@ const Home: React.FC = () => {
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
           <Link
-            to="/qualify"
-            target="_blank"
-            rel="noopener noreferrer"
+            to="/pricing#estimator"
             className="group inline-flex items-center gap-2 px-10 py-4 rounded-lg border border-white/10 text-white/80 font-semibold text-base tracking-wide hover:border-blue-500 hover:text-white hover:bg-blue-500/5 transition-all duration-200"
           >
-            Try Risk-Free
+            Get a Quote
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </motion.div>
