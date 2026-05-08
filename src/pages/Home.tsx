@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import WhoWeAreSection from '../components/WhoWeAreSection';
 import { ImmersiveTimeline } from '../components/ui/immersive-timeline';
+import { SmokeBackground } from '../components/ui/spooky-smoke-animation';
 
 const Home: React.FC = () => {
   const [activeTab, setActiveTab] = useState('all');
@@ -925,6 +926,7 @@ const Home: React.FC = () => {
 
       {/* Build vs Buy Section */}
       <section className="relative z-10 py-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto border-t border-white/5">
+        <SmokeBackground />
         <div className="flex items-center gap-2 text-[0.65rem] tracking-[0.25em] uppercase text-blue-400 font-semibold mb-5">
           <div className="w-4 h-[1px] bg-blue-400" />
           Build vs Buy
