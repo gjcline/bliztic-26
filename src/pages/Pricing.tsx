@@ -189,6 +189,24 @@ const Pricing: React.FC = () => {
   const displayTier      = estimate?.tier ?? 'Core Build Engagement';
   const displayScope     = estimate?.scope ?? 'Core';
 
+  // Projected pipeline calculation
+  const MEETINGS_MIDPOINTS = [3, 10, 22, 35];
+  const DEAL_SIZE_MIDPOINTS = [3500, 15000, 60000, 150000];
+  const roiPipeline = useMemo(() => {
+    if (!meetings || !dealSize || !estimate) return null;
+    const mtIdx = parseInt(meetings) - 1;
+    const dsIdx = parseInt(dealSize) - 1;
+    const monthlyMeetings = MEETINGS_MIDPOINTS[mtIdx];
+    const dealValue = DEAL_SIZE_MIDPOINTS[dsIdx];
+    const quarterlyPipeline = monthlyMeetings * dealValue * 3;
+    const lowWon  = quarterlyPipeline * 0.20;
+    const highWon = Math.min(quarterlyPipeline * 0.40, estimate.hi * 3 * 10);
+    const quarterlyInvestLo = estimate.lo * 3;
+    const flooredLo = Math.max(lowWon, quarterlyInvestLo * 2);
+    const flooredHi = Math.max(highWon, quarterlyInvestLo * 3);
+    return { lo: Math.round(flooredLo / 1000) * 1000, hi: Math.round(flooredHi / 1000) * 1000 };
+  }, [meetings, dealSize, estimate]);
+
   const staffDisplayRange = staffEstimate
     ? `${fmt(Math.round(staffEstimate.lo / 4))} – ${fmt(Math.round(staffEstimate.hi / 4))}`
     : null;
@@ -651,7 +669,23 @@ const Pricing: React.FC = () => {
                     <div className={`transition-all duration-700 ${revealed ? '' : 'blur-[7px] select-none pointer-events-none'}`}>
                       <div className="text-[0.75rem] text-white/40 mb-1.5">Per week</div>
                       <div className="text-4xl font-extrabold tracking-tight text-white mb-1 leading-none">{displayRange}</div>
-                      <div className="text-[0.75rem] text-white/40 mb-4">Billed weekly. Quarterly operating cycle.</div>
+                      <div className="text-[0.75rem] text-white/40 mb-3">Billed weekly. Quarterly operating cycle.</div>
+
+                      {/* Projected pipeline callout */}
+                      {roiPipeline && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.4 }}
+                          className="mb-4 rounded-lg border border-emerald-500/20 bg-emerald-500/[0.05] px-4 py-3"
+                        >
+                          <div className="text-[0.62rem] font-bold tracking-[0.12em] uppercase text-emerald-400/60 mb-1">Projected quarterly pipeline</div>
+                          <div className="text-[1.35rem] font-extrabold tracking-tight text-emerald-300 leading-none mb-0.5">
+                            {fmt(roiPipeline.lo)} – {fmt(roiPipeline.hi)}
+                          </div>
+                          <div className="text-[0.65rem] text-emerald-400/40 leading-snug">Est. closed revenue over 12-week cycle, based on your inputs.</div>
+                        </motion.div>
+                      )}
 
                       {/* With our staff add-on chip — only for low weekly estimates */}
                       {showStaffPrice && (
@@ -687,7 +721,7 @@ const Pricing: React.FC = () => {
                       </div>
 
                       <div className="text-[0.68rem] text-white/20 leading-relaxed border-t border-white/5 pt-4 mb-4">
-                        Indicative only. Not a formal quote. All engagements are scoped individually through our diagnostic consultation.
+                        Indicative only. Not a formal quote. Pipeline projection is an estimate based on your inputs assuming a standard B2B close rate. Book a call for an accurate figure scoped to your business.
                       </div>
                     </div>
 
