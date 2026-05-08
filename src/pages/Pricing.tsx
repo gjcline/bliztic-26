@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Check, Lock, Info } from 'lucide-react';
+import { ArrowRight, Check, Lock, Info, ChevronDown } from 'lucide-react';
 import { supabase } from '../lib/supabase';
+import { SmokeBackground } from '../components/ui/spooky-smoke-animation';
 
 function CoreClientTooltip() {
   const [open, setOpen] = useState(false);
@@ -316,24 +317,48 @@ const Pricing: React.FC = () => {
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px] opacity-25 pointer-events-none" />
 
       {/* ─── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative z-10 pt-36 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <div className="flex items-center gap-2 text-[0.65rem] tracking-[0.25em] uppercase text-blue-400 font-semibold mb-6">
-            <div className="w-4 h-[1px] bg-blue-400" />
-            Pricing
-          </div>
+      <section className="relative z-10 overflow-hidden">
+        {/* Smoke canvas — full hero background */}
+        <div className="absolute inset-0 z-0">
+          <SmokeBackground smokeColor="#1e3a5f" />
+          {/* Fade out smoke at the bottom so it blends into the page */}
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#030303]/40 to-[#030303]" />
+        </div>
 
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.08] tracking-tight mb-7 max-w-2xl">
-            Built around your deal.{' '}
-            <span className="block bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
-              Structured to perform.
-            </span>
-          </h1>
+        <div className="relative z-10 pt-36 pb-28 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
+            <div className="flex items-center gap-2 text-[0.65rem] tracking-[0.25em] uppercase text-blue-400 font-semibold mb-6">
+              <div className="w-4 h-[1px] bg-blue-400" />
+              Pricing
+            </div>
 
-          <p className="text-base md:text-lg text-white/60 leading-relaxed max-w-lg mb-10">
-            No tiers. No fixed packages. Every engagement is priced to the scope of the division we build and scoped individually before a number is ever set.
-          </p>
-        </motion.div>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.08] tracking-tight mb-7 max-w-2xl">
+              Built around your deal.{' '}
+              <span className="block bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+                Structured to perform.
+              </span>
+            </h1>
+
+            <p className="text-base md:text-lg text-white/60 leading-relaxed max-w-lg mb-10">
+              No tiers. No fixed packages. Every engagement is priced to the scope of the division we build and scoped individually before a number is ever set.
+            </p>
+
+            <motion.button
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.25 }}
+              onClick={() => {
+                document.getElementById('estimator')?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="group inline-flex items-center gap-3 bg-white/[0.06] hover:bg-white/[0.10] border border-white/10 hover:border-white/20 text-white font-semibold text-sm px-6 py-3.5 rounded-full transition-all duration-300 backdrop-blur-sm"
+            >
+              Get your estimate
+              <span className="flex items-center justify-center w-6 h-6 rounded-full bg-blue-500/20 group-hover:bg-blue-500/30 transition-colors">
+                <ChevronDown className="w-3.5 h-3.5 text-blue-400 group-hover:translate-y-0.5 transition-transform duration-200" />
+              </span>
+            </motion.button>
+          </motion.div>
+        </div>
       </section>
 
       {/* ─── SCOPE VARIABLES ─────────────────────────────────────────────── */}
