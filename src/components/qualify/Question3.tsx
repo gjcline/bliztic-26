@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
-import { Label } from '@/components/ui/label';
 import type { OutreachChannel, ChannelWithLevel } from '@/types/qualification';
 
 interface Question3Props {
@@ -20,97 +19,106 @@ const channels: { value: OutreachChannel; label: string }[] = [
   { value: 'other', label: 'Other' },
 ];
 
+const optionBase =
+  'flex items-center gap-4 px-4 py-3.5 rounded-xl border cursor-pointer transition-all duration-200 select-none';
+const optionActive =
+  'border-blue-500/50 bg-blue-500/[0.08] shadow-[inset_0_0_0_1px_rgba(59,130,246,0.3)]';
+const optionIdle =
+  'border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.14]';
+
 export function Question3({ outreachChannels, onUpdate }: Question3Props) {
   const handleChannelToggle = (channel: OutreachChannel) => {
     const existing = outreachChannels.find((c) => c.channel === channel);
-
     if (existing) {
       onUpdate(outreachChannels.filter((c) => c.channel !== channel));
     } else {
-      onUpdate([
-        ...outreachChannels,
-        { channel, successLevel: 50, touched: false },
-      ]);
+      onUpdate([...outreachChannels, { channel, successLevel: 50, touched: false }]);
     }
   };
 
   const handleSliderChange = (channel: OutreachChannel, value: number[]) => {
     onUpdate(
       outreachChannels.map((c) =>
-        c.channel === channel
-          ? { ...c, successLevel: value[0], touched: true }
-          : c
+        c.channel === channel ? { ...c, successLevel: value[0], touched: true } : c
       )
     );
   };
 
-  const isChannelSelected = (channel: OutreachChannel) => {
-    return outreachChannels.some((c) => c.channel === channel);
-  };
+  const isSelected = (channel: OutreachChannel) => outreachChannels.some((c) => c.channel === channel);
+  const getData = (channel: OutreachChannel) => outreachChannels.find((c) => c.channel === channel);
 
-  const getChannelData = (channel: OutreachChannel) => {
-    return outreachChannels.find((c) => c.channel === channel);
+  const sliderValue = (channel: OutreachChannel) => {
+    const v = getData(channel)?.successLevel ?? 50;
+    if (v <= 33) return 'Low';
+    if (v <= 66) return 'Moderate';
+    return 'High';
   };
 
   return (
     <div className="space-y-6">
-      <div className="space-y-4">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-8 h-[2px] bg-gradient-to-r from-blue-400 to-cyan-400" />
-          <span className="text-xs font-semibold tracking-wider uppercase text-blue-400">Step 3</span>
-        </div>
-        <h2 className="text-2xl font-bold text-white mb-1">
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-[2px] bg-gradient-to-r from-blue-400 to-cyan-400" />
+        <span className="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-blue-400">Step 3</span>
+      </div>
+      <div>
+        <h2 className="text-2xl font-bold text-white leading-snug mb-1">
           Which outreach channels are you currently using?
         </h2>
-        <p className="text-white/60">Select all that apply</p>
+        <p className="text-[0.8rem] text-white/40">Select all that apply</p>
+      </div>
 
-        <div className="space-y-3">
-          {channels.map((channel) => (
-            <div key={channel.value} className="space-y-3">
-              <label
-                className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
-                  isChannelSelected(channel.value)
-                    ? 'border-blue-500/50 bg-gradient-to-r from-blue-500/20 to-cyan-500/20'
-                    : 'border-white/10 bg-white/5 hover:border-blue-500/30'
-                }`}
-              >
+      <div className="space-y-2.5">
+        {channels.map((channel) => {
+          const active = isSelected(channel.value);
+          return (
+            <div key={channel.value}>
+              <label className={`${optionBase} ${active ? optionActive : optionIdle}`}>
                 <Checkbox
-                  checked={isChannelSelected(channel.value)}
+                  checked={active}
                   onCheckedChange={() => handleChannelToggle(channel.value)}
+                  className="shrink-0"
                 />
-                <span className="text-white font-medium flex-1">{channel.label}</span>
+                <span className={`text-sm font-medium flex-1 transition-colors duration-200 ${active ? 'text-white' : 'text-white/70'}`}>
+                  {channel.label}
+                </span>
               </label>
 
-              {isChannelSelected(channel.value) && (
+              {active && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
                   transition={{ duration: 0.2 }}
-                  className="pl-4 pr-4 pb-4 space-y-3"
+                  className="overflow-hidden"
                 >
-                  <div className="bg-white/5 p-4 rounded-lg space-y-3">
-                    <Label className="text-white/80 text-sm">
-                      How successful is this channel? (0-100)
-                    </Label>
-                    <div className="flex items-center gap-4">
-                      <Slider
-                        value={[getChannelData(channel.value)?.successLevel || 50]}
-                        onValueChange={(value) => handleSliderChange(channel.value, value)}
-                        max={100}
-                        step={1}
-                        className="flex-1"
-                      />
-                      <span className="text-white font-semibold min-w-[3rem] text-right">
-                        {getChannelData(channel.value)?.successLevel || 50}%
+                  <div className="mx-1 mt-1 mb-1 bg-white/[0.03] border border-white/[0.06] rounded-xl px-5 py-4 space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[0.72rem] font-semibold text-white/45 uppercase tracking-wider">
+                        Channel effectiveness
+                      </span>
+                      <span className={`text-[0.72rem] font-bold tracking-wide ${
+                        sliderValue(channel.value) === 'High'
+                          ? 'text-cyan-400'
+                          : sliderValue(channel.value) === 'Moderate'
+                          ? 'text-blue-400'
+                          : 'text-white/50'
+                      }`}>
+                        {getData(channel.value)?.successLevel ?? 50}% — {sliderValue(channel.value)}
                       </span>
                     </div>
+                    <Slider
+                      value={[getData(channel.value)?.successLevel ?? 50]}
+                      onValueChange={(value) => handleSliderChange(channel.value, value)}
+                      max={100}
+                      step={1}
+                      className="w-full"
+                    />
                   </div>
                 </motion.div>
               )}
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </div>
   );

@@ -32,6 +32,16 @@ const businessTypes = [
   { value: 'other' as BusinessType, label: 'Other', icon: Layers },
 ];
 
+const optionBase =
+  'flex items-center gap-4 px-4 py-3.5 rounded-xl border cursor-pointer transition-all duration-200 select-none';
+const optionActive =
+  'border-blue-500/50 bg-blue-500/[0.08] shadow-[inset_0_0_0_1px_rgba(59,130,246,0.3)]';
+const optionIdle =
+  'border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.06] hover:border-white/[0.14]';
+
+const inputBase =
+  'bg-white/[0.04] border border-white/[0.08] text-white placeholder:text-white/25 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500/50 focus:bg-white/[0.06] transition-all duration-200 w-full';
+
 export function Question1({
   businessType,
   customBusinessType,
@@ -50,32 +60,27 @@ export function Question1({
 
   return (
     <div className="space-y-8">
-      <div className="space-y-4">
-        <div className="flex items-center gap-3 mb-2">
+      <div className="space-y-5">
+        <div className="flex items-center gap-3">
           <div className="w-8 h-[2px] bg-gradient-to-r from-blue-400 to-cyan-400" />
-          <span className="text-xs font-semibold tracking-wider uppercase text-blue-400">Step 1</span>
+          <span className="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-blue-400">Step 1</span>
         </div>
-        <h2 className="text-2xl font-bold text-white mb-1">
+        <h2 className="text-2xl font-bold text-white leading-snug">
           What type of business do you run?
         </h2>
+
         <RadioGroup value={businessType || ''} onValueChange={handleBusinessTypeChange}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
             {businessTypes.map((type) => {
               const Icon = type.icon;
+              const active = businessType === type.value;
               return (
-                <label
-                  key={type.value}
-                  className={`flex items-center gap-4 p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
-                    businessType === type.value
-                      ? 'border-blue-500/50 bg-gradient-to-r from-blue-500/20 to-cyan-500/20'
-                      : 'border-white/10 bg-white/5 hover:border-blue-500/30'
-                  }`}
-                >
-                  <RadioGroupItem value={type.value} />
-                  <Icon className={`w-5 h-5 transition-colors duration-300 ${
-                    businessType === type.value ? 'text-blue-400' : 'text-white/60'
-                  }`} />
-                  <span className="text-white font-medium">{type.label}</span>
+                <label key={type.value} className={`${optionBase} ${active ? optionActive : optionIdle}`}>
+                  <RadioGroupItem value={type.value} className="shrink-0" />
+                  <Icon className={`w-4 h-4 shrink-0 transition-colors duration-200 ${active ? 'text-blue-400' : 'text-white/40'}`} />
+                  <span className={`text-sm font-medium transition-colors duration-200 ${active ? 'text-white' : 'text-white/70'}`}>
+                    {type.label}
+                  </span>
                 </label>
               );
             })}
@@ -84,21 +89,21 @@ export function Question1({
 
         {businessType === 'other' && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="space-y-2 pt-2"
+            transition={{ duration: 0.25 }}
+            className="pt-1"
           >
-            <Label htmlFor="customBusinessType" className="text-white/80">
-              Please specify your business type
+            <Label htmlFor="customBusinessType" className="text-[0.75rem] font-semibold text-white/50 uppercase tracking-wider mb-2 block">
+              Specify your business type
             </Label>
-            <Input
+            <input
               id="customBusinessType"
               type="text"
               placeholder="e.g., Healthcare, Education, Real Estate..."
               value={customBusinessType}
               onChange={(e) => onUpdate({ customBusinessType: e.target.value })}
-              className="bg-white/5 border-white/10 focus:border-blue-500/50"
+              className={inputBase}
             />
           </motion.div>
         )}
@@ -106,19 +111,19 @@ export function Question1({
 
       {showContactFields && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
-          className="space-y-6 pt-4"
+          className="space-y-5 pt-2"
         >
-          <div className="border-t border-white/10 pt-6">
-            <h3 className="text-xl font-semibold text-white mb-4">Contact Information</h3>
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="fullName" className="text-white/80">
+          <div className="border-t border-white/[0.06] pt-6">
+            <h3 className="text-base font-semibold text-white/80 mb-5 tracking-tight">Contact Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <Label htmlFor="fullName" className="text-[0.73rem] font-semibold text-white/45 uppercase tracking-wider">
                   Full Name
                 </Label>
-                <Input
+                <input
                   id="fullName"
                   type="text"
                   placeholder="John Doe"
@@ -126,14 +131,31 @@ export function Question1({
                   onChange={(e) => onUpdate({ fullName: e.target.value })}
                   autoComplete="name"
                   required
+                  className={inputBase}
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="email" className="text-white/80">
+              <div className="space-y-1.5">
+                <Label htmlFor="companyName" className="text-[0.73rem] font-semibold text-white/45 uppercase tracking-wider">
+                  Company Name
+                </Label>
+                <input
+                  id="companyName"
+                  type="text"
+                  placeholder="Acme Inc."
+                  value={companyName}
+                  onChange={(e) => onUpdate({ companyName: e.target.value })}
+                  autoComplete="organization"
+                  required
+                  className={inputBase}
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="email" className="text-[0.73rem] font-semibold text-white/45 uppercase tracking-wider">
                   Email Address
                 </Label>
-                <Input
+                <input
                   id="email"
                   type="email"
                   placeholder="john@company.com"
@@ -142,14 +164,15 @@ export function Question1({
                   autoComplete="email"
                   inputMode="email"
                   required
+                  className={inputBase}
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="phoneNumber" className="text-white/80">
+              <div className="space-y-1.5">
+                <Label htmlFor="phoneNumber" className="text-[0.73rem] font-semibold text-white/45 uppercase tracking-wider">
                   Phone Number
                 </Label>
-                <Input
+                <input
                   id="phoneNumber"
                   type="tel"
                   placeholder="+1 (555) 000-0000"
@@ -158,21 +181,7 @@ export function Question1({
                   autoComplete="tel"
                   inputMode="tel"
                   required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="companyName" className="text-white/80">
-                  Company Name
-                </Label>
-                <Input
-                  id="companyName"
-                  type="text"
-                  placeholder="Acme Inc."
-                  value={companyName}
-                  onChange={(e) => onUpdate({ companyName: e.target.value })}
-                  autoComplete="organization"
-                  required
+                  className={inputBase}
                 />
               </div>
             </div>
