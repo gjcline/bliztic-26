@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, Lock, Info, ChevronDown } from 'lucide-react';
 import { supabase } from '../lib/supabase';
@@ -146,6 +146,16 @@ const EstSelect: React.FC<SelectProps> = ({ value, onChange, label, hint, option
 
 const Pricing: React.FC = () => {
   const navigate = useNavigate();
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) return;
+    const id = hash.replace('#', '');
+    const el = document.getElementById(id);
+    if (el) {
+      setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+    }
+  }, [hash]);
   const [bizType,   setBizType]   = useState('');
   const [staffing,  setStaffing]  = useState('');
   const [revTarget, setRevTarget] = useState('');
