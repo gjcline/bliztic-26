@@ -203,7 +203,7 @@ const Pricing: React.FC = () => {
     const highWon = Math.min(quarterlyPipeline * 0.40, estimate.hi * 3 * 10);
     const quarterlyInvestLo = estimate.lo * 3;
     const flooredLo = Math.max(lowWon, quarterlyInvestLo * 2);
-    const flooredHi = Math.max(highWon, quarterlyInvestLo * 3);
+    const flooredHi = Math.max(highWon, quarterlyInvestLo * 3.35);
     return { lo: Math.round(flooredLo / 1000) * 1000, hi: Math.round(flooredHi / 1000) * 1000 };
   }, [meetings, dealSize, estimate]);
 
