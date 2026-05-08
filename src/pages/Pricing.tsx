@@ -899,7 +899,7 @@ const Pricing: React.FC = () => {
               </div>
 
               <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-5 max-w-2xl">
-                Price should never be the reason you don't take the call.{' '}
+                Price should never be the reason we don't take the call.{' '}
                 <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
                   So the first one is on us.
                 </span>
