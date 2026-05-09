@@ -215,7 +215,7 @@ const Pricing: React.FC = () => {
     const dealValue = DEAL_SIZE_MIDPOINTS[dsIdx];
     const quarterlyPipeline = monthlyMeetings * dealValue * 3;
     const lowWon  = quarterlyPipeline * 0.20;
-    const highWon = Math.min(quarterlyPipeline * 0.40, estimate.hi * 3 * 10);
+    const highWon = Math.min(quarterlyPipeline * 0.40, estimate.hi * 3 * 4.2);
     const quarterlyInvestLo = estimate.lo * 3;
     const flooredLo = Math.max(lowWon, quarterlyInvestLo * 2);
     const flooredHi = Math.max(highWon, quarterlyInvestLo * 3.35);
