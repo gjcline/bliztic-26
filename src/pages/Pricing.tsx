@@ -69,6 +69,10 @@ const STAFFING_HINTS = [
 const STAFFING_BASE = [7200, 7000, 6000, 5500, 5000];
 
 function fmt(n: number) {
+  if (n >= 1_000_000) {
+    const m = n / 1_000_000;
+    return '$' + (Number.isInteger(m) ? m : parseFloat(m.toFixed(1))) + 'M';
+  }
   return '$' + Math.round(n / 1000) + 'K';
 }
 
