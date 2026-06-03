@@ -8,6 +8,7 @@ import {
   Circle
 } from 'lucide-react';
 import WhoWeAreSection from '../components/WhoWeAreSection';
+import BlizticFundCard from '../components/BlizticFundCard';
 import { ImmersiveTimeline } from '../components/ui/immersive-timeline';
 
 const Home: React.FC = () => {
@@ -157,6 +158,9 @@ const Home: React.FC = () => {
           </div>
         </motion.div>
       </section>
+
+      {/* Bliztic Fund Card */}
+      <BlizticFundCard />
 
       {/* Who We Are Section */}
       <WhoWeAreSection />
