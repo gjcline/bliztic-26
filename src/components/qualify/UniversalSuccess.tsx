@@ -1,10 +1,37 @@
+import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { DotsPattern } from '@/components/ui/bg-pattern';
+import { useNavigate } from 'react-router-dom';
+
+const PRICING_PATH = '/pricing#estimator';
 
 export function UniversalSuccess() {
+  const navigate = useNavigate();
+  const [countdown, setCountdown] = useState(6);
+  const cancelled = useRef(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          if (!cancelled.current) navigate(PRICING_PATH);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [navigate]);
+
+  const goToPricing = () => {
+    cancelled.current = true;
+    navigate(PRICING_PATH);
+  };
+
   const handleScheduleCall = () => {
+    cancelled.current = true;
     window.open('https://cal.com/bliztic/bliztic-consultation-call', '_blank');
   };
 
@@ -71,24 +98,33 @@ export function UniversalSuccess() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
+          className="space-y-3"
         >
           <Button
             onClick={handleScheduleCall}
             size="lg"
-            className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold shadow-[0_4px_24px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_32px_rgba(37,99,235,0.4)] hover:scale-105 transition-all duration-200 text-lg px-8 py-6 h-auto"
+            className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold shadow-[0_4px_24px_rgba(37,99,235,0.3)] hover:shadow-[0_4px_32px_rgba(37,99,235,0.4)] hover:scale-105 transition-all duration-200 text-lg px-8 py-6 h-auto"
           >
             Schedule Your Consultation Call
           </Button>
-        </motion.div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.8 }}
-          className="text-sm text-white/50"
-        >
-          Ready to take the next step? Book a time that works for you.
-        </motion.p>
+          <button
+            onClick={goToPricing}
+            className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.07] hover:border-white/20 text-white/70 hover:text-white text-base font-medium transition-all duration-200"
+          >
+            View Pricing &amp; Estimate Your Engine
+            <ArrowRight className="w-4 h-4" />
+          </button>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.9 }}
+            className="text-xs text-white/25 pt-1"
+          >
+            {countdown > 0 ? `Taking you to pricing in ${countdown}s...` : 'Redirecting...'}
+          </motion.p>
+        </motion.div>
       </motion.div>
     </div>
   );
