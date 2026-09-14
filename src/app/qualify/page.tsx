@@ -16,10 +16,6 @@ export default async function QualifyPage({
 
   return (
     <PageShell active="inquire">
-      <h1 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">
-        {copy.inquire.title}
-      </h1>
-      <p className="mt-6 mb-14 text-base leading-relaxed text-mute">{copy.inquire.lede}</p>
       <InquireForm initialIntent={intent} />
     </PageShell>
   );

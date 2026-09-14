@@ -57,9 +57,9 @@ export function InquireForm({ initialIntent }: { initialIntent?: string }) {
 
   if (status === "success") {
     return (
-      <p className="font-serif text-4xl leading-tight tracking-tight text-paper sm:text-5xl">
+      <h1 className="font-serif text-4xl leading-tight tracking-tight text-paper sm:text-5xl">
         {copy.inquire.success}
-      </p>
+      </h1>
     );
   }
 
@@ -67,7 +67,12 @@ export function InquireForm({ initialIntent }: { initialIntent?: string }) {
     "w-full border-0 border-b border-line bg-transparent px-0 py-3 text-base text-paper outline-none transition-colors placeholder:text-mute/50 focus:border-paper";
 
   return (
-    <form onSubmit={onSubmit} className="space-y-10" noValidate>
+    <>
+      <h1 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">
+        {copy.inquire.title}
+      </h1>
+      <p className="mt-6 mb-14 text-base leading-relaxed text-mute">{copy.inquire.lede}</p>
+      <form onSubmit={onSubmit} className="space-y-10" noValidate>
       <fieldset>
         <legend className="mb-4 text-sm text-mute">{copy.inquire.intent}</legend>
         <div className="flex flex-wrap gap-x-6 gap-y-3">
@@ -184,5 +189,6 @@ export function InquireForm({ initialIntent }: { initialIntent?: string }) {
         {status === "sending" ? copy.inquire.sending : copy.inquire.submit}
       </button>
     </form>
+    </>
   );
 }
