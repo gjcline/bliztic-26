@@ -44,12 +44,13 @@ The form posts JSON to `POST /api/inquire`:
   "company": "",
   "name": "",
   "email": "",
+  "phone": "",
   "note": "",
   "sizeOrStage": ""
 }
 ```
 
-`intent` is `fund`, `acquire`, or `other`. The demo handler logs the payload and returns `{ "ok": true }`.
+`intent` is `fund`, `acquire`, or `other`. `phone` is required. `note` is only used when intent is `other`, and even then it is optional. The demo handler logs the payload and returns `{ "ok": true }`.
 
 To wire a real backend later, keep that JSON shape and replace the stub in `src/app/api/inquire/route.ts` with a send to your inbox, CRM, or webhook. This repo still has a `supabase/` folder if you want to persist submissions.
 

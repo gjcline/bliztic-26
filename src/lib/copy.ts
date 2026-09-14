@@ -62,6 +62,7 @@ export const copy = {
     company: "Company",
     name: "Name",
     email: "Email",
+    phone: "Phone",
     note: "What you are building or selling",
     size: "Size or stage",
     sizeHint: "Optional",

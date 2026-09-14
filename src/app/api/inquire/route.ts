@@ -1,18 +1,7 @@
 import { NextResponse } from "next/server";
-import { intents, type Intent } from "@/lib/copy";
+import { isIntent, type InquirePayload } from "@/lib/inquire";
 
-type InquireBody = {
-  intent?: string;
-  company?: string;
-  name?: string;
-  email?: string;
-  note?: string;
-  sizeOrStage?: string;
-};
-
-function isIntent(value: string | undefined): value is Intent {
-  return intents.includes(value as Intent);
-}
+type InquireBody = Partial<InquirePayload>;
 
 function isEmail(value: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
@@ -31,15 +20,26 @@ export async function POST(request: Request) {
   const company = body.company?.trim() ?? "";
   const name = body.name?.trim() ?? "";
   const email = body.email?.trim() ?? "";
-  const note = body.note?.trim() ?? "";
+  const phone = body.phone?.trim() ?? "";
+  const note = intent === "other" ? (body.note?.trim() ?? "") : "";
   const sizeOrStage = body.sizeOrStage?.trim() ?? "";
 
-  if (!isIntent(intent) || !company || !name || !email || !note || !isEmail(email)) {
+  if (!isIntent(intent) || !company || !name || !email || !phone || !isEmail(email)) {
     return NextResponse.json({ ok: false, error: "invalid" }, { status: 400 });
   }
 
+  const payload: InquirePayload = {
+    intent,
+    company,
+    name,
+    email,
+    phone,
+    note,
+    sizeOrStage,
+  };
+
   // Demo stub. Replace this block with a CRM, inbox, or webhook later.
-  console.info("[inquire]", { intent, company, name, email, note, sizeOrStage });
+  console.info("[inquire]", payload);
 
   return NextResponse.json({ ok: true });
 }
