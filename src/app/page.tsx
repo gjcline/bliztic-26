@@ -55,7 +55,7 @@ export default function HomePage() {
           <HomeSection title={copy.home.capitalTitle}>
             <p>{copy.home.capitalBody}</p>
             <p>{copy.home.capitalMore}</p>
-            <p className="mt-10 flex flex-wrap items-center gap-x-3 gap-y-3 text-sm">
+            <p className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-3 text-sm">
               <Link href={routes.fund} className={quietLinkClass}>
                 {copy.nav.fund}
               </Link>
@@ -73,16 +73,16 @@ export default function HomePage() {
           </HomeSection>
         </div>
 
-        <section className="flex min-h-dvh flex-col items-center justify-center px-6 py-28 text-center">
+        <section className="flex flex-col items-center px-6 py-16 text-center sm:py-20">
           <p className="max-w-[34rem] font-serif text-3xl leading-snug tracking-tight text-paper sm:text-4xl">
             {copy.home.closeBody}
           </p>
-          <p className="mt-14">
+          <p className="mt-10">
             <Link href={routes.inquire} className={quietLinkClass}>
               {copy.home.cta}
             </Link>
           </p>
-          <p className="mt-28 font-serif text-xl tracking-tight text-paper">{copy.siteName}</p>
+          <p className="mt-16 font-serif text-xl tracking-tight text-paper">{copy.siteName}</p>
         </section>
       </main>
     </>
@@ -97,9 +97,9 @@ function HomeSection({
   children: ReactNode;
 }) {
   return (
-    <section className="flex min-h-dvh flex-col justify-center py-24">
+    <section className="py-14 sm:py-16">
       <h2 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">{title}</h2>
-      <div className="mt-12 space-y-6 text-lg leading-relaxed text-mute sm:mt-16">{children}</div>
+      <div className="mt-8 space-y-5 text-lg leading-relaxed text-mute sm:mt-10">{children}</div>
     </section>
   );
 }
