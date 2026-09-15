@@ -14,6 +14,25 @@ export const copy = {
     title: "Bliztic",
     description:
       "An ownership group dedicated to building, owning, and operating companies through GTM engineering.",
+    whatTitle: "What we are",
+    whatBody:
+      "Bliztic is an ownership group. We build companies, buy companies, and run them.",
+    whatMore:
+      "The through line is GTM engineering: distribution as the operating system.",
+    workTitle: "How we work",
+    workBody:
+      "We do not consult from the sidelines. We own outcomes through capital, systems, and operators who live inside the work.",
+    capitalTitle: "Where capital goes",
+    capitalBody:
+      "Some companies need fuel for go to market. The GTM Fund exists for that.",
+    capitalMore:
+      "Others are ready for a different kind of partnership. Acquire is how those conversations start.",
+    absentTitle: "What you will not find here",
+    absentBody:
+      "No portfolio wall. No public list of holdings. The work is quieter than that. When something is meant to stand alone, it has its own home.",
+    closeBody:
+      "If you are building something that needs an owner operator, or you are exploring a sale, inquire. We read every note.",
+    cta: "Inquire",
   },
 
   fund: {
