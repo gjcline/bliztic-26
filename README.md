@@ -56,7 +56,7 @@ On a valid submit, `POST /api/inquire` sends a notification email with Resend. S
 
 | Variable | Required | Default |
 | --- | --- | --- |
-| `RESEND_API_KEY` | Yes in production | none. Local and other non production runs log the payload instead when this is unset |
+| `RESEND_API_KEY` | Yes in production | none. Local, preview, and other non production runs log the payload instead when this is unset |
 | `INQUIRE_NOTIFY_TO` | No | `grant@dev.bliztic.com` |
 | `RESEND_FROM` | No | `Bliztic <onboarding@resend.dev>` |
 

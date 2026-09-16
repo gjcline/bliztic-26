@@ -48,6 +48,9 @@ export function inquireHtml(payload: InquirePayload, receivedAt: string) {
 }
 
 export function isProductionRuntime() {
+  if (process.env.VERCEL_ENV) {
+    return process.env.VERCEL_ENV === "production";
+  }
   return process.env.NODE_ENV === "production";
 }
 
