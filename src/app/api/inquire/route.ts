@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { isIntent, type InquirePayload } from "@/lib/inquire";
+import { notifyInquire } from "@/lib/inquire-notify";
 
 type InquireBody = Partial<InquirePayload>;
 
@@ -38,8 +39,10 @@ export async function POST(request: Request) {
     sizeOrStage,
   };
 
-  // Demo stub. Replace this block with a CRM, inbox, or webhook later.
-  console.info("[inquire]", payload);
+  const result = await notifyInquire(payload);
+  if (!result.ok) {
+    return NextResponse.json({ ok: false, error: result.error }, { status: result.status });
+  }
 
   return NextResponse.json({ ok: true });
 }

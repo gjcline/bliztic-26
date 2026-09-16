@@ -50,8 +50,18 @@ The form posts JSON to `POST /api/inquire`:
 }
 ```
 
-`intent` is `fund`, `acquire`, or `other`. `phone` is required. `note` is only used when intent is `other`, and even then it is optional. The demo handler logs the payload and returns `{ "ok": true }`.
+`intent` is `fund`, `acquire`, or `other`. `phone` is required. `note` is only used when intent is `other`, and even then it is optional.
 
-To wire a real backend later, keep that JSON shape and replace the stub in `src/app/api/inquire/route.ts` with a send to your inbox, CRM, or webhook. This repo still has a `supabase/` folder if you want to persist submissions.
+On a valid submit, `POST /api/inquire` sends a notification email with Resend. Set these server env vars (never commit the API key):
 
-A `mailto:` form action also works for a first live pass if you do not want an API yet.
+| Variable | Required | Default |
+| --- | --- | --- |
+| `RESEND_API_KEY` | Yes in production | none. Local and other non production runs log the payload instead when this is unset |
+| `INQUIRE_NOTIFY_TO` | No | `grant@dev.bliztic.com` |
+| `RESEND_FROM` | No | `Bliztic <onboarding@resend.dev>` |
+
+Production should set `RESEND_FROM` to a verified Bliztic domain sender. The onboarding address is only for local and early tests.
+
+If Resend rejects the send, the route returns a safe `{ "ok": false }` with status 502. Missing `RESEND_API_KEY` in production returns 500. The API key is never logged.
+
+This repo still has a `supabase/` folder if you want to persist submissions.
