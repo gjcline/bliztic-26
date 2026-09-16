@@ -33,6 +33,7 @@ export const copy = {
     closeBody:
       "If you are building something that needs an owner operator, or you are exploring a sale, inquire. We read every note.",
     cta: "Inquire",
+    explore: "Explore",
   },
 
   fund: {

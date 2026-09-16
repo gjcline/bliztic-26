@@ -47,10 +47,16 @@ export default function HomePage() {
                 {copy.nav.inquire}
               </Link>
             </nav>
+            <a
+              href="#explore"
+              className="rise rise-delay-more mt-12 text-sm text-mute/55 transition-colors hover:text-mute"
+            >
+              {copy.home.explore}
+            </a>
           </section>
 
           <div id="content" className="mx-auto w-full max-w-[34rem] px-6">
-            <HomeSection title={copy.home.whatTitle}>
+            <HomeSection id="explore" title={copy.home.whatTitle}>
               <p>{copy.home.whatBody}</p>
               <p>{copy.home.whatMore}</p>
             </HomeSection>
@@ -98,14 +104,16 @@ export default function HomePage() {
 }
 
 function HomeSection({
+  id,
   title,
   children,
 }: {
+  id?: string;
   title: string;
   children: ReactNode;
 }) {
   return (
-    <section className="py-14 sm:py-16">
+    <section id={id} className="scroll-mt-8 py-14 sm:py-16">
       <h2 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">{title}</h2>
       <div className="mt-8 space-y-5 text-lg leading-relaxed text-mute sm:mt-10">{children}</div>
     </section>
