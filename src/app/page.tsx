@@ -49,7 +49,7 @@ export default function HomePage() {
             </nav>
             <a
               href="#explore"
-              className="rise rise-delay-more mt-12 text-sm text-mute/55 transition-colors hover:text-mute"
+              className="rise rise-delay-more mt-16 border border-paper/30 px-6 py-2.5 text-base text-paper transition-colors hover:border-paper/60 hover:bg-paper/5 sm:mt-20"
             >
               {copy.home.explore}
             </a>
