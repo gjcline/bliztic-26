@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useMemo, type CSSProperties } from "react";
+import { useRef, useEffect, useMemo, useState, CSSProperties } from "react";
 
 type PatternShape = "Checks" | "Stripes" | "Edge";
 
@@ -10,13 +10,10 @@ const PatternShapes: Record<PatternShape, number> = {
   Edge: 2,
 };
 
-interface PresetColors {
+interface PresetParams {
   color1: string;
   color2: string;
   color3: string;
-}
-
-interface PresetParams extends PresetColors {
   rotation: number;
   proportion: number;
   scale: number;
@@ -28,19 +25,15 @@ interface PresetParams extends PresetColors {
   offset: number;
   shape: PatternShape;
   shapeSize: number;
-  lightColors?: PresetColors;
 }
+
+type PresetName = "Prism" | "Lava" | "Plasma" | "Pulse" | "Vortex" | "Mist";
 
 const presets: Record<PresetName, PresetParams> = {
   Prism: {
     color1: "#050505",
     color2: "#66B3FF",
     color3: "#FFFFFF",
-    lightColors: {
-      color1: "#FAFAFA",
-      color2: "#66B3FF",
-      color3: "#050505",
-    },
     rotation: -50,
     proportion: 1,
     scale: 0.01,
@@ -57,11 +50,6 @@ const presets: Record<PresetName, PresetParams> = {
     color1: "#FF9F21",
     color2: "#FF0303",
     color3: "#000000",
-    lightColors: {
-      color1: "#FF9F21",
-      color2: "#FF0303",
-      color3: "#FAFAFA",
-    },
     rotation: 114,
     proportion: 100,
     scale: 0.52,
@@ -78,11 +66,6 @@ const presets: Record<PresetName, PresetParams> = {
     color1: "#B566FF",
     color2: "#000000",
     color3: "#000000",
-    lightColors: {
-      color1: "#B566FF",
-      color2: "#FAFAFA",
-      color3: "#FAFAFA",
-    },
     rotation: 0,
     proportion: 63,
     scale: 0.75,
@@ -99,11 +82,6 @@ const presets: Record<PresetName, PresetParams> = {
     color1: "#66FF85",
     color2: "#000000",
     color3: "#000000",
-    lightColors: {
-      color1: "#66FF85",
-      color2: "#FAFAFA",
-      color3: "#FAFAFA",
-    },
     rotation: -167,
     proportion: 92,
     scale: 0,
@@ -120,11 +98,6 @@ const presets: Record<PresetName, PresetParams> = {
     color1: "#000000",
     color2: "#FFFFFF",
     color3: "#000000",
-    lightColors: {
-      color1: "#FAFAFA",
-      color2: "#000000",
-      color3: "#FAFAFA",
-    },
     rotation: 50,
     proportion: 41,
     scale: 0.4,
@@ -141,11 +114,6 @@ const presets: Record<PresetName, PresetParams> = {
     color1: "#050505",
     color2: "#FF66B8",
     color3: "#050505",
-    lightColors: {
-      color1: "#FAFAFA",
-      color2: "#FF66B8",
-      color3: "#FAFAFA",
-    },
     rotation: 0,
     proportion: 33,
     scale: 0.48,
@@ -159,8 +127,6 @@ const presets: Record<PresetName, PresetParams> = {
     shapeSize: 48,
   },
 };
-
-type PresetName = "Prism" | "Lava" | "Plasma" | "Pulse" | "Vortex" | "Mist";
 
 interface CustomConfig {
   preset: "custom";
@@ -212,6 +178,13 @@ export default function AnimatedGradient({
   const frameIdRef = useRef<number | undefined>(undefined);
   const startTimeRef = useRef<number>(0);
 
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
   const params = useMemo((): PresetParams => {
     if (config.preset === "custom") {
       return {
@@ -241,7 +214,7 @@ export default function AnimatedGradient({
   useEffect(() => {
     const canvas = canvasRef.current;
     const container = containerRef.current;
-    if (!canvas || !container) return;
+    if (!canvas || !container || !isMounted) return;
 
     const gl = canvas.getContext("webgl2", {
       premultipliedAlpha: true,
@@ -346,9 +319,6 @@ export default function AnimatedGradient({
       );
 
       gl.drawArrays(gl.TRIANGLES, 0, 6);
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        return;
-      }
       frameIdRef.current = requestAnimationFrame(animate);
     };
 
@@ -364,7 +334,7 @@ export default function AnimatedGradient({
       gl.deleteShader(fragmentShader);
       gl.deleteBuffer(positionBuffer);
     };
-  }, [params]);
+  }, [isMounted, params]);
 
   return (
     <div

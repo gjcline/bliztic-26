@@ -12,7 +12,7 @@ const quietLinkClass =
 export default function HomePage() {
   return (
     <div className="relative isolate">
-      <AnimatedGradient config={{ preset: "Prism" }} />
+      <AnimatedGradient className="home-gradient" config={{ preset: "Prism" }} />
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 z-0 bg-ink/65"

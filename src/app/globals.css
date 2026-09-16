@@ -49,3 +49,13 @@ body {
 .rise-delay-more {
   animation-delay: 320ms;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+
+  .home-gradient canvas {
+    visibility: hidden;
+  }
+}
