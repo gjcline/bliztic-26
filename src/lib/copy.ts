@@ -31,7 +31,7 @@ export const copy = {
     absentBody:
       "There is no portfolio wall here, nor a public list of holdings. Some work is meant to be seen. Some is meant to be confidential. When a company needs its own face, it gets its own site.",
     closeBody:
-      "If you are building something that needs an owner operator, or you are exploring a sale, inquire. We read every note.",
+      "If you are building something that needs an owner operator, or you are exploring a sale, inquire.",
     cta: "Inquire",
     explore: "Explore",
   },
