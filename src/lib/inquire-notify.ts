@@ -63,6 +63,84 @@ export function parseNotifyTo(value: string | undefined) {
   return recipients.length > 0 ? recipients : [DEFAULT_TO];
 }
 
+const SENSITIVE_KEY =
+  /api[_-]?key|authorization|password|secret|token|bearer|cookie|headers/i;
+const PAYLOAD_KEY =
+  /^(company|email|phone|note|sizeOrStage|intent|text|html|subject|from|to|replyTo)$/;
+
+function redactSecrets(value: string) {
+  return value.replace(/\bre_[A-Za-z0-9]+\b/g, "[redacted]");
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
+}
+
+function pickErrorFields(value: unknown): Record<string, unknown> {
+  if (value instanceof Error) {
+    const details: Record<string, unknown> = {
+      name: value.name,
+      message: redactSecrets(value.message),
+    };
+    const extra = value as Error & { statusCode?: unknown };
+    if (extra.statusCode != null) {
+      details.statusCode = extra.statusCode;
+    }
+    return details;
+  }
+
+  if (isRecord(value)) {
+    const details: Record<string, unknown> = {};
+
+    for (const [key, field] of Object.entries(value)) {
+      if (SENSITIVE_KEY.test(key) || PAYLOAD_KEY.test(key)) {
+        continue;
+      }
+      if (typeof field === "string") {
+        details[key] = redactSecrets(field);
+      } else if (
+        typeof field === "number" ||
+        typeof field === "boolean" ||
+        field === null
+      ) {
+        details[key] = field;
+      }
+    }
+
+    for (const nestedKey of ["error", "body"]) {
+      const nested = value[nestedKey];
+      if (!isRecord(nested)) {
+        continue;
+      }
+      for (const [key, field] of Object.entries(pickErrorFields(nested))) {
+        if (!(key in details)) {
+          details[key] = field;
+        }
+      }
+    }
+
+    return details;
+  }
+
+  if (typeof value === "string") {
+    return { message: redactSecrets(value) };
+  }
+
+  return { message: "unknown" };
+}
+
+export function serializeSendError(error: unknown) {
+  const details = pickErrorFields(error);
+  if (
+    details.name == null &&
+    details.message == null &&
+    details.statusCode == null
+  ) {
+    return { message: "unknown" };
+  }
+  return details;
+}
+
 export async function notifyInquire(payload: InquirePayload) {
   const apiKey = process.env.RESEND_API_KEY;
   const receivedAt = new Date().toISOString();
@@ -91,13 +169,13 @@ export async function notifyInquire(payload: InquirePayload) {
     });
 
     if (error) {
-      console.error("[inquire] send failed");
+      console.error("[inquire] send failed", serializeSendError(error));
       return { ok: false as const, status: 502, error: "send_failed" };
     }
 
     return { ok: true as const };
-  } catch {
-    console.error("[inquire] send failed");
+  } catch (error) {
+    console.error("[inquire] send failed", serializeSendError(error));
     return { ok: false as const, status: 502, error: "send_failed" };
   }
 }
