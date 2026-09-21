@@ -9,7 +9,7 @@ Ownership group website. The homepage is the Bliztic Group static design, served
 | `/` | Home | New Bliztic Group homepage. Octopus artwork, operating principles, Wake, contact |
 | `/gtm-fund` | GTM Fund | What the fund is, who it is for, what is covered, what qualify means |
 | `/acquire` | Acquire | What Bliztic looks for, how a conversation starts, how we operate |
-| `/qualify` | Inquire | Short form. `?intent=fund` and `?intent=acquire` prefill intent |
+| `/qualify` | Inquire | Same chrome as the homepage. Short form. `?intent=fund` and `?intent=acquire` prefill intent |
 | `/privacy` | Privacy | How inquire details are used |
 | `/terms` | Terms | How to read this site |
 
@@ -21,7 +21,7 @@ Legacy shortcuts: `/fund` sends people to `/gtm-fund`. `/contact` sends people t
 
 Hero and contact use `/assets/octopus.webp` with a `/assets/octopus.jpg` fallback. There are no `/media/*.mp4` files. The homepage does not request missing video.
 
-Styles live in `src/app/home.css`. Behaviour lives in `public/home.js`. Markup lives in `src/content/home.html` and is rendered at `/`.
+Styles live in `src/app/home.css`. Behaviour lives in `public/home.js`. Markup lives in `src/content/home.html` and is rendered at `/`. Inquire reuses that chrome through `GroupShell`.
 
 ## Run locally
 
