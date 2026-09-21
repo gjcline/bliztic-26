@@ -11,9 +11,9 @@ export const copy = {
   },
 
   home: {
-    title: "Bliztic",
+    title: "Bliztic Group",
     description:
-      "An ownership group dedicated to building, owning, and operating companies through GTM engineering.",
+      "Bliztic Group develops, operates, manages, and owns businesses. One operating philosophy, applied for the long term.",
     whatTitle: "What we are",
     whatBody:
       "Bliztic is an ownership group. We build companies, buy companies, and run them.",
@@ -75,6 +75,7 @@ export const copy = {
     title: "Inquire",
     description: "Send a short inquiry to Bliztic.",
     lede: "A short note is enough.",
+    successLede: "We will reply if there is a fit.",
     intent: "Intent",
     intentFund: "Fund",
     intentAcquire: "Acquire",
@@ -88,9 +89,31 @@ export const copy = {
     sizeHint: "Optional",
     submit: "Send",
     sending: "Sending",
-    success: "We will be in touch.",
+    success: "We'll be in touch.",
     error: "Something went wrong. Try again.",
     missing: "Please complete the required fields.",
+  },
+
+  privacy: {
+    title: "Privacy",
+    description: "How Bliztic handles information you send.",
+    lede: "How Bliztic handles information you send.",
+    body: [
+      "When you inquire we collect the details you provide, including your name, company, email, and phone.",
+      "We use that information to reply and to understand the request. We do not sell it. We keep it only as long as the conversation needs.",
+      "If you have a question about this, inquire.",
+    ],
+  },
+
+  terms: {
+    title: "Terms",
+    description: "How to read this site.",
+    lede: "How to read this site.",
+    body: [
+      "This site is for information. Nothing here is an offer, a commitment, or advice. Inquiring does not create a relationship.",
+      "If we move forward we will say so in writing.",
+      "A link to Wake is a link to that company. It is not a public list of holdings.",
+    ],
   },
 
   notFound: {

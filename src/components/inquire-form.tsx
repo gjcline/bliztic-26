@@ -65,25 +65,25 @@ export function InquireForm({ initialIntent }: { initialIntent?: string }) {
 
   if (status === "success") {
     return (
-      <h1 className="font-serif text-4xl leading-tight tracking-tight text-paper sm:text-5xl">
-        {copy.inquire.success}
-      </h1>
+      <>
+        <h1 id="inquire-title" className="display inquire-h">
+          {copy.inquire.success}
+        </h1>
+        <p className="inquire-lede mute">{copy.inquire.successLede}</p>
+      </>
     );
   }
 
-  const fieldClass =
-    "w-full border-0 border-b border-line bg-transparent px-0 py-3 text-base text-paper outline-none transition-colors placeholder:text-mute/50 focus:border-paper";
-
   return (
     <>
-      <h1 className="font-serif text-4xl tracking-tight text-paper sm:text-5xl">
+      <h1 id="inquire-title" className="display inquire-h">
         {copy.inquire.title}
       </h1>
-      <p className="mt-6 mb-14 text-base leading-relaxed text-mute">{copy.inquire.lede}</p>
-      <form onSubmit={onSubmit} className="space-y-10" noValidate>
+      <p className="inquire-lede mute">{copy.inquire.lede}</p>
+      <form className="inquire-form" onSubmit={onSubmit} noValidate>
         <fieldset>
-          <legend className="mb-4 text-sm text-mute">{copy.inquire.intent}</legend>
-          <div className="flex flex-wrap gap-x-6 gap-y-3">
+          <legend className="inquire-legend">{copy.inquire.intent}</legend>
+          <div className="inquire-intents">
             {intents.map((value) => {
               const label =
                 value === "fund"
@@ -93,125 +93,101 @@ export function InquireForm({ initialIntent }: { initialIntent?: string }) {
                     : copy.inquire.intentOther;
               const selected = intent === value;
               return (
-                <label key={value} className="cursor-pointer text-base">
+                <label key={value} className={selected ? "inquire-choice is-on" : "inquire-choice"}>
                   <input
                     type="radio"
                     name="intent"
                     value={value}
                     checked={selected}
                     onChange={() => selectIntent(value)}
-                    className="sr-only"
+                    className="sr"
                     required
                   />
-                  <span
-                    className={
-                      selected
-                        ? "text-paper underline decoration-paper/50 underline-offset-8"
-                        : "text-mute transition-colors hover:text-paper"
-                    }
-                  >
-                    {label}
-                  </span>
+                  {label}
                 </label>
               );
             })}
           </div>
         </fieldset>
 
-        <label className="block">
-          <span className="text-sm text-mute">{copy.inquire.company}</span>
+        <label className="inquire-field">
+          <span>{copy.inquire.company}</span>
           <input
             type="text"
             name="company"
             autoComplete="organization"
             value={company}
             onChange={(event) => setCompany(event.target.value)}
-            className={fieldClass}
             required
           />
         </label>
 
-        <label className="block">
-          <span className="text-sm text-mute">{copy.inquire.name}</span>
+        <label className="inquire-field">
+          <span>{copy.inquire.name}</span>
           <input
             type="text"
             name="name"
             autoComplete="name"
             value={name}
             onChange={(event) => setName(event.target.value)}
-            className={fieldClass}
             required
           />
         </label>
 
-        <label className="block">
-          <span className="text-sm text-mute">{copy.inquire.email}</span>
+        <label className="inquire-field">
+          <span>{copy.inquire.email}</span>
           <input
             type="email"
             name="email"
             autoComplete="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            className={fieldClass}
             required
           />
         </label>
 
-        <label className="block">
-          <span className="text-sm text-mute">{copy.inquire.phone}</span>
+        <label className="inquire-field">
+          <span>{copy.inquire.phone}</span>
           <input
             type="tel"
             name="phone"
             autoComplete="tel"
             value={phone}
             onChange={(event) => setPhone(event.target.value)}
-            className={fieldClass}
             required
           />
         </label>
 
         {intent === "other" && (
-          <label className="block">
-            <span className="text-sm text-mute">
-              {copy.inquire.note}{" "}
-              <span className="text-mute/70">{copy.inquire.sizeHint}</span>
+          <label className="inquire-field">
+            <span>
+              {copy.inquire.note} <span className="inquire-opt">{copy.inquire.sizeHint}</span>
             </span>
-            <textarea
-              name="note"
-              rows={4}
-              value={note}
-              onChange={(event) => setNote(event.target.value)}
-              className={`${fieldClass} resize-none`}
-            />
+            <textarea name="note" rows={4} value={note} onChange={(event) => setNote(event.target.value)} />
           </label>
         )}
 
-        <label className="block">
-          <span className="text-sm text-mute">
-            {copy.inquire.size}{" "}
-            <span className="text-mute/70">{copy.inquire.sizeHint}</span>
+        <label className="inquire-field">
+          <span>
+            {copy.inquire.size} <span className="inquire-opt">{copy.inquire.sizeHint}</span>
           </span>
           <input
             type="text"
             name="sizeOrStage"
             value={sizeOrStage}
             onChange={(event) => setSizeOrStage(event.target.value)}
-            className={fieldClass}
           />
         </label>
 
         {(status === "missing" || status === "error") && (
-          <p role="alert" className="text-sm text-paper">
+          <p role="alert" className="inquire-alert">
             {status === "missing" ? copy.inquire.missing : copy.inquire.error}
           </p>
         )}
 
-        <button
-          type="submit"
-          disabled={status === "sending"}
-          className="text-base text-paper underline decoration-paper/40 underline-offset-8 transition-opacity hover:decoration-paper disabled:cursor-wait disabled:opacity-50"
-        >
+        <button className="cta" type="submit" disabled={status === "sending"}>
           {status === "sending" ? copy.inquire.sending : copy.inquire.submit}
+          <span aria-hidden="true">→</span>
         </button>
       </form>
     </>

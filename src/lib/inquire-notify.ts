@@ -54,6 +54,15 @@ export function isProductionRuntime() {
   return process.env.NODE_ENV === "production";
 }
 
+export function parseNotifyTo(value: string | undefined) {
+  const recipients = (value ?? "")
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  return recipients.length > 0 ? recipients : [DEFAULT_TO];
+}
+
 export async function notifyInquire(payload: InquirePayload) {
   const apiKey = process.env.RESEND_API_KEY;
   const receivedAt = new Date().toISOString();
@@ -74,7 +83,7 @@ export async function notifyInquire(payload: InquirePayload) {
   try {
     const { error } = await resend.emails.send({
       from: process.env.RESEND_FROM || DEFAULT_FROM,
-      to: process.env.INQUIRE_NOTIFY_TO || DEFAULT_TO,
+      to: parseNotifyTo(process.env.INQUIRE_NOTIFY_TO),
       replyTo: payload.email,
       subject,
       text,
