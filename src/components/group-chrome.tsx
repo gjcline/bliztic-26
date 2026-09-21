@@ -15,11 +15,13 @@ const companyLinks = [
   { href: routes.inquire, label: "Inquire", key: "inquire" as const },
 ];
 
+export type GroupActive = "fund" | "acquire" | "inquire";
+
 export function GroupChrome({
   active,
   children,
 }: {
-  active?: "inquire";
+  active?: GroupActive;
   children: ReactNode;
 }) {
   return (
@@ -49,6 +51,20 @@ export function GroupChrome({
                 </Link>
               ))}
               <Link
+                href={routes.fund}
+                className={active === "fund" ? "is-current" : undefined}
+                aria-current={active === "fund" ? "page" : undefined}
+              >
+                Fund
+              </Link>
+              <Link
+                href={routes.acquire}
+                className={active === "acquire" ? "is-current" : undefined}
+                aria-current={active === "acquire" ? "page" : undefined}
+              >
+                Acquire
+              </Link>
+              <Link
                 href={routes.inquire}
                 className={active === "inquire" ? "is-current" : undefined}
                 aria-current={active === "inquire" ? "page" : undefined}
@@ -72,10 +88,20 @@ export function GroupChrome({
                 {link.label}
               </Link>
             ))}
-            <Link href={routes.fund} data-menu-close>
+            <Link
+              href={routes.fund}
+              data-menu-close
+              className={active === "fund" ? "is-current" : undefined}
+              aria-current={active === "fund" ? "page" : undefined}
+            >
               Fund
             </Link>
-            <Link href={routes.acquire} data-menu-close>
+            <Link
+              href={routes.acquire}
+              data-menu-close
+              className={active === "acquire" ? "is-current" : undefined}
+              aria-current={active === "acquire" ? "page" : undefined}
+            >
               Acquire
             </Link>
             <Link

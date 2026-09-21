@@ -7,8 +7,8 @@ Ownership group website. The homepage is the Bliztic Group static design, served
 | Path | Page | Purpose |
 | --- | --- | --- |
 | `/` | Home | New Bliztic Group homepage. Octopus artwork, operating principles, Wake, contact |
-| `/gtm-fund` | GTM Fund | What the fund is, who it is for, what is covered, what qualify means |
-| `/acquire` | Acquire | What Bliztic looks for, how a conversation starts, how we operate |
+| `/gtm-fund` | GTM Fund | Same chrome as the homepage. What the fund is, who it is for, what is covered, what qualify means |
+| `/acquire` | Acquire | Same chrome as the homepage. What Bliztic looks for, how a conversation starts, how we operate |
 | `/qualify` | Inquire | Same chrome as the homepage. Short form. `?intent=fund` and `?intent=acquire` prefill intent |
 | `/privacy` | Privacy | How inquire details are used |
 | `/terms` | Terms | How to read this site |
@@ -63,7 +63,7 @@ On a valid submit, `POST /api/inquire` sends a notification email with Resend. S
 | Variable | Required | Default |
 | --- | --- | --- |
 | `RESEND_API_KEY` | Yes in production | none. Local, preview, and other non production runs log the payload instead when this is unset |
-| `INQUIRE_NOTIFY_TO` | No | `grant@dev.bliztic.com` |
+| `INQUIRE_NOTIFY_TO` | No | `grant@dev.bliztic.com`. Comma separated addresses become multiple Resend recipients |
 | `RESEND_FROM` | No | `Bliztic <onboarding@resend.dev>` |
 
 For Preview, set `RESEND_API_KEY` if you want a real email. If it is unset, the route still accepts a valid inquire and logs the payload. `INQUIRE_NOTIFY_TO` and `RESEND_FROM` are optional and use the defaults above.

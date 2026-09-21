@@ -1,13 +1,13 @@
 import type { ReactNode } from "react";
 import Script from "next/script";
-import { GroupChrome } from "@/components/group-chrome";
+import { GroupChrome, type GroupActive } from "@/components/group-chrome";
 import "@/app/home.css";
 
 export function GroupShell({
   active,
   children,
 }: {
-  active?: "inquire";
+  active?: GroupActive;
   children: ReactNode;
 }) {
   return (
