@@ -19,7 +19,7 @@ Legacy shortcuts: `/fund` sends people to `/gtm-fund`. `/contact` sends people t
 
 ## Homepage assets
 
-Hero and contact use `/assets/octopus.webp` with a `/assets/octopus.jpg` fallback. There are no `/media/*.mp4` files. The homepage does not request missing video.
+The header, favicon, and Open Graph image use the historical white Bliztic B mark at `/LIZTIC_logo_white.webp` (also stored as `Assets/LIZTIC_logo_white.webp`). Hero and contact use `/assets/octopus.webp` with a `/assets/octopus.jpg` fallback. There are no `/media/*.mp4` files. The homepage does not request missing video.
 
 Styles live in `src/app/home.css`. Behaviour lives in `public/home.js`. Markup lives in `src/content/home.html` and is rendered at `/`. Inquire reuses that chrome through `GroupShell`.
 
