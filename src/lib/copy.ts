@@ -1,7 +1,7 @@
 export const copy = {
-  siteName: "Bliztic",
+  siteName: "Bliztic Group",
   positioning:
-    "An ownership group dedicated to building, owning, and operating companies through GTM engineering.",
+    "Bliztic Group is an owner and operator. We build companies, buy companies, and run them.",
 
   nav: {
     fund: "GTM Fund",
@@ -13,7 +13,7 @@ export const copy = {
   home: {
     title: "Bliztic Group",
     description:
-      "Bliztic Group develops, operates, manages, and owns businesses. One operating philosophy, applied for the long term.",
+      "Bliztic Group is an owner and operator. We work inside our companies, building the distribution, systems, infrastructure, technology, and operating environments they run on. One operating philosophy, applied for the long term.",
     whatTitle: "What we are",
     whatBody:
       "Bliztic is an ownership group. We build companies, buy companies, and run them.",

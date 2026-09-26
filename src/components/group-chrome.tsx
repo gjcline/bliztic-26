@@ -9,13 +9,19 @@ const pageLinks = [
   { href: "/#contact", label: "Contact" },
 ] as const;
 
-const companyLinks = [
-  { href: routes.fund, label: "GTM Fund", key: "fund" as const },
-  { href: routes.acquire, label: "Acquire", key: "acquire" as const },
-  { href: routes.inquire, label: "Inquire", key: "inquire" as const },
-];
-
 export type GroupActive = "fund" | "acquire" | "inquire";
+
+function LogoMark() {
+  return (
+    <img
+      className="logo-mark"
+      src="/LIZTIC_logo_white.webp"
+      alt=""
+      width={400}
+      height={400}
+    />
+  );
+}
 
 export function GroupChrome({
   active,
@@ -42,7 +48,7 @@ export function GroupChrome({
         <header className="nav">
           <div className="wrap nav-in">
             <Link className="wordmark" href={routes.home} aria-label="Bliztic Group, home">
-              BLIZTIC GROUP
+              <LogoMark />
             </Link>
             <nav className="navlinks" aria-label="Primary">
               {pageLinks.map((link) => (
@@ -51,26 +57,15 @@ export function GroupChrome({
                 </Link>
               ))}
               <Link
-                href={routes.fund}
-                className={active === "fund" ? "is-current" : undefined}
-                aria-current={active === "fund" ? "page" : undefined}
-              >
-                Fund
-              </Link>
-              <Link
-                href={routes.acquire}
-                className={active === "acquire" ? "is-current" : undefined}
-                aria-current={active === "acquire" ? "page" : undefined}
-              >
-                Acquire
-              </Link>
-              <Link
                 href={routes.inquire}
                 className={active === "inquire" ? "is-current" : undefined}
                 aria-current={active === "inquire" ? "page" : undefined}
               >
                 Inquire
               </Link>
+              <a href={routes.wake} target="_blank" rel="noopener noreferrer">
+                Explore Wake
+              </a>
             </nav>
             <button
               className="menu-btn"
@@ -89,22 +84,6 @@ export function GroupChrome({
               </Link>
             ))}
             <Link
-              href={routes.fund}
-              data-menu-close
-              className={active === "fund" ? "is-current" : undefined}
-              aria-current={active === "fund" ? "page" : undefined}
-            >
-              Fund
-            </Link>
-            <Link
-              href={routes.acquire}
-              data-menu-close
-              className={active === "acquire" ? "is-current" : undefined}
-              aria-current={active === "acquire" ? "page" : undefined}
-            >
-              Acquire
-            </Link>
-            <Link
               href={routes.inquire}
               data-menu-close
               className={active === "inquire" ? "is-current" : undefined}
@@ -112,61 +91,19 @@ export function GroupChrome({
             >
               Inquire
             </Link>
+            <a href={routes.wake} target="_blank" rel="noopener noreferrer" data-menu-close>
+              Explore Wake
+            </a>
           </nav>
         </header>
 
         <main id="content">{children}</main>
 
-        <footer className="foot">
-          <div className="wrap">
-            <div className="grid ft-top">
-              <Link className="ft-mark" href={routes.home}>
-                BLIZTIC GROUP
-              </Link>
-              <p className="ft-line">Building, operating, and owning companies for the long term.</p>
-            </div>
-            <div className="grid ft-cols">
-              <nav className="ft-col" aria-label="Footer">
-                <h3>Navigation</h3>
-                {pageLinks.map((link) => (
-                  <Link key={link.href} href={link.href}>
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-              <nav className="ft-col" aria-label="Company">
-                <h3>Company</h3>
-                {companyLinks.map((link) => (
-                  <Link
-                    key={link.key}
-                    href={link.href}
-                    className={active === link.key ? "is-current" : undefined}
-                    aria-current={active === link.key ? "page" : undefined}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-              <div className="ft-col">
-                <h3>Current venture</h3>
-                <Link href="/#wake">Wake</Link>
-                <a href={routes.wake} target="_blank" rel="noopener noreferrer">
-                  Explore Wake
-                </a>
-              </div>
-              <div className="ft-col">
-                <h3>Legal</h3>
-                <Link href={routes.privacy}>Privacy</Link>
-                <Link href={routes.terms}>Terms</Link>
-              </div>
-            </div>
-            <div className="ft-base">
-              <span>© 2026 Bliztic Group</span>
-              <a href="#top">
-                Back to top <span aria-hidden="true">↑</span>
-              </a>
-            </div>
-          </div>
+        <footer className="page-end">
+          <span>© 2026 Bliztic Group</span>
+          <a href="https://www.bliztic.com/#top">
+            Back to top <span aria-hidden="true">↑</span>
+          </a>
         </footer>
       </div>
     </div>
