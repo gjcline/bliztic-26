@@ -19,6 +19,7 @@ function LogoMark() {
       alt=""
       width={400}
       height={400}
+      sizes="40px"
     />
   );
 }
