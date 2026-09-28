@@ -1207,7 +1207,7 @@ html:has(.bz-scroll) body {
         min-height: max(560px, 100dvh);
         justify-content: flex-end;
         padding-top: 96px;
-        padding-bottom: clamp(72px, 18dvh, 140px);
+        padding-bottom: clamp(168px, 24dvh, 220px);
       }
       .hero .art,
       .hero .art-hero {
@@ -1286,6 +1286,16 @@ html:has(.bz-scroll) body {
       .contact {
         padding-top: 72px;
         padding-bottom: 48px;
+      }
+      .ct-h,
+      .ct-side {
+        grid-column: 1 / -1 !important;
+      }
+      .ct-side .cta {
+        width: auto;
+        max-width: 100%;
+        white-space: nowrap;
+        min-height: 48px;
       }
       .inquire-sec,
       .article-sec {
