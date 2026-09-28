@@ -1103,6 +1103,26 @@ html:has(.bz-scroll) body {
     .contact {
       overflow-x: clip;
     }
+    .contact .ct-side p,
+    .contact .ct-side p.mute,
+    .contact .mute {
+      color: #EFE9DA;
+      background: none;
+      background-color: transparent;
+      box-shadow: none;
+      -webkit-box-decoration-break: clone;
+      box-decoration-break: clone;
+      position: relative;
+      z-index: 41;
+      mix-blend-mode: normal;
+      text-shadow: 0 1px 10px rgba(7, 19, 29, 0.72), 0 0 2px rgba(7, 19, 29, 0.45);
+    }
+    .inquire-sec .inquire-lede {
+      margin-bottom: 64px;
+    }
+    .inquire-legend {
+      margin-top: 4px;
+    }
     .grain,
     .tent-gl {
       height: 100dvh;
@@ -1244,8 +1264,8 @@ html:has(.bz-scroll) body {
         min-height: 0;
       }
       .inquire-form { gap: 22px; }
-      .inquire-lede,
       .article-lede { margin-bottom: 36px; }
+      .inquire-sec .inquire-lede { margin-bottom: 56px; }
       .article-blocks { gap: 40px; }
       .article-cta { margin-top: 40px; }
       .inquire-intents { gap: 4px 20px; }
