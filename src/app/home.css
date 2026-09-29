@@ -1342,12 +1342,15 @@ html:has(.bz-scroll) body {
    The header stays with the hero and is covered by the content with it. */
 .bz main > .hero-stage {
   position: relative; z-index: 0;
-  padding-bottom: var(--cover, 100vh);
   margin-bottom: calc(-1 * var(--cover, 100vh));
 }
+/* The runway the hero stays pinned along. It must be real content, not
+   padding, because a pinned element can only travel inside its parent's
+   content box. */
+.bz .hero-stage::after { content: ""; display: block; height: var(--cover, 100vh); }
 .bz .hero-stage > .hero { position: sticky; top: 0; }
 :where(.bz main > :not(.hero-stage)) { position: relative; z-index: 2; background-color: #F3EEE1; }
-.bz:has(> main > .hero-stage) > .nav { z-index: 1; }
+.bz:has(> main > .hero-stage) > .nav { z-index: 1; transition: none; }
 .bz:has(> main > .hero-stage) > .nav.is-menu { z-index: 60; }
 .bz:has(> main > .hero-stage) > .page-end { position: relative; z-index: 2; }
 

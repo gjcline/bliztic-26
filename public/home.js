@@ -108,9 +108,15 @@
   var contact = document.getElementById('contact');
   var ticking = false;
 
+  // On the homepage the header only ever sits over the hero, then is covered
+  // by the page, so it keeps its hero styling the whole time and never
+  // changes colour mid-scroll.
+  var heroStage = document.querySelector('.hero-stage');
+
   function tone() {
     ticking = false;
     if (!nav) return;
+    if (heroStage) { nav.classList.add('is-dark'); return; }
     var y = window.pageYOffset || document.documentElement.scrollTop;
     var probe = y + 32;
     var overHero = hero && probe < hero.offsetTop + hero.offsetHeight;
