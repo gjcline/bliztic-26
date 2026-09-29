@@ -86,129 +86,144 @@
     });
   });
 
-  /* ---------- 2b. phone: the principles as a carousel ----------
-     The five principles sit on a sliding track. It glides to the next one
-     every few seconds while the section is on screen, follows a finger when
-     swiped, and pauses for a while after any touch. A copy of the first
-     principle sits after the fifth so the loop from 05 to 01 carries on
-     forward instead of rewinding. The carousel's height is fixed to its
-     longest principle, so the page below never moves. */
+  /* ---------- 2b. phone: the principles as a dial card ----------
+     Builds the dark principle card: a five-part ring with a rolling number,
+     the principle's name, the principle itself, and a row of numbers to jump
+     between them. Advances on its own while on screen; swipes and taps take
+     over and it resumes after a rest. */
   var doctrine = document.querySelector('.doctrine');
   var stepsEl = doctrine && doctrine.querySelector('.steps');
   if (phoneDeck && doctrine && stepsEl && steps.length) {
-    doctrine.classList.add('is-carousel');
-    var track = document.createElement('div');
-    track.className = 'track';
-    while (stepsEl.firstChild) track.appendChild(stepsEl.firstChild);
-    stepsEl.appendChild(track);
-    var loopCopy = steps[0].cloneNode(true);
-    loopCopy.removeAttribute('id');
-    loopCopy.removeAttribute('data-step');
-    loopCopy.setAttribute('aria-hidden', 'true');
-    loopCopy.querySelectorAll('[id]').forEach(function (e) { e.removeAttribute('id'); });
-    loopCopy.classList.remove('is-current');
-    track.appendChild(loopCopy);
-    var slides = Array.prototype.slice.call(steps).concat([loopCopy]);
+    var NS = 'http://www.w3.org/2000/svg';
+    var HOLD = 5600, RESUME = 9000, N = steps.length;
+    doctrine.classList.add('is-dial');
 
-    var railLabel = doctrine.querySelector('.rail-mobile');
-    var pos = 0, timer = null, rest = null, inView = false, held = false;
-    var HOLD = 5200, RESUME = 8000;
-
-    var slideW = function () {
-      var gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-      return slides[0].getBoundingClientRect().width + gap;
-    };
-    var place = function (i, animate) {
-      track.classList.toggle('no-anim', !animate);
-      track.style.transform = 'translate3d(' + (-i * slideW()) + 'px,0,0)';
-    };
-    var mark = function (i) {
-      var n = (i % steps.length) + 1;
-      slides.forEach(function (s, k) { s.classList.toggle('is-current', k === i); });
-      if (n !== active) {
-        if (railLabel) {
-          railLabel.classList.add('is-swapping');
-          setTimeout(function () { setActive(n); railLabel.classList.remove('is-swapping'); steps.forEach(function (s, k) { s.classList.toggle('is-current', k === i); }); }, 220);
-        } else setActive(n);
-      }
-    };
-    var goTo = function (i) {
-      pos = i;
-      place(pos, true);
-      mark(pos);
-    };
-    track.addEventListener('transitionend', function (e) {
-      if (e.target !== track || e.propertyName !== 'transform') return;
-      if (pos === steps.length) {          // reached the copy of 01: jump to the real 01 unseen
-        pos = 0;
-        place(0, false);
-        slides.forEach(function (s, k) { s.classList.toggle('is-current', k === 0); });
-        void track.offsetWidth;
-      }
-    });
-
-    // Fix the height once, to the tallest principle.
-    var fitHeight = function () {
-      var h = 0;
-      slides.forEach(function (s) { h = Math.max(h, s.offsetHeight); });
-      stepsEl.style.height = h + 'px';
-      place(pos, false);
-    };
-
-    var next = function () { goTo(pos + 1); };
-    var tick = function () { if (inView && !held && !dragging) next(); };
-    var hold = function () {
-      held = true;
-      if (rest) clearTimeout(rest);
-      rest = setTimeout(function () { held = false; }, RESUME);
-    };
-
-    // Swipe: the track follows the finger, then settles on the nearest principle.
-    var dragging = false, startX = 0, startY = 0, dx = 0, decided = false, horiz = false, t0 = 0;
-    stepsEl.addEventListener('touchstart', function (e) {
-      if (pos === steps.length) { pos = 0; place(0, false); }
-      var t = e.touches[0];
-      startX = t.clientX; startY = t.clientY; dx = 0; decided = false; horiz = false; t0 = Date.now();
-      dragging = true; hold();
-    }, { passive: true });
-    stepsEl.addEventListener('touchmove', function (e) {
-      if (!dragging) return;
-      var t = e.touches[0];
-      var mx = t.clientX - startX, my = t.clientY - startY;
-      if (!decided && (Math.abs(mx) > 6 || Math.abs(my) > 6)) { decided = true; horiz = Math.abs(mx) > Math.abs(my); }
-      if (!horiz) return;
-      dx = mx;
-      var edge = (pos === 0 && dx > 0) || (pos === steps.length - 1 && dx < 0) ? 0.35 : 1;
-      track.classList.add('is-dragging');
-      track.style.transform = 'translate3d(' + (-pos * slideW() + dx * edge) + 'px,0,0)';
-    }, { passive: true });
-    var endDrag = function () {
-      if (!dragging) return;
-      dragging = false;
-      track.classList.remove('is-dragging');
-      if (!horiz) return;
-      var fast = Math.abs(dx) / Math.max(1, Date.now() - t0) > 0.45;
-      var far = Math.abs(dx) > slideW() * 0.22;
-      var to = pos;
-      if ((fast || far) && dx < 0 && pos < steps.length - 1) to = pos + 1;
-      if ((fast || far) && dx > 0 && pos > 0) to = pos - 1;
-      goTo(to);
-    };
-    stepsEl.addEventListener('touchend', endDrag, { passive: true });
-    stepsEl.addEventListener('touchcancel', endDrag, { passive: true });
-    stepsEl.addEventListener('click', hold);
-
-    stepsEl.setAttribute('aria-roledescription', 'carousel');
-    stepsEl.setAttribute('aria-label', 'Operating principles');
-    window.addEventListener('resize', fitHeight, { passive: true });
-    if (typeof IntersectionObserver !== 'undefined') {
-      new IntersectionObserver(function (entries) { inView = entries[0].isIntersecting; }, { threshold: 0.6 }).observe(stepsEl);
+    var card = document.createElement('div'); card.className = 'pc';
+    card.setAttribute('aria-roledescription', 'carousel');
+    card.setAttribute('aria-label', 'Operating principles');
+    var head = document.createElement('div'); head.className = 'pc-head';
+    var dial = document.createElement('div'); dial.className = 'pc-dial'; dial.setAttribute('aria-hidden', 'true');
+    var ring = document.createElementNS(NS, 'svg'); ring.setAttribute('class', 'pc-ring'); ring.setAttribute('viewBox', '0 0 44 44');
+    var segs = [], fills = [];
+    for (var i = 0; i < N; i++) {
+      ['seg', 'fill'].forEach(function (cls) {
+        var c = document.createElementNS(NS, 'circle');
+        c.setAttribute('cx', '22'); c.setAttribute('cy', '22'); c.setAttribute('r', '20');
+        c.setAttribute('pathLength', '100'); c.setAttribute('class', cls);
+        c.style.strokeDashoffset = String(-(i * 20 + 1.5));
+        if (cls === 'seg') { c.style.strokeDasharray = '17 83'; segs.push(c); } else fills.push(c);
+        ring.appendChild(c);
+      });
     }
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitHeight);
-    window.addEventListener('load', fitHeight);
-    fitHeight();
-    active = 0; setActive(1); mark(0);
-    if (!reduce) timer = setInterval(tick, HOLD);
+    var num = document.createElement('div'); num.className = 'pc-num';
+    var numSpan = document.createElement('span'); numSpan.className = 'is-in'; numSpan.textContent = '01'; num.appendChild(numSpan);
+    dial.appendChild(ring); dial.appendChild(num);
+    var meta = document.createElement('div'); meta.className = 'pc-meta';
+    meta.innerHTML = '<span class="pc-k">Principle</span><span class="pc-name" aria-live="polite"><span></span></span>';
+    var nameBox = meta.querySelector('.pc-name');
+    head.appendChild(dial); head.appendChild(meta);
+    var rule = document.createElement('div'); rule.className = 'pc-rule';
+    var stage = document.createElement('div'); stage.className = 'pc-stage';
+    stage.appendChild(stepsEl);
+    var navEl = document.createElement('div'); navEl.className = 'pc-nav';
+    var navBtns = [];
+    for (var k = 0; k < N; k++) {
+      var bt = document.createElement('button'); bt.type = 'button';
+      bt.textContent = (k < 9 ? '0' : '') + (k + 1);
+      bt.setAttribute('aria-label', 'Principle ' + (k + 1) + ': ' + NAMES[k]);
+      navBtns.push(bt); navEl.appendChild(bt);
+    }
+    card.appendChild(head); card.appendChild(rule); card.appendChild(stage); card.appendChild(navEl);
+    doctrine.appendChild(card);
+    nameBox.firstChild.textContent = NAMES[0];
+
+    var cur = 0, timer = null, rest = null, inView = false, held = false;
+
+    var runFill = function () {
+      fills.forEach(function (f, i) {
+        f.classList.remove('is-running', 'is-full');
+        if (i < cur) f.classList.add('is-full');
+      });
+      var f = fills[cur];
+      void f.getBoundingClientRect();
+      if (!held && !reduce) f.classList.add('is-running'); else f.classList.add('is-full');
+    };
+    var show = function (n, dir) {
+      if (n === cur && numSpan.textContent) { runFill(); return; }
+      var prev = cur; cur = n;
+      steps.forEach(function (s, i) { s.classList.toggle('is-current', i === n); });
+      segs.forEach(function (s, i) { s.classList.toggle('is-past', i < n); });
+      navBtns.forEach(function (b, i) { b.classList.toggle('is-current', i === n); b.setAttribute('aria-current', i === n ? 'true' : 'false'); });
+      // odometer number
+      var next = document.createElement('span');
+      next.textContent = (n < 9 ? '0' : '') + (n + 1);
+      next.className = dir < 0 ? 'to-above' : 'from-below';
+      num.appendChild(next);
+      var old = numSpan; numSpan = next;
+      old.className = dir < 0 ? 'from-below' : 'to-above';
+      void next.offsetWidth; next.className = 'is-in';
+      setTimeout(function () { if (old.parentNode) old.parentNode.removeChild(old); }, 800);
+      // name
+      var nm = document.createElement('span'); nm.textContent = NAMES[n]; nm.className = 'is-waiting';
+      var oldName = nameBox.lastChild; oldName.className = 'is-out';
+      nameBox.appendChild(nm); void nm.offsetWidth;
+      setTimeout(function () { nm.className = ''; }, 120);
+      setTimeout(function () { if (oldName.parentNode) oldName.parentNode.removeChild(oldName); }, 700);
+      runFill();
+    };
+    var go = function (n) {
+      var dir = n > cur || (cur === N - 1 && n === 0) ? 1 : -1;
+      show(n, dir);
+    };
+    var advance = function () { if (inView && !held) go((cur + 1) % N); };
+    var restart = function () { if (timer) clearInterval(timer); if (!reduce) timer = setInterval(advance, HOLD); };
+    var hold = function () {
+      held = true; runFill();
+      if (rest) clearTimeout(rest);
+      rest = setTimeout(function () { held = false; runFill(); restart(); }, RESUME);
+    };
+
+    navBtns.forEach(function (b, i) { b.addEventListener('click', function () { hold(); go(i); }); });
+    var sx = 0, sy = 0, swiping = false;
+    stage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; swiping = true; }, { passive: true });
+    stage.addEventListener('touchend', function (e) {
+      if (!swiping) return; swiping = false;
+      var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+      hold();
+      go(dx < 0 ? (cur + 1) % N : (cur - 1 + N) % N);
+    }, { passive: true });
+
+    // One fixed height: the tallest principle.
+    var fit = function () {
+      var h = 0;
+      steps.forEach(function (s) {
+        s.classList.add('is-measure');
+        h = Math.max(h, s.offsetHeight);
+        s.classList.remove('is-measure');
+      });
+      stage.style.height = h + 'px';
+    };
+    window.addEventListener('resize', fit, { passive: true });
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+    window.addEventListener('load', fit);
+    fit();
+
+    if (typeof IntersectionObserver !== 'undefined') {
+      new IntersectionObserver(function (entries) {
+        var was = inView; inView = entries[0].isIntersecting;
+        if (inView && !was) { runFill(); restart(); }
+      }, { threshold: 0.55 }).observe(card);
+    }
+    if (typeof dial.style.setProperty === 'function') card.style.setProperty('--hold', (HOLD / 1000) + 's');
+    cur = -1; numSpan.textContent = ''; 
+    (function init() {
+      cur = 0;
+      steps.forEach(function (s, i) { s.classList.toggle('is-current', i === 0); });
+      navBtns.forEach(function (b, i) { b.classList.toggle('is-current', i === 0); });
+      numSpan.textContent = '01';
+      fills[0].classList.add('is-full');
+    })();
   }
 
   /* ---------- 3. mobile menu ---------- */
@@ -323,7 +338,7 @@
       // Descend through single-wrapper layout grids so each real block folds on its own.
       var list = [];
       Array.prototype.forEach.call(kids, function (k) {
-        if (k.classList.contains('is-carousel')) return;
+        if (k.classList.contains('is-dial')) return;
         if (k.children.length > 1 && /\bgrid\b/.test(k.className)) {
           Array.prototype.forEach.call(k.children, function (c) { list.push(c); });
         } else list.push(k);
