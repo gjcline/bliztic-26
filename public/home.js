@@ -123,8 +123,8 @@
     var nameBox = meta.querySelector('.pc-name');
     head.appendChild(dial); head.appendChild(meta);
     var rule = document.createElement('div'); rule.className = 'pc-rule';
-    var stage = document.createElement('div'); stage.className = 'pc-stage';
-    stage.appendChild(stepsEl);
+    var pcStage = document.createElement('div'); pcStage.className = 'pc-stage';
+    pcStage.appendChild(stepsEl);
     var navEl = document.createElement('div'); navEl.className = 'pc-nav';
     var navBtns = [];
     for (var k = 0; k < N; k++) {
@@ -133,7 +133,7 @@
       bt.setAttribute('aria-label', 'Principle ' + (k + 1) + ': ' + NAMES[k]);
       navBtns.push(bt); navEl.appendChild(bt);
     }
-    card.appendChild(head); card.appendChild(rule); card.appendChild(stage); card.appendChild(navEl);
+    card.appendChild(head); card.appendChild(rule); card.appendChild(pcStage); card.appendChild(navEl);
     doctrine.appendChild(card);
     nameBox.firstChild.textContent = NAMES[0];
 
@@ -185,8 +185,8 @@
 
     navBtns.forEach(function (b, i) { b.addEventListener('click', function () { hold(); go(i); }); });
     var sx = 0, sy = 0, swiping = false;
-    stage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; swiping = true; }, { passive: true });
-    stage.addEventListener('touchend', function (e) {
+    pcStage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; swiping = true; }, { passive: true });
+    pcStage.addEventListener('touchend', function (e) {
       if (!swiping) return; swiping = false;
       var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
       if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
@@ -202,7 +202,7 @@
         h = Math.max(h, s.offsetHeight);
         s.classList.remove('is-measure');
       });
-      stage.style.height = h + 'px';
+      pcStage.style.height = h + 'px';
     };
     window.addEventListener('resize', fit, { passive: true });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
