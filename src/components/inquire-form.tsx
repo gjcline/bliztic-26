@@ -116,6 +116,8 @@ export function InquireForm({ initialIntent }: { initialIntent?: string }) {
             type="text"
             name="company"
             autoComplete="organization"
+            autoCapitalize="words"
+            autoCorrect="off"
             value={company}
             onChange={(event) => setCompany(event.target.value)}
             required
@@ -128,6 +130,8 @@ export function InquireForm({ initialIntent }: { initialIntent?: string }) {
             type="text"
             name="name"
             autoComplete="name"
+            autoCapitalize="words"
+            autoCorrect="off"
             value={name}
             onChange={(event) => setName(event.target.value)}
             required
@@ -140,6 +144,8 @@ export function InquireForm({ initialIntent }: { initialIntent?: string }) {
             type="email"
             name="email"
             autoComplete="email"
+            autoCapitalize="none"
+            autoCorrect="off"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             required
@@ -163,7 +169,13 @@ export function InquireForm({ initialIntent }: { initialIntent?: string }) {
             <span>
               {copy.inquire.note} <span className="inquire-opt">{copy.inquire.sizeHint}</span>
             </span>
-            <textarea name="note" rows={4} value={note} onChange={(event) => setNote(event.target.value)} />
+            <textarea
+              name="note"
+              rows={4}
+              autoComplete="off"
+              value={note}
+              onChange={(event) => setNote(event.target.value)}
+            />
           </label>
         )}
 
@@ -174,6 +186,7 @@ export function InquireForm({ initialIntent }: { initialIntent?: string }) {
           <input
             type="text"
             name="sizeOrStage"
+            autoComplete="off"
             value={sizeOrStage}
             onChange={(event) => setSizeOrStage(event.target.value)}
           />

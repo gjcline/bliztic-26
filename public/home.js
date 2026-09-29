@@ -86,10 +86,12 @@
   /* ---------- 3. mobile menu ---------- */
   var menuBtn = document.querySelector('[data-menu-toggle]');
   var menu = document.getElementById('mobile-menu');
+  var nav = document.querySelector('.nav');
 
   function setMenu(open) {
     if (!menu || !menuBtn) return;
     menu.classList.toggle('is-open', open);
+    if (nav) nav.classList.toggle('is-menu', open);
     menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     menuBtn.textContent = open ? 'Close' : 'Menu';
   }
@@ -101,7 +103,6 @@
   });
 
   /* ---------- 4. navigation tone ---------- */
-  var nav = document.querySelector('.nav');
   var hero = document.querySelector('.hero');
   var contact = document.getElementById('contact');
   var ticking = false;
