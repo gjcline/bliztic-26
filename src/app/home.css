@@ -1351,7 +1351,6 @@ html:has(.bz-scroll) body {
 }
 .bz main > .tide-in {
   background: #F3EEE1 !important;
-  box-shadow: 0 -28px 56px rgba(7, 19, 29, .38);
 }
 
 /* ---------- hero headline: low in the frame, over the darkest part of the art ----------
@@ -1380,4 +1379,27 @@ html:has(.bz-scroll) body {
       linear-gradient(to top, rgba(7,19,29,.35) 0%, rgba(7,19,29,0) 30%),
       linear-gradient(180deg, rgba(7,19,29,.35) 0%, rgba(7,19,29,0) 14%);
   }
+}
+
+/* ---------- the swell: a slow tide line along the top edge of the page ----------
+   As the page rises over the hero, its top edge is a pair of soft waves that
+   drift sideways, with a fine ink line tracing the front wave. Two layers at
+   different speeds give it depth. Still for people who prefer reduced motion. */
+.bz .tide-in .swell {
+  position: absolute; left: 0; bottom: 100%;
+  width: 200%; height: 48px; display: block;
+  pointer-events: none; will-change: transform;
+}
+.bz .swell-back { height: 60px; opacity: .5; animation: swell-drift 46s linear infinite reverse; }
+.bz .swell-back path { fill: #F3EEE1; }
+.bz .swell-front { margin-bottom: -1px; animation: swell-drift 30s linear infinite; }
+.bz .swell-fill { fill: #F3EEE1; }
+.bz .swell-line { fill: none; stroke: #1F4E6B; stroke-opacity: .35; stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+@keyframes swell-drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@container bz (max-width: 820px) {
+  .bz .tide-in .swell { height: 26px; width: 400%; }
+  .bz .swell-back { height: 34px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bz .tide-in .swell { animation: none; }
 }
