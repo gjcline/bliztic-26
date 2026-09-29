@@ -1,7 +1,8 @@
 /* Bliztic Group — homepage behaviour
    Plain JavaScript, no dependencies, no build step.
    1. Scroll reveals    2. Operating-principle rail
-   3. Mobile menu       4. Navigation tone over the dark hero        */
+   3. Mobile menu       4. Navigation tone over the dark hero
+   5. Pinned hero                                */
 (function () {
   'use strict';
 
@@ -123,4 +124,13 @@
   }, { passive: true });
   window.addEventListener('resize', tone, { passive: true });
   tone();
+
+  /* ---------- 5. pinned hero ----------
+     A hero taller than the screen scrolls to its bottom edge, then pins. */
+  function pinHero() {
+    if (!hero) return;
+    hero.style.top = Math.min(0, window.innerHeight - hero.offsetHeight) + 'px';
+  }
+  window.addEventListener('resize', pinHero, { passive: true });
+  pinHero();
 })();

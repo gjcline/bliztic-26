@@ -15,11 +15,10 @@ function LogoMark() {
   return (
     <img
       className="logo-mark"
-      src="/LIZTIC_logo_white.webp"
+      src="/bliztic-mark-white.webp"
       alt=""
-      width={400}
-      height={400}
-      sizes="40px"
+      width={247}
+      height={207}
     />
   );
 }

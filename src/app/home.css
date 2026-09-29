@@ -1323,3 +1323,21 @@ html:has(.bz-scroll) body {
         padding-bottom: 56px;
       }
     }
+
+/* ---------- logo: cropped mark, sized to the nav bar ---------- */
+.bz .logo-mark { height: 30px; width: auto; }
+@media (max-width: 820px) {
+  .bz .logo-mark { height: 26px; }
+}
+
+/* ---------- pinned hero: the page slides up over it ----------
+   The hero stays fixed behind the page while the rest of the content scrolls
+   over it. home.js sets `top` so a hero taller than the screen scrolls to
+   its bottom edge before it pins. Everything after the hero gets a paper
+   background and sits above it. */
+.bz main > .hero { position: sticky; top: 0; z-index: 0; }
+:where(.bz main > :not(.hero)) { position: relative; z-index: 1; background-color: #F3EEE1; }
+.bz main > .tide-in {
+  background: #F3EEE1 !important;
+  box-shadow: 0 -28px 56px rgba(7, 19, 29, .38);
+}
