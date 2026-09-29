@@ -29,4 +29,42 @@
       linear-gradient(to top, rgba(7,19,29,.7) 0%, rgba(7,19,29,0) 30%),
       linear-gradient(180deg, rgba(7,19,29,.35) 0%, rgba(7,19,29,0) 20%);
   }
+
+  /* ---------- menu: links drop straight down under the Menu button ----------
+     Opening the menu changes nothing else on screen: no panel, no background,
+     no shift. The links float on the right in a stacked column. */
+  .bz .nav.is-menu,
+  .bz .nav.is-dark.is-menu { background: transparent; }
+  .bz .nav-in { position: relative; }
+  .bz .nav .mmenu.is-open,
+  .bz .nav.is-menu .mmenu.is-open,
+  .bz .nav.is-dark .mmenu.is-open,
+  .bz .nav.is-dark.is-menu .mmenu.is-open {
+    position: absolute;
+    top: 100%;
+    right: max(var(--pad), env(safe-area-inset-right, 0px));
+    left: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+  .bz .nav .mmenu a,
+  .bz .nav.is-dark .mmenu a {
+    display: block;
+    min-height: 0;
+    padding: 8px 0 8px 16px;
+    border: 0;
+    font-family: var(--display);
+    font-size: 22px;
+    line-height: 1.2;
+    text-align: right;
+    color: inherit;
+  }
+  .bz .nav.is-dark .mmenu a { text-shadow: 0 1px 14px rgba(7, 19, 29, .85); }
 }
