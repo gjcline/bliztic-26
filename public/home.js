@@ -127,12 +127,30 @@
 
   /* ---------- 5. pinned hero ----------
      A hero taller than the screen scrolls to its bottom edge, then pins. */
+  var stage = document.querySelector('.hero-stage');
+  var cover = document.querySelector('.tide-in');
   function pinHero() {
     if (!hero) return;
     hero.style.top = Math.min(0, window.innerHeight - hero.offsetHeight) + 'px';
+    if (stage) stage.style.setProperty('--cover', window.innerHeight + 'px');
+  }
+  /* Once the page has fully covered the hero, take the hero and header out
+     of the picture entirely; bring them back only near the top. */
+  var heroGone = false;
+  function hideCovered() {
+    if (!hero || !cover) return;
+    var gone = cover.getBoundingClientRect().top <= 0;
+    if (gone === heroGone) return;
+    heroGone = gone;
+    hero.style.visibility = gone ? 'hidden' : '';
+    if (nav) nav.style.visibility = gone ? 'hidden' : '';
+    if (gone) setMenu(false);
   }
   window.addEventListener('resize', pinHero, { passive: true });
+  window.addEventListener('scroll', hideCovered, { passive: true });
+  window.addEventListener('resize', hideCovered, { passive: true });
   pinHero();
+  hideCovered();
 
   /* ---------- 6. ink rule on the page edge ----------
      The line is drawn by scrolling: it starts as the page edge enters the

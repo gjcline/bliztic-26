@@ -3,10 +3,8 @@ import Link from "next/link";
 import { routes } from "@/lib/routes";
 
 const pageLinks = [
-  { href: "/#about", label: "About" },
   { href: "/#approach", label: "Approach" },
   { href: "/#portfolio", label: "Portfolio" },
-  { href: "/#contact", label: "Contact" },
 ] as const;
 
 export type GroupActive = "fund" | "acquire" | "inquire";
@@ -24,9 +22,9 @@ function LogoMark() {
 }
 
 export function GroupChrome({
-  active,
   children,
 }: {
+  /** Kept so existing pages can still pass it; the header no longer highlights a page. */
   active?: GroupActive;
   children: ReactNode;
 }) {
@@ -56,13 +54,7 @@ export function GroupChrome({
                   {link.label}
                 </Link>
               ))}
-              <Link
-                href={routes.inquire}
-                className={active === "inquire" ? "is-current" : undefined}
-                aria-current={active === "inquire" ? "page" : undefined}
-              >
-                Inquire
-              </Link>
+              <Link href="/#contact">Inquire</Link>
               <a href={routes.wake} target="_blank" rel="noopener noreferrer">
                 Explore Wake
               </a>
@@ -83,12 +75,7 @@ export function GroupChrome({
                 {link.label}
               </Link>
             ))}
-            <Link
-              href={routes.inquire}
-              data-menu-close
-              className={active === "inquire" ? "is-current" : undefined}
-              aria-current={active === "inquire" ? "page" : undefined}
-            >
+            <Link href="/#contact" data-menu-close>
               Inquire
             </Link>
             <a href={routes.wake} target="_blank" rel="noopener noreferrer" data-menu-close>
