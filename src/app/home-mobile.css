@@ -118,11 +118,11 @@
   /* ---------- sections: one even rhythm ----------
      Every section gets the same moderate space above and below, so each one
      reads as its own block without long empty stretches. */
-  .bz .sec:not(.hero) { padding-top: 56px; padding-bottom: 56px; }
-  .bz main > .tide-in + .sec { padding-top: 40px; }
+  .bz .sec:not(.hero) { padding-top: 68px; padding-bottom: 68px; }
+  .bz main > .tide-in + .sec { padding-top: 48px; }
   .bz .sec:not(.hero) > .wrap { padding-top: 0; }
-  .bz .sec.vision:not(.hero) { padding-bottom: 72px; }
-  .bz .sec.contact:not(.hero) { padding-top: 72px; padding-bottom: 72px; }
+  .bz .sec.vision:not(.hero) { padding-bottom: 68px; }
+  .bz .sec.contact:not(.hero) { padding-top: 80px; padding-bottom: 80px; }
   .bz main > .tide-out { height: 0 !important; }
 
   /* ---------- section numerals: above and left of each heading ----------
@@ -313,4 +313,31 @@
   .bz .chain-close { margin-top: 48px; margin-left: 0; gap: 18px; }
   .bz .chain-close p { font-size: 16px; }
   .bz .chain-close .chain-last { font-size: 23px; }
+
+  /* ---------- one vertical rhythm inside sections ----------
+     Sections are set apart by 136px of space (68 + 68). Inside a section,
+     blocks sit 40 to 48px apart and never more, so every gap reads as
+     either "same section" or "next section", nothing in between. A hairline
+     marks where each new section begins. */
+  .bz main > .sec:not(.hero):not(:first-of-type) { position: relative; }
+  .bz main > .sec.approach::before, .bz main > .sec.evo::before, .bz main > .sec.wake::before,
+  .bz main > .sec.beyond::before, .bz main > .sec.vision::before {
+    content: ""; position: absolute; top: 0; left: max(var(--pad), env(safe-area-inset-left, 0px)); right: max(var(--pad), env(safe-area-inset-right, 0px));
+    height: 1px; background: rgba(11, 33, 53, .1);
+  }
+  .bz .ap-intro, .bz .evo-intro { margin-bottom: 0 !important; row-gap: 24px !important; }
+  .bz .doctrine.is-dial { margin-top: 44px; }
+  .bz .stages { margin-top: 44px !important; padding-top: 0 !important; row-gap: 22px !important; }
+  .bz .chain-block { margin-top: 48px; }
+  .bz .wk-feature { margin-top: 44px !important; }
+  .bz .wk-emblem { max-width: 150px !important; margin-top: 4px !important; }
+  .bz .wk-meta { row-gap: 10px; gap: 10px; }
+  .bz .wk-p { margin-top: 48px !important; row-gap: 16px !important; }
+  .bz .wk-list { margin-top: 24px !important; }
+  .bz .wk-list li { padding-block: 16px !important; }
+  .bz .by-copy { margin-top: 24px !important; margin-bottom: 0 !important; }
+  .bz .ways { margin-top: 40px !important; }
+  .bz .ways li { padding-block: 14px !important; }
+  .bz .areas { margin-top: 44px !important; }
+  .bz .vi-copy { margin-top: 32px !important; }
 }
