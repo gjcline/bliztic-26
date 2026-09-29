@@ -1376,7 +1376,7 @@ html:has(.bz-scroll) body {
   .bz .hero-h1 .indent { padding-left: .45em; }
   .bz .hero .media::after {
     background:
-      radial-gradient(ellipse 50% 42% at 26% 77%, rgba(7,19,29,.9) 0%, rgba(7,19,29,.8) 42%, rgba(7,19,29,.42) 72%, rgba(7,19,29,0) 100%),
+      radial-gradient(ellipse 56% 48% at 26% 77%, rgba(7,19,29,.94) 0%, rgba(7,19,29,.87) 44%, rgba(7,19,29,.55) 72%, rgba(7,19,29,0) 100%),
       linear-gradient(to top, rgba(7,19,29,.35) 0%, rgba(7,19,29,0) 30%),
       linear-gradient(180deg, rgba(7,19,29,.35) 0%, rgba(7,19,29,0) 14%);
   }
