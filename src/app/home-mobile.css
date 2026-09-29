@@ -154,7 +154,8 @@
   }
 
   /* ---------- section II: the five principles as a dial card ----------
-     home.js turns the five principles into one dark card. A five-part ring
+     home.js turns the five principles into one card, tinted like the
+     section III panel so it sits in the page. A five-part ring
      marks where you are in the cycle and slowly fills while each principle
      is on show; the large number rolls like an odometer; the principle's
      lines settle in one after another. It advances on its own, can be
@@ -164,8 +165,8 @@
   .bz .is-dial .rail { display: none !important; }
   .bz .pc {
     position: relative;
-    background: #07131D;
-    color: #C6D3DD;
+    background: #E6DFCD;
+    color: var(--char);
     padding: 26px 22px 18px;
     overflow: hidden;
     isolation: isolate;
@@ -174,21 +175,21 @@
   .bz .pc::before {
     content: ""; position: absolute; right: -40px; top: -40px; width: 220px; height: 220px; z-index: -1;
     background:
-      radial-gradient(circle at 100% 0, transparent 0 58px, rgba(134,175,199,.10) 58px 59px, transparent 59px 88px, rgba(134,175,199,.08) 88px 89px, transparent 89px 118px, rgba(134,175,199,.06) 118px 119px, transparent 119px);
+      radial-gradient(circle at 100% 0, transparent 0 58px, rgba(31,78,107,.10) 58px 59px, transparent 59px 88px, rgba(31,78,107,.08) 88px 89px, transparent 89px 118px, rgba(31,78,107,.06) 118px 119px, transparent 119px);
   }
   .bz .pc-head { display: flex; align-items: center; gap: 16px; }
   .bz .pc-dial { position: relative; flex: none; width: 76px; height: 76px; }
   .bz .pc-ring { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible; }
   .bz .pc-ring circle { fill: none; stroke-width: 1.4; stroke-linecap: butt; }
-  .bz .pc-ring .seg { stroke: rgba(134,175,199,.18); transition: stroke .6s ease; }
-  .bz .pc-ring .seg.is-past { stroke: rgba(134,175,199,.55); }
-  .bz .pc-ring .fill { stroke: #86AFC7; stroke-width: 2; stroke-dasharray: 0 100; }
+  .bz .pc-ring .seg { stroke: rgba(31,78,107,.16); transition: stroke .6s ease; }
+  .bz .pc-ring .seg.is-past { stroke: rgba(31,78,107,.45); }
+  .bz .pc-ring .fill { stroke: #1F4E6B; stroke-width: 2; stroke-dasharray: 0 100; }
   .bz .pc-ring .fill.is-running { animation: pc-fill var(--hold, 5.2s) linear forwards; }
   .bz .pc-ring .fill.is-full { stroke-dasharray: 17 83; }
   @keyframes pc-fill { from { stroke-dasharray: 0 100; } to { stroke-dasharray: 17 83; } }
   .bz .pc-num {
     position: absolute; inset: 0; display: grid; place-items: center; overflow: hidden;
-    font-family: var(--display); font-weight: 300; font-size: 30px; letter-spacing: -0.02em; color: #EFE9DA;
+    font-family: var(--display); font-weight: 300; font-size: 30px; letter-spacing: -0.02em; color: var(--ink);
     font-variant-numeric: lining-nums tabular-nums;
   }
   .bz .pc-num span { grid-area: 1 / 1; transition: transform .7s cubic-bezier(.2,.7,.1,1), opacity .5s ease; }
@@ -196,13 +197,13 @@
   .bz .pc-num span.from-below { transform: translateY(70%); opacity: 0; }
   .bz .pc-num span.to-above { transform: translateY(-70%); opacity: 0; }
   .bz .pc-meta { min-width: 0; display: flex; flex-direction: column; gap: 5px; }
-  .bz .pc-k { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #6E9CB8; }
-  .bz .pc-name { display: grid; font-family: var(--display); font-size: 19px; line-height: 1.2; color: #EFE9DA; }
+  .bz .pc-k { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #5A8AA6; }
+  .bz .pc-name { display: grid; font-family: var(--display); font-size: 19px; line-height: 1.2; color: var(--ink); }
   .bz .pc-name span { grid-area: 1 / 1; transition: opacity .45s ease, transform .6s cubic-bezier(.2,.7,.1,1); }
   .bz .pc-name span.is-out { opacity: 0; transform: translateY(-6px); }
   .bz .pc-name span.is-waiting { opacity: 0; transform: translateY(6px); }
 
-  .bz .pc-rule { height: 1px; margin: 22px 0 20px; background: linear-gradient(90deg, rgba(134,175,199,.35), rgba(134,175,199,.06)); }
+  .bz .pc-rule { height: 1px; margin: 22px 0 20px; background: linear-gradient(90deg, rgba(31,78,107,.3), rgba(31,78,107,.04)); }
 
   .bz .pc-stage { position: relative; touch-action: pan-y; }
   .bz .pc-stage .steps { position: relative; height: 100%; }
@@ -218,35 +219,35 @@
   .bz .pc-stage .step.is-current > :nth-child(3) { transition-delay: .24s; }
   .bz .pc-stage .step.is-current > :nth-child(4) { transition-delay: .36s; }
   .bz .pc-stage .step.is-current > :nth-child(5) { transition-delay: .48s; }
-  .bz .pc-stage .step-stmt { font-size: 27px !important; line-height: 1.14; color: #EFE9DA !important; max-width: none; }
+  .bz .pc-stage .step-stmt { font-size: 27px !important; line-height: 1.14; color: var(--ink) !important; max-width: none; }
   .bz .pc-stage .step-stmt.long { font-size: 23px !important; }
-  .bz .pc-stage .step-body { font-size: 15px; line-height: 1.6; color: #A9BBC8; }
+  .bz .pc-stage .step-body { font-size: 15px; line-height: 1.6; color: var(--char); }
   .bz .pc-stage .step-out {
     margin: 6px 0 0 !important; padding: 2px 0 2px 14px !important; background: none !important;
-    border-left: 1px solid #86AFC7; font-style: italic; font-size: 16.5px !important; line-height: 1.45;
-    color: #DCE6EC !important;
+    border-left: 1px solid #1F4E6B; font-style: italic; font-size: 16.5px !important; line-height: 1.45;
+    color: #1F4E6B !important;
   }
   .bz .pc-stage .step-out::before, .bz .pc-stage .step-out::after { display: none !important; }
   .bz .pc-stage .loop { margin: 0; padding: 0 !important; gap: 2px 7px; flex-wrap: wrap; border: 0 !important; }
-  .bz .pc-stage .lw { font-size: 15px; color: #7F95A6; }
-  .bz .pc-stage .lw::after { background: #86AFC7; }
-  .bz .pc-stage .la { font-size: 11px; color: #3C5566; }
+  .bz .pc-stage .lw { font-size: 15px; color: var(--mute); }
+  .bz .pc-stage .lw::after { background: #1F4E6B; }
+  .bz .pc-stage .la { font-size: 11px; color: rgba(11,33,53,.3); }
   .bz .pc-stage .ret { display: none; }
   .bz .pc-stage #p5 .step-body + .step-body { display: none; }
 
-  .bz .pc-nav { display: flex; justify-content: space-between; margin-top: 22px; padding-top: 14px; border-top: 1px solid rgba(134,175,199,.14); }
+  .bz .pc-nav { display: flex; justify-content: space-between; margin-top: 22px; padding-top: 14px; border-top: 1px solid rgba(11,33,53,.12); }
   .bz .pc-nav button {
     position: relative; flex: 1; min-height: 40px; padding: 10px 0 0; background: none; border: 0; cursor: pointer;
-    font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: #4E6A7D; text-align: left;
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; color: #8A94A0; text-align: left;
     transition: color .4s ease;
   }
   .bz .pc-nav button::before {
     content: ""; position: absolute; left: 0; top: 0; width: 14px; height: 1px; background: currentColor;
     transition: width .6s cubic-bezier(.2,.7,.1,1);
   }
-  .bz .pc-nav button.is-current { color: #EFE9DA; }
-  .bz .pc-nav button.is-current::before { width: 36px; background: #86AFC7; }
-  .bz .pc-nav button:focus-visible { outline: 1px solid #86AFC7; outline-offset: 2px; }
+  .bz .pc-nav button.is-current { color: var(--ink); }
+  .bz .pc-nav button.is-current::before { width: 36px; background: #1F4E6B; }
+  .bz .pc-nav button:focus-visible { outline: 1px solid #1F4E6B; outline-offset: 2px; }
   @media (prefers-reduced-motion: reduce) {
     .bz .pc-stage .step > *, .bz .pc-num span, .bz .pc-name span { transition: none !important; }
     .bz .pc-ring .fill.is-running { animation: none; stroke-dasharray: 17 83; }
