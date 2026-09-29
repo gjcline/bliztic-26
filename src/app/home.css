@@ -1551,3 +1551,62 @@ html:has(.bz-scroll) body {
    first section. */
 .bz main > .tide-in { height: 12px !important; }
 .bz main > .tide-in + .sec { padding-top: 80px; }
+
+/* ---------- section IV: the five principles in Wake (desktop and tablet) ----------
+   Set as a row of five short columns, the same way section III sets its
+   four stages: a number and a rule on top, the principle, then one line on
+   how it shows up in Wake. The heading and its intro sit side by side
+   above, and the closing line sits under the row. Phones keep their list. */
+@media (min-width: 821px) {
+  .bz .wk-p {
+    margin-top: 144px !important;
+    align-items: end !important;
+    row-gap: 20px;
+    padding-top: 56px;
+    border-top: 1px solid rgba(11, 33, 53, .14);
+  }
+  .bz .wk-p .wk-p-h { grid-column: 1 / 7 !important; max-width: 12em; font-size: clamp(32px, 3cqi, 44px); line-height: 1.12; }
+  .bz .wk-p .wk-p-intro { grid-column: 8 / 13 !important; font-size: 16px; line-height: 1.6; color: var(--char); }
+  .bz .wk-list {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    column-gap: 28px;
+    row-gap: 40px;
+    margin-top: 64px !important;
+    border-top: 0 !important;
+  }
+  .bz .wk-list::before { display: none; }
+  .bz .wk-list li {
+    display: flex !important;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 !important;
+    border: 0 !important;
+    transition: opacity .9s ease, transform 1s cubic-bezier(.2,.7,.1,1);
+    transition-delay: calc(var(--k) * .14s);
+  }
+  .bz.js-motion .wk-list:not(.is-in) li { opacity: 0; transform: translateY(14px); }
+  .bz .wk-list li::before {
+    display: block;
+    align-self: stretch;
+    padding-bottom: 14px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid rgba(31, 78, 107, .35);
+    font-size: 11px;
+    color: #5A8AA6;
+  }
+  .bz .wk-list li:last-child::before { color: #1F4E6B; border-bottom-color: #1F4E6B; }
+  .bz .wk-list .wl-t { font-size: clamp(20px, 1.6cqi, 23px) !important; line-height: 1.2; color: var(--ink); }
+  .bz .wk-list .wl-d { font-size: 15px; line-height: 1.6; color: var(--char); }
+  .bz .wk-close {
+    margin-top: 48px !important;
+    margin-left: 0 !important;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--mute);
+  }
+}
+@container bz (min-width: 821px) and (max-width: 1180px) {
+  .bz .wk-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
