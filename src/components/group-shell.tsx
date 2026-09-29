@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import Script from "next/script";
 import { GroupChrome, type GroupActive } from "@/components/group-chrome";
 import "@/app/home.css";
+import "@/app/home-mobile.css";
 
 export function GroupShell({
   active,

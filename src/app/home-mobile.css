@@ -1,0 +1,8 @@
+/* Bliztic Group, phone layout.
+   Every rule in this file applies only at phone widths (820px and below),
+   so changes here can never affect the desktop site. Desktop and shared
+   styles live in home.css. Keep all phone-only edits in the block below. */
+
+@media (max-width: 820px) {
+
+}

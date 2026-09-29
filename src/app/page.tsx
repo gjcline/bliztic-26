@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { copy } from "@/lib/copy";
 import "./home.css";
+import "./home-mobile.css";
 
 const homeMarkup = readFileSync(join(process.cwd(), "src/content/home.html"), "utf8");
 
