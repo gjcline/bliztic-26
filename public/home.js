@@ -139,10 +139,7 @@
      screen and completes as the edge reaches the upper third. */
   var tide = document.querySelector('.tide-in');
   var inkPath = tide && tide.querySelector('.ink-dry');
-  var nib = tide && tide.querySelector('.ink-nib');
-  var wrap = tide && tide.querySelector('.ink-rule-wrap');
   if (tide && inkPath && !reduce) {
-    var inkLen = inkPath.getTotalLength();
     var inkTick = false;
     var drawInk = function () {
       inkTick = false;
@@ -152,14 +149,7 @@
       p = Math.max(0, Math.min(1, p));
       p = 1 - Math.pow(1 - p, 2);
       tide.style.setProperty('--ink-draw', p.toFixed(4));
-      tide.classList.toggle('is-drawing', p > 0.01 && p < 0.995);
       tide.classList.toggle('is-dry', p >= 0.995);
-      if (nib && wrap) {
-        var pt = inkPath.getPointAtLength(inkLen * p);
-        var cs = getComputedStyle(wrap);
-        var inner = wrap.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
-        nib.style.transform = 'translate(' + (parseFloat(cs.paddingLeft) + pt.x / 1000 * inner) + 'px,' + pt.y + 'px)';
-      }
     };
     var inkQueue = function () { if (!inkTick) { inkTick = true; window.requestAnimationFrame(drawInk); } };
     window.addEventListener('scroll', inkQueue, { passive: true });
