@@ -226,4 +226,43 @@
   .bz .vi-h { font-size: min(8.8vw, 40px) !important; }
   .bz .vi-h .mask > span { white-space: nowrap; }
   .bz .vision .found { display: none; }
+
+  /* ---------- section V: areas of interest ----------
+     The heading leads, clearly larger than the list. The six areas read as
+     a numbered index with fine rules between them. */
+  .bz .areas { padding: 34px 24px 26px !important; row-gap: 0 !important; }
+  .bz .areas .ar-lead { gap: 10px; padding-bottom: 22px; }
+  .bz .areas .ar-lead::before {
+    content: ""; display: block; width: 28px; height: 1px; margin-bottom: 8px;
+    background: #86AFC7;
+  }
+  .bz .areas .ar-lead h3 {
+    font-family: var(--display) !important;
+    font-size: 32px !important;
+    line-height: 1.08;
+    letter-spacing: -0.02em !important;
+    font-weight: 300;
+    color: #EFE9DA !important;
+  }
+  .bz .areas .ar-lead .mute { font-family: var(--display); font-style: italic; font-size: 16px; color: #8FA7B8; }
+  .bz .areas .ar-list { counter-reset: area; border-top: 1px solid rgba(239, 233, 218, .14) !important; }
+  .bz .areas .ar-list li {
+    counter-increment: area;
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    align-items: baseline;
+    padding: 14px 0 !important;
+    border-bottom: 1px solid rgba(239, 233, 218, .1) !important;
+    font-size: 18px !important;
+    line-height: 1.3;
+    color: #E4DDCD !important;
+  }
+  .bz .areas .ar-list li:last-child { border-bottom: 0 !important; }
+  .bz .areas .ar-list li::before {
+    content: counter(area, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: .06em;
+    color: #6E9CB8;
+  }
 }
