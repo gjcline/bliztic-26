@@ -154,37 +154,43 @@
   }
 
   /* ---------- section II: the five principles as a carousel ----------
-     home.js turns the five principles into a row that slides sideways on
-     its own, one principle at a time, and pauses whenever someone swipes
-     or taps. The tracker above counts 01 to 05. The row's height follows
-     the principle on show, so it takes very little vertical room. */
+     home.js builds a sliding track of the five principles. It glides to the
+     next one on its own, follows a finger when swiped, and loops from 05
+     back to 01 without rewinding. The carousel keeps one fixed height, set
+     by its longest principle, so nothing below it ever moves. */
   .bz .doctrine.is-carousel { display: block; margin-top: 8px; }
   .bz .is-carousel .rail {
     position: static !important;
-    margin: 0 0 20px !important;
+    margin: 0 0 22px !important;
     padding: 0 !important;
     border: 0 !important;
     background: transparent !important;
   }
   .bz .is-carousel .rail, .bz .is-carousel .rail-in { width: 100%; }
   .bz .is-carousel .rail-mobile { padding: 0 0 12px; }
+  .bz .is-carousel .rail-mobile span { display: inline-block; transition: opacity .35s ease, transform .5s cubic-bezier(.2,.7,.1,1); }
+  .bz .is-carousel .rail-mobile.is-swapping span { opacity: 0; transform: translateY(6px); }
   .bz .is-carousel .rail-prog { display: block !important; height: 1px; background: rgba(11, 33, 53, .14); }
-  .bz .is-carousel .rail-prog i { background: #1F4E6B; }
+  .bz .is-carousel .rail-prog i { background: #1F4E6B; transition: transform .9s cubic-bezier(.2,.7,.1,1) !important; }
+
   .bz .is-carousel .steps {
+    position: relative;
+    overflow: hidden;
+    margin-inline: calc(-1 * max(var(--pad), env(safe-area-inset-left, 0px)));
+    padding-inline: max(var(--pad), env(safe-area-inset-left, 0px));
+    touch-action: pan-y;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  .bz .is-carousel .track {
     display: flex;
     align-items: flex-start;
-    gap: 16px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: max(var(--pad), env(safe-area-inset-left, 0px));
-    padding-inline: max(var(--pad), env(safe-area-inset-left, 0px));
-    margin-inline: calc(-1 * max(var(--pad), env(safe-area-inset-left, 0px)));
-    scrollbar-width: none;
-    overscroll-behavior-x: contain;
-    transition: height .45s cubic-bezier(.2,.7,.1,1);
+    gap: 18px;
+    will-change: transform;
+    transition: transform .95s cubic-bezier(.65,0,.2,1);
   }
-  .bz .is-carousel .steps::-webkit-scrollbar { display: none; }
+  .bz .is-carousel .track.is-dragging,
+  .bz .is-carousel .track.no-anim { transition: none; }
   .bz .is-carousel .step {
     flex: 0 0 86%;
     min-width: 0;
@@ -194,16 +200,23 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 14px;
-    scroll-snap-align: start;
-    opacity: .28;
-    transition: opacity .45s ease;
+    gap: 12px;
+    opacity: .22;
+    transition: opacity .8s ease;
   }
   .bz .is-carousel .step.is-current { opacity: 1; }
-  .bz .is-carousel .step-stmt { font-size: 30px !important; line-height: 1.12; }
-  .bz .is-carousel .step-stmt.long { font-size: 26px !important; }
-  .bz .is-carousel .step-body { font-size: 15.5px; line-height: 1.55; }
-  .bz .is-carousel .step-out { margin-top: 6px !important; padding: 18px 24px !important; font-size: 18px !important; }
-  .bz .is-carousel .loop { margin: 2px 0; }
-  .bz .is-carousel .ret { margin: 0; }
+  .bz .is-carousel .step-stmt { font-size: 28px !important; line-height: 1.14; }
+  .bz .is-carousel .step-stmt.long { font-size: 24px !important; }
+  .bz .is-carousel .step-body { font-size: 15px; line-height: 1.55; }
+  .bz .is-carousel .step-out { margin-top: 4px !important; padding: 16px 22px !important; font-size: 17px !important; }
+  .bz .is-carousel .loop { margin: 0; padding: 2px 0 !important; gap: 2px 7px; flex-wrap: wrap; }
+  .bz .is-carousel .lw { font-size: 15.5px; }
+  .bz .is-carousel .la { font-size: 11px; }
+  /* 05's second paragraph restates the cycle; on phones it is left out so every principle is close in length. */
+  .bz .is-carousel #p5 .step-body + .step-body { display: none; }
+  /* The return diagram repeats what the tracker already shows; it is left out here to keep 05 compact. */
+  .bz .is-carousel .ret { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .bz .is-carousel .track { transition: none; }
+  }
 }
