@@ -222,10 +222,9 @@
 
   /* ---------- section VI ----------
      Each line of the heading stays whole on one line, sized to fit the
-     screen, and the bar graphic is left out on phones. */
+     screen. */
   .bz .vi-h { font-size: min(8.8vw, 40px) !important; }
   .bz .vi-h .mask > span { white-space: nowrap; }
-  .bz .vision .found { display: none; }
 
   /* ---------- section V: areas of interest ----------
      The heading leads, clearly larger than the list. The six areas read as

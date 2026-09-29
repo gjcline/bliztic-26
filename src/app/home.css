@@ -1439,3 +1439,49 @@ html:has(.bz-scroll) body {
 
 /* Line breaks used only in the phone layout (see home-mobile.css). */
 .br-phone { display: none; }
+
+/* ---------- areas of interest (desktop and tablet) ----------
+   Matches the phone treatment: a clear heading with a short blue rule and
+   an italic aside, and the six areas as a numbered index.
+   Phones have their own version in home-mobile.css. */
+@media (min-width: 821px) {
+  .bz .areas { align-items: start; padding: 52px 52px 44px !important; }
+  .bz .areas .ar-lead { gap: 12px; }
+  .bz .areas .ar-lead::before {
+    content: ""; display: block; width: 36px; height: 1px; margin-bottom: 10px;
+    background: #86AFC7;
+  }
+  .bz .areas .ar-lead h3 {
+    font-family: var(--display) !important;
+    font-size: clamp(36px, 3.4cqi, 48px) !important;
+    line-height: 1.06;
+    letter-spacing: -0.022em !important;
+    font-weight: 300;
+    color: #EFE9DA !important;
+  }
+  .bz .areas .ar-lead .mute { font-family: var(--display); font-style: italic; font-size: 18px; color: #8FA7B8; }
+  .bz .areas .ar-list {
+    counter-reset: area;
+    grid-template-columns: minmax(0, 1fr);
+    border-top: 1px solid rgba(239, 233, 218, .14) !important;
+  }
+  .bz .areas .ar-list li {
+    counter-increment: area;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    align-items: baseline;
+    padding: 15px 0 !important;
+    border-bottom: 1px solid rgba(239, 233, 218, .1) !important;
+    font-size: clamp(19px, 1.6cqi, 22px) !important;
+    line-height: 1.3;
+    color: #E4DDCD !important;
+  }
+  .bz .areas .ar-list li:last-child { border-bottom: 0 !important; }
+  .bz .areas .ar-list li::before {
+    content: counter(area, decimal-leading-zero);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .06em;
+    color: #6E9CB8;
+  }
+}
