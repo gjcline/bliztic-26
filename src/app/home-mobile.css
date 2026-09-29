@@ -36,6 +36,7 @@
   .bz .nav.is-menu,
   .bz .nav.is-dark.is-menu { background: transparent; }
   .bz .nav-in { position: relative; }
+  .bz .nav .mmenu,
   .bz .nav .mmenu.is-open,
   .bz .nav.is-menu .mmenu.is-open,
   .bz .nav.is-dark .mmenu.is-open,
@@ -53,6 +54,46 @@
     background: transparent;
     border: 0;
     box-shadow: none;
+  }
+  /* Closed: invisible and untouchable, after the blur has cleared. */
+  .bz .nav .mmenu:not(.is-open) {
+    visibility: hidden;
+    pointer-events: none;
+    transition: visibility 0s linear .4s;
+  }
+
+  /* A soft pool of heavy blur behind the links, so they read over the art.
+     It has no edges: the blur fades out toward every side. It blurs in when
+     the menu opens and clears when it closes. */
+  .bz .nav .mmenu::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: -40px;
+    bottom: -60px;
+    left: -110px;
+    right: calc(-1 * max(var(--pad), env(safe-area-inset-right, 0px)));
+    pointer-events: none;
+    background: rgba(7, 19, 29, 0);
+    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
+    -webkit-mask-image: radial-gradient(ellipse 72% 64% at 70% 48%, #000 52%, transparent 100%);
+    mask-image: radial-gradient(ellipse 72% 64% at 70% 48%, #000 52%, transparent 100%);
+    transition: backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, background-color .4s ease;
+  }
+  .bz .nav .mmenu.is-open::before {
+    background: rgba(7, 19, 29, .55);
+    -webkit-backdrop-filter: blur(26px);
+    backdrop-filter: blur(26px);
+  }
+  .bz .nav:not(.is-dark) .mmenu.is-open::before { background: rgba(243, 238, 225, .72); }
+  .bz .nav .mmenu a { opacity: 0; transform: translateY(-4px); transition: opacity .3s ease, transform .3s ease; }
+  .bz .nav .mmenu.is-open a { opacity: 1; transform: none; }
+  .bz .nav .mmenu.is-open a:nth-child(2) { transition-delay: .03s; }
+  .bz .nav .mmenu.is-open a:nth-child(3) { transition-delay: .06s; }
+  .bz .nav .mmenu.is-open a:nth-child(4) { transition-delay: .09s; }
+  @media (prefers-reduced-motion: reduce) {
+    .bz .nav .mmenu::before, .bz .nav .mmenu a { transition: none; }
   }
   .bz .nav .mmenu a,
   .bz .nav.is-dark .mmenu a {
