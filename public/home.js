@@ -86,35 +86,62 @@
     });
   });
 
-  /* ---------- 2b. phone: the principles as a pinned deck ----------
-     The tracker and the five principles pin to the screen while a short
-     runway scrolls past; how far through the runway you are picks the
-     principle on show. */
+  /* ---------- 2b. phone: the principles as a carousel ----------
+     The five principles sit in a sideways row. It advances on its own while
+     the section is on screen, pauses when someone swipes or taps, and picks
+     up again after a short rest. The tracker follows whichever is showing. */
   var doctrine = document.querySelector('.doctrine');
-  if (phoneDeck && doctrine && steps.length) {
-    var railEl = doctrine.querySelector('.rail');
-    var stepsEl = doctrine.querySelector('.steps');
-    var deck = document.createElement('div');
-    deck.className = 'deck';
-    if (railEl) deck.appendChild(railEl);
-    if (stepsEl) deck.appendChild(stepsEl);
-    doctrine.appendChild(deck);
-    doctrine.classList.add('is-deck');
+  var stepsEl = doctrine && doctrine.querySelector('.steps');
+  if (phoneDeck && doctrine && stepsEl && steps.length) {
+    doctrine.classList.add('is-carousel');
     active = 0; setActive(1);
-    var deckTick = false;
-    var deckUpdate = function () {
-      deckTick = false;
-      var r = doctrine.getBoundingClientRect();
-      var run = r.height - window.innerHeight;
-      var p = run > 0 ? Math.max(0, Math.min(0.9999, -r.top / run)) : 0;
-      var n = Math.floor(p * steps.length) + 1;
-      setActive(n);
-      steps.forEach(function (s, i) { s.classList.toggle('is-past', i + 1 < n); });
+    var cur = 1, timer = null, rest = null, inView = false, userHold = false;
+    var HOLD = 5500, RESUME = 9000;
+
+    var fitHeight = function () {
+      var s = steps[cur - 1];
+      if (s) stepsEl.style.height = s.offsetHeight + 'px';
     };
-    var deckQueue = function () { if (!deckTick) { deckTick = true; window.requestAnimationFrame(deckUpdate); } };
-    window.addEventListener('scroll', deckQueue, { passive: true });
-    window.addEventListener('resize', deckQueue, { passive: true });
-    deckUpdate();
+    var go = function (n) {
+      var s = steps[n - 1];
+      if (!s) return;
+      stepsEl.scrollTo({ left: s.offsetLeft - steps[0].offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
+    };
+    var onScroll = function () {
+      var first = steps[0].offsetLeft;
+      var best = 1, bestD = Infinity;
+      steps.forEach(function (s, i) {
+        var d = Math.abs((s.offsetLeft - first) - stepsEl.scrollLeft);
+        if (d < bestD) { bestD = d; best = i + 1; }
+      });
+      if (best !== cur) { cur = best; setActive(cur); fitHeight(); }
+    };
+    var tick = function () {
+      if (!inView || userHold || reduce) return;
+      go(cur % steps.length + 1);
+    };
+    var start = function () { stop(); timer = setInterval(tick, HOLD); };
+    var stop = function () { if (timer) { clearInterval(timer); timer = null; } };
+    var hold = function () {
+      userHold = true;
+      if (rest) clearTimeout(rest);
+      rest = setTimeout(function () { userHold = false; }, RESUME);
+    };
+
+    stepsEl.addEventListener('scroll', function () { window.requestAnimationFrame(onScroll); }, { passive: true });
+    ['touchstart', 'pointerdown', 'wheel'].forEach(function (ev) {
+      stepsEl.addEventListener(ev, hold, { passive: true });
+    });
+    stepsEl.setAttribute('tabindex', '0');
+    stepsEl.setAttribute('aria-label', 'Operating principles, swipe to move between them');
+    window.addEventListener('resize', fitHeight, { passive: true });
+    if (typeof IntersectionObserver !== 'undefined') {
+      new IntersectionObserver(function (entries) {
+        inView = entries[0].isIntersecting;
+      }, { threshold: 0.5 }).observe(stepsEl);
+    }
+    fitHeight();
+    if (!reduce) start();
   }
 
   /* ---------- 3. mobile menu ---------- */
@@ -229,7 +256,7 @@
       // Descend through single-wrapper layout grids so each real block folds on its own.
       var list = [];
       Array.prototype.forEach.call(kids, function (k) {
-        if (k.classList.contains('is-deck')) return;
+        if (k.classList.contains('is-carousel')) return;
         if (k.children.length > 1 && /\bgrid\b/.test(k.className)) {
           Array.prototype.forEach.call(k.children, function (c) { list.push(c); });
         } else list.push(k);
