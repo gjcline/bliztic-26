@@ -25,7 +25,7 @@
   .bz .hero-stage .hero-h1 .br-phone { display: inline; }
   .bz .hero-stage .hero .media::after {
     background:
-      radial-gradient(ellipse 95% 34% at 30% 62%, rgba(7,19,29,.88) 0%, rgba(7,19,29,.7) 45%, rgba(7,19,29,.25) 78%, rgba(7,19,29,0) 100%),
+      radial-gradient(ellipse 120% 42% at 32% 63%, rgba(7,19,29,.95) 0%, rgba(7,19,29,.88) 42%, rgba(7,19,29,.55) 70%, rgba(7,19,29,0) 100%),
       linear-gradient(to top, rgba(7,19,29,.7) 0%, rgba(7,19,29,0) 30%),
       linear-gradient(180deg, rgba(7,19,29,.35) 0%, rgba(7,19,29,0) 20%);
   }
