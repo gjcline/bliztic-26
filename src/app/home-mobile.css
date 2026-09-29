@@ -5,4 +5,28 @@
 
 @media (max-width: 820px) {
 
+  /* ---------- hero headline: a larger statement, set toward the middle ----------
+     The headline breaks across three lines and sits a little below centre.
+     A soft pool of shade sits behind it so it reads cleanly over the drawing. */
+  .bz .hero-stage .hero-in {
+    justify-content: center;
+    padding-top: 96px;
+    padding-bottom: 0;
+  }
+  .bz .hero-stage .hero-h1 {
+    font-size: min(15.4vw, 72px);
+    line-height: .98;
+    letter-spacing: -0.04em;
+    max-width: none;
+    margin-top: 14vh;
+    text-shadow: 0 2px 24px rgba(7, 19, 29, .7);
+  }
+  .bz .hero-stage .hero-h1 .indent { padding-left: 0; }
+  .bz .hero-stage .hero-h1 .br-phone { display: inline; }
+  .bz .hero-stage .hero .media::after {
+    background:
+      radial-gradient(ellipse 95% 34% at 30% 62%, rgba(7,19,29,.88) 0%, rgba(7,19,29,.7) 45%, rgba(7,19,29,.25) 78%, rgba(7,19,29,0) 100%),
+      linear-gradient(to top, rgba(7,19,29,.7) 0%, rgba(7,19,29,0) 30%),
+      linear-gradient(180deg, rgba(7,19,29,.35) 0%, rgba(7,19,29,0) 20%);
+  }
 }

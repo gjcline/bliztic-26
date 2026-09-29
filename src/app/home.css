@@ -1436,3 +1436,6 @@ html:has(.bz-scroll) body {
   .bz:has(> main > .hero-stage) .nav .logo-mark { height: 36px; }
   .bz:has(> main > .hero-stage) .nav .wordmark { transform: translateY(10px); }
 }
+
+/* Line breaks used only in the phone layout (see home-mobile.css). */
+.br-phone { display: none; }
