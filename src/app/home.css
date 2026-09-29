@@ -1335,8 +1335,20 @@ html:has(.bz-scroll) body {
    over it. home.js sets `top` so a hero taller than the screen scrolls to
    its bottom edge before it pins. Everything after the hero gets a paper
    background and sits above it. */
+/* Stacking on the homepage: hero (0) < header (1) < page content (2).
+   The header stays with the hero and is covered by the content with it. */
 .bz main > .hero { position: sticky; top: 0; z-index: 0; }
-:where(.bz main > :not(.hero)) { position: relative; z-index: 1; background-color: #F3EEE1; }
+:where(.bz main > :not(.hero)) { position: relative; z-index: 2; background-color: #F3EEE1; }
+.bz:has(> main > .hero) > .nav { z-index: 1; }
+.bz:has(> main > .hero) > .nav.is-menu { z-index: 60; }
+.bz:has(> main > .hero) > .page-end { position: relative; z-index: 2; }
+
+/* With no header over the page, the principle rail sticks higher up. */
+.bz:has(> main > .hero) .rail-in,
+.bz:has(> main > .hero) .doctrine .rail-in { top: 48px; }
+@container bz (max-width: 820px) {
+  .rail { top: env(safe-area-inset-top, 0px); }
+}
 .bz main > .tide-in {
   background: #F3EEE1 !important;
   box-shadow: 0 -28px 56px rgba(7, 19, 29, .38);
