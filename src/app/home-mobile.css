@@ -69,22 +69,22 @@
     content: "";
     position: absolute;
     z-index: -1;
-    top: -40px;
-    bottom: -60px;
-    left: -110px;
+    top: -64px;
+    bottom: -120px;
+    left: -190px;
     right: calc(-1 * max(var(--pad), env(safe-area-inset-right, 0px)));
     pointer-events: none;
     background: rgba(7, 19, 29, 0);
     -webkit-backdrop-filter: blur(0px);
     backdrop-filter: blur(0px);
-    -webkit-mask-image: radial-gradient(ellipse 72% 64% at 70% 48%, #000 52%, transparent 100%);
-    mask-image: radial-gradient(ellipse 72% 64% at 70% 48%, #000 52%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 78% 70% at 74% 44%, #000 30%, rgba(0,0,0,.6) 58%, transparent 100%);
+    mask-image: radial-gradient(ellipse 78% 70% at 74% 44%, #000 30%, rgba(0,0,0,.6) 58%, transparent 100%);
     transition: backdrop-filter .4s ease, -webkit-backdrop-filter .4s ease, background-color .4s ease;
   }
   .bz .nav .mmenu.is-open::before {
-    background: rgba(7, 19, 29, .55);
-    -webkit-backdrop-filter: blur(26px);
-    backdrop-filter: blur(26px);
+    background: rgba(7, 19, 29, .5);
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
   }
   .bz .nav:not(.is-dark) .mmenu.is-open::before { background: rgba(243, 238, 225, .72); }
   .bz .nav .mmenu a { opacity: 0; transform: translateY(-4px); transition: opacity .3s ease, transform .3s ease; }
