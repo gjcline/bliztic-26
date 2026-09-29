@@ -2,7 +2,8 @@
    Plain JavaScript, no dependencies, no build step.
    1. Scroll reveals    2. Operating-principle rail
    3. Mobile menu       4. Navigation tone over the dark hero
-   5. Pinned hero       6. Ink rule on the page edge */
+   5. Pinned hero       6. Ink rule on the page edge
+   7. Phone fold-in                              */
 (function () {
   'use strict';
 
@@ -179,5 +180,49 @@
     window.addEventListener('scroll', inkQueue, { passive: true });
     window.addEventListener('resize', inkQueue, { passive: true });
     drawInk();
+  }
+
+  /* ---------- 7. phone fold-in ----------
+     On phones only, each block in a section eases up into place the first
+     time it scrolls into view. Desktop keeps its own reveals. */
+  var phone = window.matchMedia && window.matchMedia('(max-width: 820px)').matches;
+  if (phone && !reduce && typeof IntersectionObserver !== 'undefined') {
+    var blocks = [];
+    document.querySelectorAll('main > .sec:not(.hero)').forEach(function (sec) {
+      var g = sec.querySelector(':scope > .ghost');
+      if (g) blocks.push(g);
+      var wrap = sec.querySelector(':scope > .wrap');
+      if (!wrap) return;
+      var kids = wrap.children;
+      // Descend through single-wrapper layout grids so each real block folds on its own.
+      var list = [];
+      Array.prototype.forEach.call(kids, function (k) {
+        if (k.children.length > 1 && /\bgrid\b/.test(k.className)) {
+          Array.prototype.forEach.call(k.children, function (c) { list.push(c); });
+        } else list.push(k);
+      });
+      list.forEach(function (el) { blocks.push(el); });
+    });
+    var vh = window.innerHeight;
+    blocks.forEach(function (el) {
+      if (el.getBoundingClientRect().top < vh * 0.92) return; // already on screen: leave it
+      el.classList.add('fold');
+    });
+    var foldIO = new IntersectionObserver(function (entries) {
+      var n = 0;
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.style.setProperty('--fold-delay', (n++ * 0.08) + 's');
+        e.target.classList.add('is-folded');
+        foldIO.unobserve(e.target);
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+    blocks.forEach(function (el) { if (el.classList.contains('fold')) foldIO.observe(el); });
+    setTimeout(function () {
+      // safety net: anything tall that never reaches the threshold still shows
+      blocks.forEach(function (el) {
+        if (el.classList.contains('fold') && el.getBoundingClientRect().top < window.innerHeight) el.classList.add('is-folded');
+      });
+    }, 4000);
   }
 })();

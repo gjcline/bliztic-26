@@ -108,4 +108,48 @@
     color: inherit;
   }
   .bz .nav.is-dark .mmenu a { text-shadow: 0 1px 14px rgba(7, 19, 29, .85); }
+
+  /* ---------- page edge: straight into the first section ----------
+     No ink line on phones, and only the thin paper edge between the hero
+     and the first section. */
+  .bz main > .tide-in { height: 12px !important; }
+  .bz .tide-in .ink-rule-wrap { display: none; }
+
+  /* ---------- sections: one even rhythm ----------
+     Every section gets the same moderate space above and below, so each one
+     reads as its own block without long empty stretches. */
+  .bz .sec:not(.hero) { padding-top: 56px; padding-bottom: 56px; }
+  .bz main > .tide-in + .sec { padding-top: 40px; }
+  .bz .sec:not(.hero) > .wrap { padding-top: 0; }
+  .bz .sec.vision:not(.hero) { padding-bottom: 72px; }
+  .bz .sec.contact:not(.hero) { padding-top: 72px; padding-bottom: 72px; }
+  .bz main > .tide-out { height: 0 !important; }
+
+  /* ---------- section numerals: above and left of each heading ----------
+     The numeral sits in the flow of the section, directly above its heading,
+     so it can never overlap it. */
+  .bz .sec:not(.hero) .ghost {
+    position: static !important;
+    display: block !important;
+    margin: 0 max(var(--pad), env(safe-area-inset-left, 0px)) 20px;
+    font-size: 34px !important;
+    line-height: 1 !important;
+  }
+  .bz .sec:not(.hero) .ghost::after { width: 28px; margin-top: 10px; }
+  /* The contact section's artwork is layered, so its numeral is lifted above it. */
+  .bz .sec.contact .ghost { position: relative !important; z-index: 2; top: auto !important; left: auto !important; }
+
+  /* ---------- fold-in: content settles into place as you scroll ----------
+     home.js marks each block with .fold on phones and adds .is-folded as it
+     comes into view. Without the script, nothing is hidden. */
+  .bz .fold {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.1,1);
+    transition-delay: var(--fold-delay, 0s);
+  }
+  .bz .fold.is-folded { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .bz .fold { opacity: 1; transform: none; transition: none; }
+  }
 }
