@@ -1414,3 +1414,14 @@ html:has(.bz-scroll) body {
   .bz .ink-rule path { stroke-dashoffset: 0 !important; }
   .bz .ink-wet { display: none; }
 }
+
+/* ---------- homepage logo: larger, set down into the open water ----------
+   On the homepage the mark floats midway between the top of the page and the
+   octopus's upper tentacles, instead of lining up with the menu. Other pages
+   keep the standard header logo. */
+.bz:has(> main > .hero) .nav .logo-mark { height: 50px; }
+.bz:has(> main > .hero) .nav .wordmark { transform: translateY(max(12px, calc(7.8vh - 32px))); }
+@container bz (max-width: 820px) {
+  .bz:has(> main > .hero) .nav .logo-mark { height: 36px; }
+  .bz:has(> main > .hero) .nav .wordmark { transform: translateY(10px); }
+}
