@@ -152,4 +152,71 @@
   @media (prefers-reduced-motion: reduce) {
     .bz .fold { opacity: 1; transform: none; transition: none; }
   }
+
+  /* ---------- section II: the five principles as a pinned deck ----------
+     home.js wraps the principle tracker and the five principles in .deck.
+     The deck pins to the screen while you scroll a short runway; each
+     principle replaces the last in the same spot, and the tracker above
+     counts 01 to 05. When the fifth has shown, the page carries on. */
+  .bz .doctrine.is-deck {
+    display: block;
+    position: relative;
+    height: calc(100svh + 4 * 46svh);
+    margin-top: 8px;
+  }
+  .bz .deck {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding-top: max(20px, env(safe-area-inset-top, 0px));
+    padding-bottom: 28px;
+    box-sizing: border-box;
+  }
+  .bz .deck .rail {
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    flex: none;
+  }
+  .bz .deck .rail, .bz .deck .rail-in { width: 100%; }
+  .bz .deck .rail-mobile { padding: 0 0 12px; }
+  .bz .deck .rail-mobile span { transition: opacity .3s ease; }
+  .bz .deck .rail-prog { display: block !important; height: 1px; background: rgba(11, 33, 53, .14); }
+  .bz .deck .rail-prog i { background: #1F4E6B; }
+  .bz .deck .steps { position: relative; flex: 1 1 auto; min-height: 0; }
+  .bz .deck .step {
+    position: absolute !important;
+    inset: 0;
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(24px);
+    transition: opacity .45s ease, transform .6s cubic-bezier(.2,.7,.1,1), visibility 0s linear .6s;
+  }
+  .bz .deck .step.is-past { transform: translateY(-24px); }
+  .bz .deck .step.is-current {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: .1s, .1s, 0s;
+  }
+  .bz .deck .step-stmt { font-size: 32px !important; line-height: 1.12; }
+  .bz .deck .step-stmt.long { font-size: 27px !important; }
+  .bz .deck .step-body { font-size: 15.5px; line-height: 1.55; }
+  .bz .deck .step-out { margin-top: 6px !important; padding: 18px 24px !important; font-size: 18px !important; }
+  .bz .deck .loop { margin: 2px 0; }
+  .bz .deck .ret { margin: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .bz .deck .step { transition: none; transform: none !important; }
+  }
 }

@@ -65,7 +65,8 @@
     if (railMobName) railMobName.textContent = NAMES[n - 1];
   }
 
-  if (steps.length && typeof IntersectionObserver !== 'undefined') {
+  var phoneDeck = window.matchMedia && window.matchMedia('(max-width: 820px)').matches;
+  if (steps.length && typeof IntersectionObserver !== 'undefined' && !phoneDeck) {
     var io2 = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
@@ -84,6 +85,37 @@
       setActive(n);
     });
   });
+
+  /* ---------- 2b. phone: the principles as a pinned deck ----------
+     The tracker and the five principles pin to the screen while a short
+     runway scrolls past; how far through the runway you are picks the
+     principle on show. */
+  var doctrine = document.querySelector('.doctrine');
+  if (phoneDeck && doctrine && steps.length) {
+    var railEl = doctrine.querySelector('.rail');
+    var stepsEl = doctrine.querySelector('.steps');
+    var deck = document.createElement('div');
+    deck.className = 'deck';
+    if (railEl) deck.appendChild(railEl);
+    if (stepsEl) deck.appendChild(stepsEl);
+    doctrine.appendChild(deck);
+    doctrine.classList.add('is-deck');
+    active = 0; setActive(1);
+    var deckTick = false;
+    var deckUpdate = function () {
+      deckTick = false;
+      var r = doctrine.getBoundingClientRect();
+      var run = r.height - window.innerHeight;
+      var p = run > 0 ? Math.max(0, Math.min(0.9999, -r.top / run)) : 0;
+      var n = Math.floor(p * steps.length) + 1;
+      setActive(n);
+      steps.forEach(function (s, i) { s.classList.toggle('is-past', i + 1 < n); });
+    };
+    var deckQueue = function () { if (!deckTick) { deckTick = true; window.requestAnimationFrame(deckUpdate); } };
+    window.addEventListener('scroll', deckQueue, { passive: true });
+    window.addEventListener('resize', deckQueue, { passive: true });
+    deckUpdate();
+  }
 
   /* ---------- 3. mobile menu ---------- */
   var menuBtn = document.querySelector('[data-menu-toggle]');
@@ -197,6 +229,7 @@
       // Descend through single-wrapper layout grids so each real block folds on its own.
       var list = [];
       Array.prototype.forEach.call(kids, function (k) {
+        if (k.classList.contains('is-deck')) return;
         if (k.children.length > 1 && /\bgrid\b/.test(k.className)) {
           Array.prototype.forEach.call(k.children, function (c) { list.push(c); });
         } else list.push(k);
