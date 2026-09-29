@@ -1485,3 +1485,69 @@ html:has(.bz-scroll) body {
     color: #6E9CB8;
   }
 }
+
+/* ---------- section III close: the chain ----------
+   One lead line, then the chain of cause and effect drawn as a single line
+   of five linked stops that grows from Distribution to Growth, then the
+   closing statement that hands over to section IV. Desktop reads the chain
+   across; phones read it down (see home-mobile.css). */
+.bz .chain-block { margin-top: 128px; padding-top: 56px; border-top: 1px solid rgba(11, 33, 53, .14); }
+.bz .chain-lead { max-width: 34em; display: flex; flex-direction: column; gap: 10px; }
+.bz .chain-h {
+  font-family: var(--display); font-weight: 300; color: var(--ink);
+  font-size: clamp(30px, 2.9cqi, 42px); line-height: 1.12; letter-spacing: -0.022em;
+}
+.bz .chain-sub { font-family: var(--display); font-style: italic; font-size: 19px; color: var(--mute); }
+.bz .chain {
+  --line: rgba(11, 33, 53, .22);
+  position: relative; list-style: none; margin: 64px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.bz .chain::before {
+  content: ""; position: absolute; left: 0; right: calc(20% - 8px); top: 7px; height: 1px;
+  background: var(--line);
+}
+.bz .chain::after {
+  content: ""; position: absolute; left: 0; right: calc(20% - 8px); top: 7px; height: 1px;
+  background: #1F4E6B; transform-origin: left;
+  transition: transform 2.2s cubic-bezier(.33,0,.15,1) .2s;
+}
+.bz .chain li { position: relative; padding-top: 34px; }
+.bz .chain li::before {
+  content: ""; position: absolute; left: 0; top: 0; width: 15px; height: 15px; box-sizing: border-box;
+  border-radius: 50%; border: 1px solid #1F4E6B; background: #F3EEE1;
+  transition: background-color .5s ease calc(.3s + var(--k) * .45s), transform .6s ease calc(.3s + var(--k) * .45s);
+}
+.bz .chain li span {
+  display: block; font-family: var(--display); font-weight: 400; color: var(--ink);
+  font-size: clamp(20px, 1.75cqi, 26px); line-height: 1.2; letter-spacing: -0.012em;
+  transition: opacity .7s ease calc(.3s + var(--k) * .45s), transform .8s cubic-bezier(.2,.7,.1,1) calc(.3s + var(--k) * .45s);
+}
+.bz .chain li.end::before { background: #1F4E6B; }
+.bz .chain li.end span { color: #1F4E6B; }
+.bz .chain-note {
+  margin-top: 22px; font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--mute);
+}
+.bz .chain-close {
+  margin-top: 88px; margin-left: auto; max-width: 36em;
+  display: flex; flex-direction: column; gap: 22px;
+}
+.bz .chain-close p { font-size: 17px; line-height: 1.65; color: var(--char); }
+.bz .chain-close .chain-last {
+  font-family: var(--display); font-weight: 300; color: var(--ink);
+  font-size: clamp(24px, 2.1cqi, 30px); line-height: 1.3; letter-spacing: -0.012em;
+}
+/* Before it comes into view: the line is undrawn and the stops wait. */
+.bz.js-motion .chain-block:not(.is-in) .chain::after { transform: scaleX(0); }
+.bz.js-motion .chain-block:not(.is-in) .chain li span { opacity: 0; transform: translateY(8px); }
+.bz.js-motion .chain-block:not(.is-in) .chain li::before { transform: scale(.4); }
+@media (prefers-reduced-motion: reduce) {
+  .bz .chain::after, .bz .chain li::before, .bz .chain li span { transition: none; }
+}
+
+/* ---------- under the hero (all sizes) ----------
+   The page opens with just the torn paper edge, then straight into the
+   first section. */
+.bz main > .tide-in { height: 12px !important; }
+.bz main > .tide-in + .sec { padding-top: 80px; }
