@@ -1677,3 +1677,17 @@ html:has(.bz-scroll) body {
   .bz .sec.vision:not(.hero) { padding-bottom: 112px; }
   .bz main > .tide-out { height: 0 !important; }
 }
+
+/* ---------- footer over the contact art (desktop and tablet) ----------
+   No separate footer band: the contact section's octopus runs to the very
+   bottom of the page, and the copyright and Back to top sit on it in the
+   bottom corners. */
+@media (min-width: 821px) {
+  .bz .sec.contact:not(.hero) { padding-bottom: calc(128px + 64px); }
+  .bz > .page-end {
+    position: relative; z-index: 3;
+    margin-top: -64px; height: 64px; box-sizing: border-box;
+    padding-top: 0; padding-bottom: 0;
+    background: transparent !important;
+  }
+}

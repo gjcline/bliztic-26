@@ -122,7 +122,14 @@
   .bz main > .tide-in + .sec { padding-top: 48px; }
   .bz .sec:not(.hero) > .wrap { padding-top: 0; }
   .bz .sec.vision:not(.hero) { padding-bottom: 68px; }
-  .bz .sec.contact:not(.hero) { padding-top: 80px; padding-bottom: 80px; }
+  .bz .sec.contact:not(.hero) { padding-top: 80px; padding-bottom: calc(64px + 60px); }
+  /* The footer sits on the octopus art in the bottom corners, no separate band. */
+  .bz > .page-end {
+    position: relative; z-index: 3;
+    margin-top: -60px; height: 60px; box-sizing: border-box;
+    padding-top: 0 !important; padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+    background: transparent !important;
+  }
   .bz main > .tide-out { height: 0 !important; }
 
   /* ---------- section numerals: above and left of each heading ----------
