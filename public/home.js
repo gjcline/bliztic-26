@@ -193,16 +193,58 @@
       rest = setTimeout(function () { held = false; runFill(); restart(); }, RESUME);
     };
 
-    navBtns.forEach(function (b, i) { b.addEventListener('click', function () { hold(); go(i); }); });
-    var sx = 0, sy = 0, swiping = false;
-    pcStage.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; sy = e.touches[0].clientY; swiping = true; }, { passive: true });
-    pcStage.addEventListener('touchend', function (e) {
-      if (!swiping) return; swiping = false;
-      var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
-      if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
-      hold();
-      go(dx < 0 ? (cur + 1) % N : (cur - 1 + N) % N);
+    navBtns.forEach(function (b, i) { b.addEventListener('click', function () { pcStage.removeAttribute('data-dir'); hold(); go(i); }); });
+    // Swipe anywhere on the card: the principle follows the finger, then
+    // either settles back or hands over to the next one, which slides in
+    // from the side you swiped toward.
+    var sx = 0, sy = 0, dx = 0, t0 = 0, dragging = false, decided = false, horiz = false;
+    var curEl = function () { return steps[cur]; };
+    var setDrag = function (x) {
+      var el = curEl(); if (!el) return;
+      el.style.transform = x ? 'translate3d(' + x + 'px,0,0)' : '';
+      el.style.opacity = x ? String(Math.max(0.15, 1 - Math.abs(x) / 260)) : '';
+    };
+    card.style.touchAction = 'pan-y';
+    card.addEventListener('touchstart', function (e) {
+      var t = e.touches[0];
+      sx = t.clientX; sy = t.clientY; dx = 0; t0 = Date.now();
+      dragging = true; decided = false; horiz = false;
     }, { passive: true });
+    card.addEventListener('touchmove', function (e) {
+      if (!dragging) return;
+      var t = e.touches[0], mx = t.clientX - sx, my = t.clientY - sy;
+      if (!decided && (Math.abs(mx) > 6 || Math.abs(my) > 6)) {
+        decided = true; horiz = Math.abs(mx) > Math.abs(my) * 0.8;
+        if (horiz) { hold(); pcStage.classList.add('is-dragging'); }
+      }
+      if (!horiz) return;
+      dx = mx;
+      setDrag(dx * 0.85);
+    }, { passive: true });
+    var endSwipe = function () {
+      if (!dragging) return;
+      dragging = false;
+      pcStage.classList.remove('is-dragging');
+      if (!horiz) return;
+      var speed = Math.abs(dx) / Math.max(1, Date.now() - t0);
+      var go2 = Math.abs(dx) > 36 || (speed > 0.2 && Math.abs(dx) > 18);
+      var el = curEl();
+      if (go2) {
+        pcStage.setAttribute('data-dir', dx < 0 ? 'next' : 'prev');
+        if (el) { el.style.transition = 'transform .35s ease, opacity .3s ease'; el.style.transform = 'translate3d(' + (dx < 0 ? -80 : 80) + 'px,0,0)'; el.style.opacity = '0'; }
+        var target = dx < 0 ? (cur + 1) % N : (cur - 1 + N) % N;
+        setTimeout(function () {
+          if (el) { el.style.transition = ''; el.style.transform = ''; el.style.opacity = ''; }
+          show(target, dx < 0 ? 1 : -1);
+        }, 160);
+      } else if (el) {
+        el.style.transition = 'transform .45s cubic-bezier(.2,.7,.1,1), opacity .35s ease';
+        setDrag(0);
+        setTimeout(function () { el.style.transition = ''; }, 460);
+      }
+    };
+    card.addEventListener('touchend', endSwipe, { passive: true });
+    card.addEventListener('touchcancel', endSwipe, { passive: true });
 
     // One fixed height: the tallest principle.
     var fit = function () {
