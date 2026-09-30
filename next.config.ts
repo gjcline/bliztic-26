@@ -7,7 +7,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      { source: "/fund", destination: "/gtm-fund", permanent: false },
+      // Retired pages send visitors to the homepage.
+      { source: "/fund", destination: "/", permanent: true },
+      { source: "/gtm-fund", destination: "/", permanent: true },
+      { source: "/acquire", destination: "/", permanent: true },
+      { source: "/privacy", destination: "/", permanent: true },
+      { source: "/terms", destination: "/", permanent: true },
       { source: "/contact", destination: "/qualify", permanent: false },
     ];
   },

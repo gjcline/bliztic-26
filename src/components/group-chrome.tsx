@@ -7,7 +7,7 @@ const pageLinks = [
   { href: "/#portfolio", label: "Portfolio" },
 ] as const;
 
-export type GroupActive = "fund" | "acquire" | "inquire";
+export type GroupActive = "inquire";
 
 function LogoMark() {
   return (

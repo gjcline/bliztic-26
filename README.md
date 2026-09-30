@@ -7,15 +7,11 @@ Ownership group website. The homepage is the Bliztic Group static design, served
 | Path | Page | Purpose |
 | --- | --- | --- |
 | `/` | Home | New Bliztic Group homepage. Octopus artwork, operating principles, Wake, contact |
-| `/gtm-fund` | GTM Fund | Same chrome as the homepage. What the fund is, who it is for, what is covered, what qualify means |
-| `/acquire` | Acquire | Same chrome as the homepage. What Bliztic looks for, how a conversation starts, how we operate |
 | `/qualify` | Inquire | Same chrome as the homepage. Short form. `?intent=fund` and `?intent=acquire` prefill intent |
-| `/privacy` | Privacy | How inquire details are used |
-| `/terms` | Terms | How to read this site |
 
 Visible labels never show hyphens. URL paths may keep them when the framework needs them.
 
-Legacy shortcuts: `/fund` sends people to `/gtm-fund`. `/contact` sends people to `/qualify`.
+Retired pages (`/acquire`, `/gtm-fund`, `/fund`, `/privacy`, `/terms`) redirect to the homepage. `/contact` sends people to `/qualify`.
 
 ## Homepage assets
 

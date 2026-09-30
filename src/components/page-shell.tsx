@@ -4,7 +4,7 @@ export function PageShell({
   active,
   children,
 }: {
-  active?: "fund" | "acquire" | "inquire";
+  active?: "inquire";
   children: React.ReactNode;
 }) {
   return (

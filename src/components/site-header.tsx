@@ -2,12 +2,13 @@ import Link from "next/link";
 import { copy } from "@/lib/copy";
 import { routes } from "@/lib/routes";
 
-type Active = "fund" | "acquire" | "inquire";
+type Active = "inquire";
 
-const links: { href: string; label: string; key: Active }[] = [
-  { href: routes.fund, label: copy.nav.fund, key: "fund" },
-  { href: routes.acquire, label: copy.nav.acquire, key: "acquire" },
-  { href: routes.inquire, label: copy.nav.inquire, key: "inquire" },
+// Same destinations as the main site header.
+const links: { href: string; label: string; key: string }[] = [
+  { href: "/#approach", label: "Approach", key: "approach" },
+  { href: "/#portfolio", label: "Portfolio", key: "portfolio" },
+  { href: "/#contact", label: copy.nav.inquire, key: "inquire" },
 ];
 
 export function SiteHeader({ active }: { active?: Active }) {
