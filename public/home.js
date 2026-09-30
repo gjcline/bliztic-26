@@ -14,6 +14,11 @@
   try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   /* ---------- 1. scroll reveals ---------- */
+  // True when an observed element has left through the bottom of the screen.
+  function belowScreen(e) {
+    var bottom = e.rootBounds ? e.rootBounds.bottom : window.innerHeight;
+    return e.boundingClientRect.top >= bottom - 2;
+  }
   var targets = Array.prototype.slice.call(document.querySelectorAll('[data-rv]'));
 
   function revealAll() {
@@ -25,11 +30,16 @@
     revealAll();
   } else {
     root.classList.add('js-motion');
+    // Reveals play each time a part of the page comes up from below. Once a
+    // part has dropped back below the screen (the visitor scrolled up past
+    // it), it resets, so it plays again on the way back down. Parts above the
+    // screen are left as they are, so scrolling up never replays anything.
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        e.target.classList.add('is-in');
-        io.unobserve(e.target);
+        var t = e.target;
+        if (e.isIntersecting) { t.classList.add('is-in'); return; }
+        if (t.getAttribute('data-rv') === 'hero' || t.getAttribute('data-rv') === 'tide') return;
+        if (belowScreen(e)) t.classList.remove('is-in');
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
     targets.forEach(function (el) { io.observe(el); });
@@ -323,47 +333,49 @@
     drawInk();
   }
 
-  /* ---------- 7. phone fold-in ----------
-     On phones only, each block in a section eases up into place the first
-     time it scrolls into view. Desktop keeps its own reveals. */
-  var phone = window.matchMedia && window.matchMedia('(max-width: 820px)').matches;
-  if (phone && !reduce && typeof IntersectionObserver !== 'undefined') {
+  /* ---------- 7. fold-in, desktop and phone ----------
+     Each block in a section eases up into place as it comes up from below,
+     in a short sequence when several arrive together. A block that drops back
+     below the screen resets, so it settles in again the next time you scroll
+     down to it. Scrolling up never animates anything. */
+  if (!reduce && typeof IntersectionObserver !== 'undefined') {
     var blocks = [];
     document.querySelectorAll('main > .sec:not(.hero)').forEach(function (sec) {
       var g = sec.querySelector(':scope > .ghost');
       if (g) blocks.push(g);
       var wrap = sec.querySelector(':scope > .wrap');
       if (!wrap) return;
-      var kids = wrap.children;
-      // Descend through single-wrapper layout grids so each real block folds on its own.
-      var list = [];
-      Array.prototype.forEach.call(kids, function (k) {
-        if (k.classList.contains('is-dial')) return;
-        if (k.children.length > 1 && /\bgrid\b/.test(k.className)) {
-          Array.prototype.forEach.call(k.children, function (c) { list.push(c); });
-        } else list.push(k);
+      Array.prototype.forEach.call(wrap.children, function (k) {
+        // Step into layout grids so each real block moves on its own.
+        if (k.children.length > 1 && /\bgrid\b/.test(k.className) && !k.classList.contains('areas')) {
+          Array.prototype.forEach.call(k.children, function (c) { blocks.push(c); });
+        } else blocks.push(k);
       });
-      list.forEach(function (el) { blocks.push(el); });
     });
-    var vh = window.innerHeight;
+    var vh0 = window.innerHeight;
     blocks.forEach(function (el) {
-      if (el.getBoundingClientRect().top < vh * 0.92) return; // already on screen: leave it
       el.classList.add('fold');
+      if (el.getBoundingClientRect().top < vh0 * 0.92) el.classList.add('is-folded'); // on screen at load: already in place
     });
     var foldIO = new IntersectionObserver(function (entries) {
       var n = 0;
       entries.forEach(function (e) {
-        if (!e.isIntersecting) return;
-        e.target.style.setProperty('--fold-delay', (n++ * 0.08) + 's');
-        e.target.classList.add('is-folded');
-        foldIO.unobserve(e.target);
+        var el = e.target;
+        if (e.isIntersecting) {
+          if (el.classList.contains('is-folded')) return;
+          el.style.setProperty('--fold-delay', (Math.min(n++, 4) * 0.09) + 's');
+          el.classList.add('is-folded');
+        } else if (belowScreen(e)) {
+          el.classList.remove('is-folded');
+        }
       });
     }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
-    blocks.forEach(function (el) { if (el.classList.contains('fold')) foldIO.observe(el); });
+    blocks.forEach(function (el) { foldIO.observe(el); });
     setTimeout(function () {
-      // safety net: anything tall that never reaches the threshold still shows
+      // safety net: anything on screen that somehow missed its cue still shows
       blocks.forEach(function (el) {
-        if (el.classList.contains('fold') && el.getBoundingClientRect().top < window.innerHeight) el.classList.add('is-folded');
+        var r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('is-folded');
       });
     }, 4000);
   }

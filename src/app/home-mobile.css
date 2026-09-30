@@ -146,19 +146,6 @@
   /* The contact section's artwork is layered, so its numeral is lifted above it. */
   .bz .sec.contact .ghost { position: relative !important; z-index: 2; top: auto !important; left: auto !important; }
 
-  /* ---------- fold-in: content settles into place as you scroll ----------
-     home.js marks each block with .fold on phones and adds .is-folded as it
-     comes into view. Without the script, nothing is hidden. */
-  .bz .fold {
-    opacity: 0;
-    transform: translateY(22px);
-    transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.1,1);
-    transition-delay: var(--fold-delay, 0s);
-  }
-  .bz .fold.is-folded { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) {
-    .bz .fold { opacity: 1; transform: none; transition: none; }
-  }
 
   /* ---------- section II: the five principles as a dial card ----------
      home.js turns the five principles into one card, tinted like the

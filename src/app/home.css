@@ -1691,3 +1691,18 @@ html:has(.bz-scroll) body {
     background: transparent !important;
   }
 }
+
+/* ---------- fold-in (all sizes) ----------
+   home.js marks each block with .fold and adds .is-folded as it comes up
+   from below; it removes it again once the block is back below the screen.
+   Without the script nothing is hidden. */
+.bz .fold {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .8s ease, transform 1s cubic-bezier(.2,.7,.1,1);
+  transition-delay: var(--fold-delay, 0s);
+}
+.bz .fold.is-folded { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .bz .fold { opacity: 1; transform: none; transition: none; }
+}
