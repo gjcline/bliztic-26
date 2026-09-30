@@ -335,7 +335,7 @@
   .bz .ap-intro, .bz .evo-intro { margin-bottom: 0 !important; row-gap: 24px !important; }
   .bz .doctrine.is-dial { margin-top: 44px; }
   .bz .stages { margin-top: 44px !important; padding-top: 0 !important; row-gap: 22px !important; }
-  .bz .chain-block { margin-top: 48px; }
+  .bz .chain-block { margin-top: 48px; padding-top: 0; border-top: 0; }
   .bz .wk-feature { margin-top: 44px !important; }
   .bz .wk-emblem { max-width: 150px !important; margin-top: 4px !important; }
   .bz .wk-meta { row-gap: 10px; gap: 10px; }
