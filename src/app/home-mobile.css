@@ -338,4 +338,24 @@
   .bz .ways li { padding-block: 14px !important; }
   .bz .areas { margin-top: 44px !important; }
   .bz .vi-copy { margin-top: 32px !important; }
+
+  /* ---------- quicker entrances on phones ----------
+     Everything still settles into place, but faster and with shorter
+     hand-offs, so content is readable almost as soon as it arrives. */
+  .bz .fold {
+    transform: translateY(14px);
+    transition: opacity .45s ease, transform .6s cubic-bezier(.2,.7,.1,1);
+  }
+  .bz .mask > span { transition: transform .7s cubic-bezier(.2,.7,.1,1), opacity .5s ease !important; transition-delay: 0s !important; }
+  .bz .mask + .mask > span, .bz .mask.indent > span { transition-delay: .08s !important; }
+  .bz .fade { transition: opacity .5s ease, transform .6s cubic-bezier(.2,.7,.1,1) !important; }
+  .bz .sh::before { transition-duration: .8s; }
+  .bz .stage { transition: opacity .5s ease; transition-delay: calc(var(--i) * .1s) !important; }
+  .bz .strata i { transition: transform .7s cubic-bezier(.2,.7,.1,1); transition-delay: calc(var(--i) * .1s + .1s + var(--j) * .05s) !important; }
+  .bz .wk-list li { transition: opacity .5s ease; transition-delay: calc(var(--k) * .06s) !important; }
+  .bz .chain::after { transition-duration: .9s !important; transition-delay: 0s !important; }
+  .bz .chain li::before { transition: background-color .3s ease calc(.05s + var(--k) * .12s), transform .35s ease calc(.05s + var(--k) * .12s) !important; }
+  .bz .chain li span { transition: opacity .4s ease calc(.05s + var(--k) * .12s), transform .5s cubic-bezier(.2,.7,.1,1) calc(.05s + var(--k) * .12s) !important; }
+  .bz .eye-fold { transition-duration: .8s; transition-delay: .2s; }
+  .bz .eye-lid { transition-duration: 1s; transition-delay: .2s; }
 }

@@ -15,6 +15,8 @@
 
   /* ---------- 1. scroll reveals ---------- */
   // True when an observed element has left through the bottom of the screen.
+  // Phones start reveals the moment content touches the screen.
+  var phoneMQ = !!(window.matchMedia && window.matchMedia('(max-width: 820px)').matches);
   function belowScreen(e) {
     var bottom = e.rootBounds ? e.rootBounds.bottom : window.innerHeight;
     return e.boundingClientRect.top >= bottom - 2;
@@ -41,7 +43,7 @@
         if (t.getAttribute('data-rv') === 'hero' || t.getAttribute('data-rv') === 'tide') return;
         if (belowScreen(e)) t.classList.remove('is-in');
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -6% 0px' });
+    }, { threshold: phoneMQ ? 0 : 0.08, rootMargin: phoneMQ ? '0px' : '0px 0px -6% 0px' });
     targets.forEach(function (el) { io.observe(el); });
 
     // safety net: if nothing has revealed shortly after load, show everything
@@ -405,13 +407,13 @@
         var el = e.target;
         if (e.isIntersecting) {
           if (el.classList.contains('is-folded')) return;
-          el.style.setProperty('--fold-delay', (Math.min(n++, 4) * 0.09) + 's');
+          el.style.setProperty('--fold-delay', (Math.min(n++, 4) * (phoneMQ ? 0.05 : 0.09)) + 's');
           el.classList.add('is-folded');
         } else if (belowScreen(e)) {
           el.classList.remove('is-folded');
         }
       });
-    }, { threshold: 0, rootMargin: '0px 0px -8% 0px' });
+    }, { threshold: 0, rootMargin: phoneMQ ? '0px' : '0px 0px -8% 0px' });
     blocks.forEach(function (el) { foldIO.observe(el); });
     setTimeout(function () {
       // safety net: anything on screen that somehow missed its cue still shows
