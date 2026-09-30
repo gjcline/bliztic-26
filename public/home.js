@@ -2,8 +2,7 @@
    Plain JavaScript, no dependencies, no build step.
    1. Scroll reveals    2. Operating-principle rail
    3. Mobile menu       4. Navigation tone over the dark hero
-   5. Pinned hero       6. Ink rule on the page edge
-   7. Phone fold-in                              */
+   5. Pinned hero       6. Fold-in on scroll      */
 (function () {
   'use strict';
 
@@ -354,30 +353,7 @@
   pinHero();
   hideCovered();
 
-  /* ---------- 6. ink rule on the page edge ----------
-     The line is drawn by scrolling: it starts as the page edge enters the
-     screen and completes as the edge reaches the upper third. */
-  var tide = document.querySelector('.tide-in');
-  var inkPath = tide && tide.querySelector('.ink-dry');
-  if (tide && inkPath && !reduce) {
-    var inkTick = false;
-    var drawInk = function () {
-      inkTick = false;
-      var vh = window.innerHeight;
-      var top = tide.getBoundingClientRect().top;
-      var p = (vh - top) / (vh * 0.62);
-      p = Math.max(0, Math.min(1, p));
-      p = 1 - Math.pow(1 - p, 2);
-      tide.style.setProperty('--ink-draw', p.toFixed(4));
-      tide.classList.toggle('is-dry', p >= 0.995);
-    };
-    var inkQueue = function () { if (!inkTick) { inkTick = true; window.requestAnimationFrame(drawInk); } };
-    window.addEventListener('scroll', inkQueue, { passive: true });
-    window.addEventListener('resize', inkQueue, { passive: true });
-    drawInk();
-  }
-
-  /* ---------- 7. fold-in, desktop and phone ----------
+  /* ---------- 6. fold-in, desktop and phone ----------
      Each block in a section eases up into place as it comes up from below,
      in a short sequence when several arrive together. A block that drops back
      below the screen resets, so it settles in again the next time you scroll

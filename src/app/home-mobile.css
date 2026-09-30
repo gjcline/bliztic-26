@@ -113,7 +113,6 @@
      No ink line on phones, and only the thin paper edge between the hero
      and the first section. */
   .bz main > .tide-in { height: 12px !important; }
-  .bz .tide-in .ink-rule-wrap { display: none; }
 
   /* ---------- sections: one even rhythm ----------
      Every section gets the same moderate space above and below, so each one
